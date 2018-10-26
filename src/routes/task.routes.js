@@ -5,7 +5,9 @@ var content;
 
 
 router.get('/' , (req, res)=>{
-	fs.readFile('C:/Users/Jazocarivic/Downloads/MP_558_TRACK2_080618-102655.csv', function read(err, data) {
+	url = req.query.tagid;
+	console.log("la url es ",url);
+	fs.readFile('FILES/'+url, function read(err, data) {
 	    if (err) {
 	        throw err;
 	    }
@@ -33,6 +35,7 @@ router.get('/' , (req, res)=>{
 		console.log(yourNumber/12);
 
 	   res.json(arrayHexa);
+	 
 
 	});
 });
