@@ -108,8 +108,11 @@ callApi(){
 				var engine = new BABYLON.Engine(canvas, true);
 				var createScene = function() {
 					var scene = new BABYLON.Scene(engine);
-					var camera = new BABYLON.ArcRotateCamera("camera1",  0, 0, 0, BABYLON.Vector3.Zero(), scene);
-					camera.setPosition(new BABYLON.Vector3(0.0, 10.0, -50.0));
+					//var camera = new BABYLON.ArcRotateCamera("camera1",  0, 0, 0, BABYLON.Vector3.Zero(), scene);
+					//var camera = new BABYLON.FlyCamera("camera1", new BABYLON.Vector3(0, 5, -10), scene);
+					var camera = new BABYLON.DeviceOrientationCamera("DevOr_camera", new BABYLON.Vector3(60, 5, -100), scene);
+					//camera.setPosition(new BABYLON.Vector3(0.0, 10.0, -50.0));
+					//camera.setTarget(new BABYLON.Vector3(0.0, 10.0, -50.0));
 					camera.attachControl(canvas, true);
 					var light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0.0, 1.0, 0.0), scene);
 					light.intensity = 0.75;
