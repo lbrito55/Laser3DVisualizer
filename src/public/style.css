@@ -10,3 +10,15 @@ height: 100%;
 #Upload {
     margin: 20px;
 }
+
+.form-check {
+    margin: 30px;
+}
+
+input[type=checkbox] {
+    transform: scale(1.5);
+  }
+
+#auxCheck {
+    display:none;
+}
