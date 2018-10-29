@@ -102,7 +102,7 @@ callApi(){
 			}
 
 				chkBox.onchange = function() { //if check box is changed with file loaded
-					alert("hola")
+				
 					
 				var canvas = document.getElementById('canvas');
 		
@@ -111,10 +111,13 @@ callApi(){
 					var scene = new BABYLON.Scene(engine);
 					//var camera = new BABYLON.ArcRotateCamera("camera1",  0, 0, 0, BABYLON.Vector3.Zero(), scene);
 					//var camera = new BABYLON.FlyCamera("camera1", new BABYLON.Vector3(0, 5, -10), scene);
-					var camera = new BABYLON.DeviceOrientationCamera("DevOr_camera", new BABYLON.Vector3(60, 5, -100), scene);
-					//camera.setPosition(new BABYLON.Vector3(0.0, 10.0, -50.0));
-					//camera.setTarget(new BABYLON.Vector3(0.0, 10.0, -50.0));
-					camera.attachControl(canvas, true);
+					var camera = new BABYLON.ArcRotateCamera("Camera", 60, 0, 10, new BABYLON.Vector3(60, 0, 0), scene);
+
+					// Positions the camera overwriting alpha, beta, radius
+						camera.setPosition(new BABYLON.Vector3(60, 4, -100));
+					
+					// This attaches the camera to the canvas
+						camera.attachControl(canvas, true);
 					var light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0.0, 1.0, 0.0), scene);
 					light.intensity = 0.75;
 					light.specular = BABYLON.Color3.Black();
@@ -133,6 +136,7 @@ callApi(){
 					noise.seed(seed);
 					var mapData = new Float32Array(mapSubX * mapSubZ * 3); // 3 float values per point : x, y and z
 					var dataI = 0;
+					var t = 0;
 					var paths = [];       				                   // array for the ribbon model
 					for (var l = 0; l < mapSubX; l++) {
 						var path = [];                          // only for the ribbon
@@ -169,6 +173,46 @@ callApi(){
 					map.material = mapMaterial;
 					
 				
+					
+					var map ={}; //object for multiple key presses
+					scene.actionManager = new BABYLON.ActionManager(scene);
+   
+					scene.actionManager.registerAction(new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnKeyDownTrigger, function (evt) {								
+				  map[evt.sourceEvent.key] = evt.sourceEvent.type == "keydown";
+		  
+				  }));
+	  
+					scene.actionManager.registerAction(new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnKeyUpTrigger, function (evt) {								
+				  map[evt.sourceEvent.key] = evt.sourceEvent.type == "keydown";
+				  }));	
+				  
+				  
+				  scene.registerAfterRender(function() {	
+					  //console.log("estoy aqui ");
+			  
+					  if(map["d"] || map["D"]) {
+						  t=t+5;
+						//console.log(camera.position);
+						camera.setTarget(new BABYLON.Vector3(t, 1.0, 0.0)); 
+						camera.setPosition(new BABYLON.Vector3(camera.position.x+5, camera.position.y, camera.position.z)); 
+					
+						  console.log("soy d");
+						  
+					  }
+
+					  if(map["a"] || map["A"]) {
+						t=t-5;
+					  //console.log(camera.position);
+					  camera.setTarget(new BABYLON.Vector3(t, 1.0, 0.0)); 
+					  camera.setPosition(new BABYLON.Vector3(camera.position.x-5, camera.position.y, camera.position.z)); 
+				  
+						console.log("soy a");
+						
+					}
+					  
+				  });
+
+
 					return scene;
 				}
 				
@@ -489,10 +533,13 @@ callApi(){
 					var scene = new BABYLON.Scene(engine);
 					//var camera = new BABYLON.ArcRotateCamera("camera1",  0, 0, 0, BABYLON.Vector3.Zero(), scene);
 					//var camera = new BABYLON.FlyCamera("camera1", new BABYLON.Vector3(0, 5, -10), scene);
-					var camera = new BABYLON.DeviceOrientationCamera("DevOr_camera", new BABYLON.Vector3(60, 5, -100), scene);
-					//camera.setPosition(new BABYLON.Vector3(0.0, 10.0, -50.0));
-					//camera.setTarget(new BABYLON.Vector3(0.0, 10.0, -50.0));
-					camera.attachControl(canvas, true);
+					var camera = new BABYLON.ArcRotateCamera("Camera", 60, 0, 10, new BABYLON.Vector3(60, 0, 0), scene);
+
+					// Positions the camera overwriting alpha, beta, radius
+						camera.setPosition(new BABYLON.Vector3(60, 4, -100));
+					
+					// This attaches the camera to the canvas
+						camera.attachControl(canvas, true);
 					var light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0.0, 1.0, 0.0), scene);
 					light.intensity = 0.75;
 					light.specular = BABYLON.Color3.Black();
@@ -511,6 +558,7 @@ callApi(){
 					noise.seed(seed);
 					var mapData = new Float32Array(mapSubX * mapSubZ * 3); // 3 float values per point : x, y and z
 					var dataI = 0;
+					var t = 0;
 					var paths = [];       				                   // array for the ribbon model
 					for (var l = 0; l < mapSubX; l++) {
 						var path = [];                          // only for the ribbon
@@ -532,6 +580,7 @@ callApi(){
 					}
 					
 
+			
 					var map = BABYLON.MeshBuilder.CreateRibbon("m", {pathArray: paths, sideOrientation: 2}, scene);
 					map.position.y = -1.0;
 					var mapMaterial = new BABYLON.StandardMaterial("mm", scene);
@@ -541,6 +590,43 @@ callApi(){
 					}					
 					map.material = mapMaterial;
 					
+					var map ={}; //object for multiple key presses
+					scene.actionManager = new BABYLON.ActionManager(scene);
+   
+					scene.actionManager.registerAction(new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnKeyDownTrigger, function (evt) {								
+				  map[evt.sourceEvent.key] = evt.sourceEvent.type == "keydown";
+		  
+				  }));
+	  
+					scene.actionManager.registerAction(new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnKeyUpTrigger, function (evt) {								
+				  map[evt.sourceEvent.key] = evt.sourceEvent.type == "keydown";
+				  }));	
+				  
+				  
+				  scene.registerAfterRender(function() {	
+					  //console.log("estoy aqui ");
+			  
+					  if(map["d"] || map["D"]) {
+						  t=t+5;
+						//console.log(camera.position);
+						camera.setTarget(new BABYLON.Vector3(t, 1.0, 0.0)); 
+						camera.setPosition(new BABYLON.Vector3(camera.position.x+5, camera.position.y, camera.position.z)); 
+					
+						  console.log("soy d");
+						  
+					  }
+
+					  if(map["a"] || map["A"]) {
+						t=t-5;
+					  //console.log(camera.position);
+					  camera.setTarget(new BABYLON.Vector3(t, 1.0, 0.0)); 
+					  camera.setPosition(new BABYLON.Vector3(camera.position.x-5, camera.position.y, camera.position.z)); 
+				  
+						console.log("soy a");
+						
+					}
+					  
+				  });
 				
 					return scene;
 				}
@@ -900,6 +986,8 @@ componentDidMount(){ //se ejecuta al montar el componente
 					</div>
 				</div>
 				<canvas id="canvas" ></canvas>
+
+				
 		
 	</div>
 			)
