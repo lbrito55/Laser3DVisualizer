@@ -17,6 +17,8 @@ callApi(){
 	var UpdFile = document.getElementById('inputUpload');
 	UpdFile.onchange = function() {
 		
+		document.getElementById("backLoad").style.display = "block"; //Loading
+
 		var auxUrl = UpdFile.value.split("\\");
 		var url = auxUrl[auxUrl.length-1];
 		console.log("entre");
@@ -100,7 +102,7 @@ callApi(){
 
 					
 			}
-
+				
 				chkBox.onchange = function() { //if check box is changed with file loaded
 				
 					
@@ -145,7 +147,7 @@ callApi(){
 							var x = l;
 							//var y = noise.simplex2(x * noiseScale, z * noiseScale);
 							//y *= (0.5 + y) * y * elevationScale;   // let's increase a bit the noise computed altitude
-							var y = -rangeFe[dataI];
+							var y = rangeFe[dataI];
 							
 							mapData[3 *(l * mapSubX + w)] = x;
 							mapData[3 * (l * mapSubX + w) + 1] = y;
@@ -157,7 +159,6 @@ callApi(){
 						paths.push(path);
 					}
 					
-
 					var map = BABYLON.MeshBuilder.CreateRibbon("m", {pathArray: paths, sideOrientation: 2}, scene);
 					map.position.y = -1.0;
 					var mapMaterial = new BABYLON.StandardMaterial("mm", scene);
@@ -171,6 +172,115 @@ callApi(){
 						console.log("lo quite");
 					}					
 					map.material = mapMaterial;
+
+
+					var colors = map.getVerticesData(BABYLON.VertexBuffer.ColorKind);
+					if(!colors) {
+						colors = [];
+						var thom =0 ;
+						var ty = 0;
+						var ja = 0;
+						var flagColor = false;
+						var positions = map.getVerticesData(BABYLON.VertexBuffer.PositionKind);
+						//console.log(itensityFe);
+						for(var p = 0; p < ((positions.length / 3)/2 ); p++) {
+							flagColor = false;
+							if(itensityFe[p]<13 ){
+								colors.push(255,255,255, 1);
+								colors.push(255,255,255, 1); thom++; flagColor = true;
+							}
+							if(itensityFe[p]>=13 && itensityFe[p]<25 ){
+								colors.push(255,228,222, 1);
+								colors.push(255,228,222, 1);thom++; flagColor = true;
+							}
+							if(itensityFe[p]>=25 && itensityFe[p]<38){
+								colors.push(255,182,193, 1);
+								colors.push(255,182,193, 1);thom++; flagColor = true;
+							}
+							if(itensityFe[p]>=38 && itensityFe[p]<50 ){
+								colors.push(255,110,180, 1);
+								colors.push(255,110,180, 1);thom++; flagColor = true;
+							}
+							if(itensityFe[p]>=50 && itensityFe[p]<63 ){
+								colors.push(238,18,137, 1);
+								colors.push(238,18,137, 1);thom++; flagColor = true;
+							}
+							if(itensityFe[p]>=63 && itensityFe[p]<76 ){
+								colors.push(255,69,0, 1);
+								colors.push(255,69,0, 1);thom++; flagColor = true;
+							}
+							if(itensityFe[p]>=76 && itensityFe[p]<89 ){
+								colors.push(205,102,0, 1);
+								colors.push(205,102,0, 1);thom++; flagColor = true;
+							}
+							if(itensityFe[p]>=89 && itensityFe[p]<101 ){
+								colors.push(255,140,0, 1);
+								colors.push(255,140,0, 1);thom++; flagColor = true;
+							}
+							if(itensityFe[p]>=101 && itensityFe[p]<114 ){
+								colors.push(0,0,0, 1);
+								colors.push(0,0,0, 1);thom++; flagColor = true; ja++;
+							}
+							if(itensityFe[p]>=114 && itensityFe[p]<127 ){
+								colors.push(255,255,0, 1);
+								colors.push(255,255,0, 1);thom++; flagColor = true;
+							}
+							if(itensityFe[p]>=127 && itensityFe[p]<139 ){
+								colors.push(20,255,0, 1);
+								colors.push(20,255,0, 1);thom++; flagColor = true;
+							}
+							if(itensityFe[p]>=139 && itensityFe[p]<152 ){
+								colors.push(193,255,193, 1);
+								colors.push(193,255,193, 1);thom++; flagColor = true;
+
+							}
+							if(itensityFe[p]>=152 && itensityFe[p]<164 ){
+								colors.push(176,224,230, 1);
+								colors.push(176,224,230, 1);thom++; flagColor = true;
+							} 
+							if(itensityFe[p]>=164 && itensityFe[p]<177 ){
+								colors.push(65,105,225, 1);
+								colors.push(65,105,225, 1);thom++; flagColor = true;
+							}
+							if(itensityFe[p]>=177 && itensityFe[p]<190 ){
+								colors.push(0,0,255, 1);
+								colors.push(0,0,255, 1);thom++; flagColor = true;
+							}
+							if(itensityFe[p]>=190 && itensityFe[p]<202 ){
+								colors.push(132,112,255, 1);
+								colors.push(132,112,255, 1);thom++; flagColor = true;
+							}
+							if(itensityFe[p]>=202 && itensityFe[p]<215 ){
+								colors.push(123,104,238, 1);
+								colors.push(123,104,238, 1);thom++; flagColor = true;
+							}
+							if(itensityFe[p]>=215 && itensityFe[p]<228 ){
+								colors.push(106,90,205, 1);
+								colors.push(106,90,205, 1);thom++; flagColor = true;
+							}
+							if(itensityFe[p]>=228 && itensityFe[p]<240 ){
+								colors.push(0,0,128, 1);
+								colors.push(0,0,128, 1);thom++; flagColor = true;
+							}
+							if(itensityFe[p]>=240 && itensityFe[p]<253){
+								colors.push(25,25,112, 1);
+								colors.push(25,25,112, 1);thom++; flagColor = true;
+							}
+							if(itensityFe[p]>=253){
+								colors.push(0, 0, 0, 1);
+								colors.push(0, 0, 0, 1);thom++; flagColor = true;
+							}
+							if(flagColor == false){
+								colors.push(0, 0, 0, 1);
+								colors.push(0, 0, 0, 1);thom++;
+							}
+							ty++;
+						}
+						console.log(ja);
+						map.setVerticesData(BABYLON.VertexBuffer.ColorKind, colors);
+					}
+				 
+					
 					
 				
 					
@@ -209,6 +319,27 @@ callApi(){
 						console.log("soy a");
 						
 					}
+
+					
+					if(map["e"] || map["E"]) {
+						t=t+25;
+					  //console.log(camera.position);
+					  camera.setTarget(new BABYLON.Vector3(t, 1.0, 0.0)); 
+					  camera.setPosition(new BABYLON.Vector3(camera.position.x+25, camera.position.y, camera.position.z)); 
+				  
+						console.log("soy e");
+						
+					}
+
+					if(map["q"] || map["Q"]) {
+					  t=t-25;
+					//console.log(camera.position);
+					camera.setTarget(new BABYLON.Vector3(t, 1.0, 0.0)); 
+					camera.setPosition(new BABYLON.Vector3(camera.position.x-25, camera.position.y, camera.position.z)); 
+				
+					  console.log("soy q");
+					  
+				  }
 					  
 				  });
 
@@ -524,7 +655,7 @@ callApi(){
 				});
 				
 				}
-
+				//
 
 				var canvas = document.getElementById('canvas');
 		
@@ -536,7 +667,7 @@ callApi(){
 					var camera = new BABYLON.ArcRotateCamera("Camera", 60, 0, 10, new BABYLON.Vector3(60, 0, 0), scene);
 
 					// Positions the camera overwriting alpha, beta, radius
-						camera.setPosition(new BABYLON.Vector3(60, 4, -100));
+						camera.setPosition(new BABYLON.Vector3(60, -50, -100));
 					
 					// This attaches the camera to the canvas
 						camera.attachControl(canvas, true);
@@ -567,7 +698,7 @@ callApi(){
 							var x = l;
 							//var y = noise.simplex2(x * noiseScale, z * noiseScale);
 							//y *= (0.5 + y) * y * elevationScale;   // let's increase a bit the noise computed altitude
-							var y = -rangeFe[dataI];
+							var y = rangeFe[dataI];
 							
 							mapData[3 *(l * mapSubX + w)] = x;
 							mapData[3 * (l * mapSubX + w) + 1] = y;
@@ -579,17 +710,131 @@ callApi(){
 						paths.push(path);
 					}
 					
-
+					console.log(rangeFe);
 			
 					var map = BABYLON.MeshBuilder.CreateRibbon("m", {pathArray: paths, sideOrientation: 2}, scene);
+					//map.rotate(BABYLON.Axis.X, Math.PI, BABYLON.Space.WORLD)
 					map.position.y = -1.0;
 					var mapMaterial = new BABYLON.StandardMaterial("mm", scene);
-					if (chkBox.checked)
-					{
-						mapMaterial.wireframe = true;
-					}					
-					map.material = mapMaterial;
 					
+					//mapMaterial.wireframe = true;
+							
+					map.material = mapMaterial;
+					;
+
+					var colors = map.getVerticesData(BABYLON.VertexBuffer.ColorKind);
+					if(!colors) {
+						colors = [];
+						var thom =0 ;
+						var ty = 0;
+						var ja = 0;
+						var flagColor = false;
+						var positions = map.getVerticesData(BABYLON.VertexBuffer.PositionKind);
+						//console.log(itensityFe);
+						for(var p = 0; p < ((positions.length / 3)/2 ); p++) {
+							flagColor = false;
+							if(itensityFe[p]<13 ){
+								colors.push(255,255,255, 1);
+								colors.push(255,255,255, 1); thom++; flagColor = true;
+							}
+							if(itensityFe[p]>=13 && itensityFe[p]<25 ){
+								colors.push(255,228,222, 1);
+								colors.push(255,228,222, 1);thom++; flagColor = true;
+							}
+							if(itensityFe[p]>=25 && itensityFe[p]<38){
+								colors.push(255,182,193, 1);
+								colors.push(255,182,193, 1);thom++; flagColor = true;
+							}
+							if(itensityFe[p]>=38 && itensityFe[p]<50 ){
+								colors.push(255,110,180, 1);
+								colors.push(255,110,180, 1);thom++; flagColor = true;
+							}
+							if(itensityFe[p]>=50 && itensityFe[p]<63 ){
+								colors.push(238,18,137, 1);
+								colors.push(238,18,137, 1);thom++; flagColor = true;
+							}
+							if(itensityFe[p]>=63 && itensityFe[p]<76 ){
+								colors.push(255,69,0, 1);
+								colors.push(255,69,0, 1);thom++; flagColor = true;
+							}
+							if(itensityFe[p]>=76 && itensityFe[p]<89 ){
+								colors.push(205,102,0, 1);
+								colors.push(205,102,0, 1);thom++; flagColor = true;
+							}
+							if(itensityFe[p]>=89 && itensityFe[p]<101 ){
+								colors.push(255,140,0, 1);
+								colors.push(255,140,0, 1);thom++; flagColor = true;
+							}
+							if(itensityFe[p]>=101 && itensityFe[p]<114 ){
+								colors.push(0,0,0, 1);
+								colors.push(0,0,0, 1);thom++; flagColor = true; ja++;
+							}
+							if(itensityFe[p]>=114 && itensityFe[p]<127 ){
+								colors.push(255,255,0, 1);
+								colors.push(255,255,0, 1);thom++; flagColor = true;
+							}
+							if(itensityFe[p]>=127 && itensityFe[p]<139 ){
+								colors.push(20,255,0, 1);
+								colors.push(20,255,0, 1);thom++; flagColor = true;
+							}
+							if(itensityFe[p]>=139 && itensityFe[p]<152 ){
+								colors.push(193,255,193, 1);
+								colors.push(193,255,193, 1);thom++; flagColor = true;
+
+							}
+							if(itensityFe[p]>=152 && itensityFe[p]<164 ){
+								colors.push(176,224,230, 1);
+								colors.push(176,224,230, 1);thom++; flagColor = true;
+							} 
+							if(itensityFe[p]>=164 && itensityFe[p]<177 ){
+								colors.push(65,105,225, 1);
+								colors.push(65,105,225, 1);thom++; flagColor = true;
+							}
+							if(itensityFe[p]>=177 && itensityFe[p]<190 ){
+								colors.push(0,0,255, 1);
+								colors.push(0,0,255, 1);thom++; flagColor = true;
+							}
+							if(itensityFe[p]>=190 && itensityFe[p]<202 ){
+								colors.push(132,112,255, 1);
+								colors.push(132,112,255, 1);thom++; flagColor = true;
+							}
+							if(itensityFe[p]>=202 && itensityFe[p]<215 ){
+								colors.push(123,104,238, 1);
+								colors.push(123,104,238, 1);thom++; flagColor = true;
+							}
+							if(itensityFe[p]>=215 && itensityFe[p]<228 ){
+								colors.push(106,90,205, 1);
+								colors.push(106,90,205, 1);thom++; flagColor = true;
+							}
+							if(itensityFe[p]>=228 && itensityFe[p]<240 ){
+								colors.push(0,0,128, 1);
+								colors.push(0,0,128, 1);thom++; flagColor = true;
+							}
+							if(itensityFe[p]>=240 && itensityFe[p]<253){
+								colors.push(25,25,112, 1);
+								colors.push(25,25,112, 1);thom++; flagColor = true;
+							}
+							if(itensityFe[p]>=253){
+								colors.push(0, 0, 0, 1);
+								colors.push(0, 0, 0, 1);thom++; flagColor = true;
+							}
+							if(flagColor == false){
+								colors.push(0, 0, 0, 1);
+								colors.push(0, 0, 0, 1);thom++;
+							}
+							ty++;
+						}
+						console.log(ja);
+						map.setVerticesData(BABYLON.VertexBuffer.ColorKind, colors);
+					}
+				 
+					
+					//var quaternion = new BABYLON.Quaternion.RotationAxis(BABYLON.Axis.X, Math.PI);
+					//map.rotationQuaternion = quaternion;
+					
+
+
+
 					var map ={}; //object for multiple key presses
 					scene.actionManager = new BABYLON.ActionManager(scene);
    
@@ -625,6 +870,26 @@ callApi(){
 						console.log("soy a");
 						
 					}
+
+					if(map["e"] || map["E"]) {
+						t=t+25;
+					  //console.log(camera.position);
+					  camera.setTarget(new BABYLON.Vector3(t, 1.0, 0.0)); 
+					  camera.setPosition(new BABYLON.Vector3(camera.position.x+25, camera.position.y, camera.position.z)); 
+				  
+						console.log("soy e");
+						
+					}
+
+					if(map["q"] || map["Q"]) {
+					  t=t-25;
+					//console.log(camera.position);
+					camera.setTarget(new BABYLON.Vector3(t, 1.0, 0.0)); 
+					camera.setPosition(new BABYLON.Vector3(camera.position.x-25, camera.position.y, camera.position.z)); 
+				
+					  console.log("soy q");
+					  
+				  }
 					  
 				  });
 				
@@ -937,8 +1202,9 @@ callApi(){
 				engine.runRenderLoop(function(){
 					scene.render();
 				});
+				
 				document.getElementById("auxCheck").style.display = "inline";
-
+				document.getElementById("backLoad").style.display = "none";
 				
 
 			//console.log("iff",itensityFf);
@@ -985,6 +1251,14 @@ componentDidMount(){ //se ejecuta al montar el componente
 						<label className="form-check-label" htmlFor="defaultCheck1">Wireframe Map</label>
 					</div>
 				</div>
+				<div id="backLoad">
+					<div className="loader">
+						<div className="inner one"></div>
+						<div className="inner two"></div>
+						<div className="inner three"></div>
+						<p id="load">Loading...</p>
+					</div>
+				</div>	
 				<canvas id="canvas" ></canvas>
 
 				
