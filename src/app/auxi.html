@@ -89,3 +89,118 @@ flagColor = false;
 								colors.push(0, 0, 0, 1);thom++;
 							}
 							ty++;
+
+
+
+
+
+
+							//ultimos colores 4 nov
+
+
+
+							var colors = map.getVerticesData(BABYLON.VertexBuffer.ColorKind);
+					if(!colors) {
+						colors = [];
+						var thom =0 ;
+						var ty = 0;
+						var ja = 0;
+						var flagColor = false;
+						var positions = map.getVerticesData(BABYLON.VertexBuffer.PositionKind);
+						//console.log(itensityFe);
+						for(var p = 0; p < ((positions.length / 3)/2 ); p++) {
+							flagColor = false;
+							if(itensityFe[p]<13 ){
+								colors.push(255,255,255, 1);
+								colors.push(255,255,255, 1); thom++; flagColor = true;
+							}
+							if(itensityFe[p]>=13 && itensityFe[p]<25 ){
+								colors.push(255,228,222, 1);
+								colors.push(255,228,222, 1);thom++; flagColor = true;
+							}
+							if(itensityFe[p]>=25 && itensityFe[p]<38){
+								colors.push(255,182,193, 1);
+								colors.push(255,182,193, 1);thom++; flagColor = true;
+							}
+							if(itensityFe[p]>=38 && itensityFe[p]<50 ){
+								colors.push(255,110,180, 1);
+								colors.push(255,110,180, 1);thom++; flagColor = true;
+							}
+							if(itensityFe[p]>=50 && itensityFe[p]<63 ){
+								colors.push(238,18,137, 1);
+								colors.push(238,18,137, 1);thom++; flagColor = true;
+							}
+							if(itensityFe[p]>=63 && itensityFe[p]<76 ){
+								colors.push(255,69,0, 1);
+								colors.push(255,69,0, 1);thom++; flagColor = true;
+							}
+							if(itensityFe[p]>=76 && itensityFe[p]<89 ){
+								colors.push(205,102,0, 1);
+								colors.push(205,102,0, 1);thom++; flagColor = true;
+							}
+							if(itensityFe[p]>=89 && itensityFe[p]<101 ){
+								colors.push(255,140,0, 1);
+								colors.push(255,140,0, 1);thom++; flagColor = true;
+							}
+							if(itensityFe[p]>=101 && itensityFe[p]<114 ){
+								colors.push(0,0,0, 1);
+								colors.push(0,0,0, 1);thom++; flagColor = true; ja++;
+							}
+							if(itensityFe[p]>=114 && itensityFe[p]<127 ){
+								colors.push(255,255,0, 1);
+								colors.push(255,255,0, 1);thom++; flagColor = true;
+							}
+							if(itensityFe[p]>=127 && itensityFe[p]<139 ){
+								colors.push(20,255,0, 1);
+								colors.push(20,255,0, 1);thom++; flagColor = true;
+							}
+							if(itensityFe[p]>=139 && itensityFe[p]<152 ){
+								colors.push(193,255,193, 1);
+								colors.push(193,255,193, 1);thom++; flagColor = true;
+
+							}
+							if(itensityFe[p]>=152 && itensityFe[p]<164 ){
+								colors.push(176,224,230, 1);
+								colors.push(176,224,230, 1);thom++; flagColor = true;
+							} 
+							if(itensityFe[p]>=164 && itensityFe[p]<177 ){
+								colors.push(65,105,225, 1);
+								colors.push(65,105,225, 1);thom++; flagColor = true;
+							}
+							if(itensityFe[p]>=177 && itensityFe[p]<190 ){
+								colors.push(0,0,255, 1);
+								colors.push(0,0,255, 1);thom++; flagColor = true;
+							}
+							if(itensityFe[p]>=190 && itensityFe[p]<202 ){
+								colors.push(132,112,255, 1);
+								colors.push(132,112,255, 1);thom++; flagColor = true;
+							}
+							if(itensityFe[p]>=202 && itensityFe[p]<215 ){
+								colors.push(123,104,238, 1);
+								colors.push(123,104,238, 1);thom++; flagColor = true;
+							}
+							if(itensityFe[p]>=215 && itensityFe[p]<228 ){
+								colors.push(106,90,205, 1);
+								colors.push(106,90,205, 1);thom++; flagColor = true;
+							}
+							if(itensityFe[p]>=228 && itensityFe[p]<240 ){
+								colors.push(0,0,128, 1);
+								colors.push(0,0,128, 1);thom++; flagColor = true;
+							}
+							if(itensityFe[p]>=240 && itensityFe[p]<253){
+								colors.push(25,25,112, 1);
+								colors.push(25,25,112, 1);thom++; flagColor = true;
+							}
+							if(itensityFe[p]>=253){
+								colors.push(0, 0, 0, 1);
+								colors.push(0, 0, 0, 1);thom++; flagColor = true;
+							}
+							if(flagColor == false){
+								colors.push(0, 0, 0, 1);
+								colors.push(0, 0, 0, 1);thom++;
+							}
+							ty++;
+						}
+						console.log(ja);
+						map.setVerticesData(BABYLON.VertexBuffer.ColorKind, colors);
+					}

@@ -120,7 +120,7 @@ callApi(){
 					
 					// This attaches the camera to the canvas
 						camera.attachControl(canvas, true);
-					var light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0.0, 1.0, 0.0), scene);
+					var light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0.0, -31.0, 0.0), scene);
 					light.intensity = 0.75;
 					light.specular = BABYLON.Color3.Black();
 				
@@ -147,7 +147,7 @@ callApi(){
 							var x = l;
 							//var y = noise.simplex2(x * noiseScale, z * noiseScale);
 							//y *= (0.5 + y) * y * elevationScale;   // let's increase a bit the noise computed altitude
-							var y = rangeFe[dataI];
+							var y = -rangeFe[dataI];
 							
 							mapData[3 *(l * mapSubX + w)] = x;
 							mapData[3 * (l * mapSubX + w) + 1] = y;
@@ -667,11 +667,12 @@ callApi(){
 					var camera = new BABYLON.ArcRotateCamera("Camera", 60, 0, 10, new BABYLON.Vector3(60, 0, 0), scene);
 
 					// Positions the camera overwriting alpha, beta, radius
-						camera.setPosition(new BABYLON.Vector3(60, -50, -100));
-					
+						camera.setPosition(new BABYLON.Vector3(2.988369164965735, 1.6961842891958216, 100));
+						camera.alpha=3.0476813011282506;
+						camera.beta= 1.5642642054069178;
 					// This attaches the camera to the canvas
 						camera.attachControl(canvas, true);
-					var light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0.0, 1.0, 0.0), scene);
+					var light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0.0, -2000.0, 0.0), scene);
 					light.intensity = 0.75;
 					light.specular = BABYLON.Color3.Black();
 				
@@ -698,7 +699,7 @@ callApi(){
 							var x = l;
 							//var y = noise.simplex2(x * noiseScale, z * noiseScale);
 							//y *= (0.5 + y) * y * elevationScale;   // let's increase a bit the noise computed altitude
-							var y = rangeFe[dataI];
+							var y = -rangeFe[dataI];
 							
 							mapData[3 *(l * mapSubX + w)] = x;
 							mapData[3 * (l * mapSubX + w) + 1] = y;
@@ -713,14 +714,20 @@ callApi(){
 					console.log(rangeFe);
 			
 					var map = BABYLON.MeshBuilder.CreateRibbon("m", {pathArray: paths, sideOrientation: 2}, scene);
-					//map.rotate(BABYLON.Axis.X, Math.PI, BABYLON.Space.WORLD)
-					map.position.y = -1.0;
+					//map.rotate(BABYLON.Axis., Math.PI/2, BABYLON.Space.WORLD)
+					map.position.y = 0;
 					var mapMaterial = new BABYLON.StandardMaterial("mm", scene);
 					
 					//mapMaterial.wireframe = true;
 							
 					map.material = mapMaterial;
-					;
+					
+					
+
+					var positions = map.getVerticesData(BABYLON.VertexBuffer.PositionKind);
+					console.log("las posiciones",positions);
+					
+
 
 					var colors = map.getVerticesData(BABYLON.VertexBuffer.ColorKind);
 					if(!colors) {
@@ -856,10 +863,12 @@ callApi(){
 						//console.log(camera.position);
 						camera.setTarget(new BABYLON.Vector3(t, 1.0, 0.0)); 
 						camera.setPosition(new BABYLON.Vector3(camera.position.x+5, camera.position.y, camera.position.z)); 
-					
+						console.log(camera.alpha);
+						console.log(camera.beta);
 						  console.log("soy d");
 						  
 					  }
+
 
 					  if(map["a"] || map["A"]) {
 						t=t-5;
