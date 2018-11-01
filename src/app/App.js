@@ -105,7 +105,7 @@ callApi(){
 				
 				chkBox.onchange = function() { //if check box is changed with file loaded
 				
-					
+				document.getElementById("backLoad").style.display = "block";	
 				var canvas = document.getElementById('canvas');
 		
 				var engine = new BABYLON.Engine(canvas, true);
@@ -116,7 +116,9 @@ callApi(){
 					var camera = new BABYLON.ArcRotateCamera("Camera", 60, 0, 10, new BABYLON.Vector3(60, 0, 0), scene);
 
 					// Positions the camera overwriting alpha, beta, radius
-						camera.setPosition(new BABYLON.Vector3(60, 4, -100));
+					camera.setPosition(new BABYLON.Vector3(2.988369164965735, 1.6961842891958216, 100));
+					camera.alpha=3.0476813011282506;
+					camera.beta= 1.5642642054069178;
 					
 					// This attaches the camera to the canvas
 						camera.attachControl(canvas, true);
@@ -165,6 +167,12 @@ callApi(){
 					if (chkBox.checked)
 					{
 						console.log("aqui");
+						light.dispose();
+						var light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0.0, 1.0, 0.0), scene);
+						light.intensity = 0.75;
+						light.specular = BABYLON.Color3.Black();
+						
+						
 						mapMaterial.wireframe = true;						
 					}else{
 						
@@ -653,7 +661,7 @@ callApi(){
 				engine.runRenderLoop(function(){
 					scene.render();
 				});
-				
+				document.getElementById("backLoad").style.display = "none";
 				}
 				//
 
@@ -672,7 +680,7 @@ callApi(){
 						camera.beta= 1.5642642054069178;
 					// This attaches the camera to the canvas
 						camera.attachControl(canvas, true);
-					var light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0.0, -2000.0, 0.0), scene);
+					var light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0.0, -21.0, 0.0), scene);
 					light.intensity = 0.75;
 					light.specular = BABYLON.Color3.Black();
 				
@@ -722,7 +730,7 @@ callApi(){
 							
 					map.material = mapMaterial;
 					
-					
+					//light.excludedMeshes.push(map);
 
 					var positions = map.getVerticesData(BABYLON.VertexBuffer.PositionKind);
 					console.log("las posiciones",positions);
