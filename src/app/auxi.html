@@ -810,3 +810,91 @@ componentDidMount(){ //se ejecuta al montar el componente
 }
 
 export default App;
+
+
+
+AQUIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII 2DDDDDDDDDDDDD
+
+if(chkBox2d.checked){ //if is 2d
+	var myPoints = [];
+	var color = [];
+	var auxPoint=0;
+	var p = 0;
+	for (var l = 0; l < mapSubX; l++) { 
+		myPoints = [];
+		color = [];     
+		auxPoint=0;                   
+		for (var w = 0; w < mapSubZ; w++) {
+			
+			myPoints[auxPoint]=new BABYLON.Vector3(l, 0, w);
+			
+			if(itensityFe[p]<13 ){
+				color[auxPoint]=new BABYLON.Color4(1, 0.894, 0.870, 1); flagColor = true;
+			}
+			if(itensityFe[p]>=13 && itensityFe[p]<25 ){
+				color[auxPoint]=new BABYLON.Color4(1, 0.713, 0.756, 1); flagColor = true;
+			}
+			if(itensityFe[p]>=25 && itensityFe[p]<38){
+				color[auxPoint]=new BABYLON.Color4(1, 0.431, 0.705,1); flagColor = true;
+			}
+			if(itensityFe[p]>=38 && itensityFe[p]<50 ){
+				color[auxPoint]=new BABYLON.Color4(0.933, 0.070, 0.537,1); flagColor = true;
+			}
+			if(itensityFe[p]>=50 && itensityFe[p]<63 ){
+				color[auxPoint]=new BABYLON.Color4(1, 0.270, 0,1); flagColor = true;
+			}
+			if(itensityFe[p]>=63 && itensityFe[p]<76 ){
+				color[auxPoint]=new BABYLON.Color4(0.803, 0.4, 0,1); flagColor = true;
+			}
+			if(itensityFe[p]>=76 && itensityFe[p]<89 ){
+				color[auxPoint]=new BABYLON.Color4(1, 0.549, 0,1); flagColor = true;
+			}
+			if(itensityFe[p]>=89 && itensityFe[p]<101 ){
+				color[auxPoint]=new BABYLON.Color4(0.933, 0.850, 0.447,1); flagColor = true;
+			}
+			if(itensityFe[p]>=101 && itensityFe[p]<114 ){
+				color[auxPoint]=new BABYLON.Color4(1,1,0,1); flagColor = true;
+			}
+			if(itensityFe[p]>=114 && itensityFe[p]<127 ){
+				color[auxPoint]=new BABYLON.Color4(0.078, 1, 0,1); flagColor = true;
+			}
+			if(itensityFe[p]>=127 && itensityFe[p]<139 ){
+				color[auxPoint]=new BABYLON.Color4(0.756, 1, 0.756,1); flagColor = true;
+			}
+			if(itensityFe[p]>=139 && itensityFe[p]<152 ){
+				color[auxPoint]=new BABYLON.Color4(0.690, 0.878, 0.901,1); flagColor = true;
+
+			}
+			if(itensityFe[p]>=152 && itensityFe[p]<164 ){
+				color[auxPoint]=new BABYLON.Color4(0.254, 0.411, 0.882,1); flagColor = true;
+			} 
+			if(itensityFe[p]>=164 && itensityFe[p]<177 ){
+				color[auxPoint]=new BABYLON.Color4(0,0,1,1); flagColor = true;
+			}
+			if(itensityFe[p]>=177 && itensityFe[p]<190 ){
+				color[auxPoint]=new BABYLON.Color4(0.517, 0.439, 1,1); flagColor = true;
+			}
+			if(itensityFe[p]>=190 && itensityFe[p]<202 ){
+				color[auxPoint]=new BABYLON.Color4(0.482, 0.407, 0.933,1); flagColor = true;
+			}
+			if(itensityFe[p]>=202 && itensityFe[p]<215 ){
+				color[auxPoint]=new BABYLON.Color4(0.415, 0.352, 0.803,1); flagColor = true;
+			}
+			if(itensityFe[p]>=215 && itensityFe[p]<228 ){
+				color[auxPoint]=new BABYLON.Color4(0, 0, 0.501,1); flagColor = true;
+			}
+			if(itensityFe[p]>=228 && itensityFe[p]<240 ){
+				color[auxPoint]=new BABYLON.Color4(0.098, 0.098, 0.439,1); flagColor = true;
+			}
+			if(itensityFe[p]>=240 ){
+				color[auxPoint]=new BABYLON.Color4(0,0,0,1); flagColor = true;
+			}								
+			if(flagColor == false){
+				color[auxPoint]=new BABYLON.Color4(0,0,0,1); flagColor = true;
+			}
+			p++;
+			auxPoint++;
+
+		}
+		var lines = BABYLON.MeshBuilder.CreateLines("lines", {points: myPoints,colors:color,useVertexAlpha:false}, scene);
+	}
