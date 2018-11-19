@@ -12,19 +12,35 @@ callApi(){
 	var chkBoxIntensity = document.getElementById('intensity');	
 	
 	console.log("llamando a node");
-	/*fetch('/api')
-	.then(res => res.json())
-	.then(data => console.log(data));
-	*/
+
 	document.getElementById("inputUpload").click();
 	var UpdFile = document.getElementById('inputUpload');
-	UpdFile.onchange = function() {
+
+	UpdFile.addEventListener('change', handleFileSelect, false);
+
+
+	function handleFileSelect(evt) {
+			
+		var files = evt.target.files;
+		var url="";
+		var flagTwoFiles = false;
+
+		for (var i = 0, f; f = files[i]; i++) {
+			if(i>0){
+				url=url.concat("AnotherFile");
+				flagTwoFiles = true;
+			}
+			url=url.concat(f.name);
+		}
+		//console.log(url);
 	
 		document.getElementById("backLoad").style.display = "block"; //Loading
 
-		var auxUrl = UpdFile.value.split("\\");
+		/*var auxUrl = UpdFile.value.split("\\");
 		var url = auxUrl[auxUrl.length-1];
-	
+		console.log( url);
+		*/
+
 		fetch('api?tagid='+url).then(response => {
 			response.json().then(json => {
 				let data = json; 
@@ -42,30 +58,48 @@ callApi(){
 				var auxRff = 0;
 				
 			//	data = data.slice(50, 290);
-				
-			for (var i =0 ; i < data.length; i++) {
+			if(flagTwoFiles){
+				//console.log(data);
+				var itensityFe1 = [];	
+				var itensityFf1 = [];
+				var rangeFe1 = [];
+				var rangeFf1 = [];
+				var itensityFe2 = [];
+				var auxIfe2 = 0;
+				var itensityFf2 = [];
+				var auxIff2 = 0;
+				var rangeFe2 = [];
+				var auxRfe2 = 0;
+				var rangeFf2 = [];
+				var auxRff2 = 0;
+
+				var files=data.split("hereIsTheSecond");
+				files[0]= files[0].split(" ");
+				files[1]= files[1].split(" ");
+				//console.log(files[0],files[1]);	
+				for (var i =0 ; i < files[0].length; i++) {
 					//console.log(i);
-					if(data[i]=="fe"){
+					if(files[0][i]=="fe"){
 						//FE
 						i++;
 						for(j=0; j< 30; j++){
 							//intensity
-							itensityFe[auxIfe]=parseInt(data[i], 16);
+							itensityFe1[auxIfe]=parseInt(files[0][i], 16);
 							auxIfe++;
 							i++;
 						}
 						for(j=0; j< 30; j++){
 							//range
 
-							if(data[i]=="fe" || data[i]=="ff"){
+							if(files[0][i]=="fe" || files[0][i]=="ff"){
 								for (var ii = 30 - j; ii < 30; ii++)
 								{
-									rangeFe[auxRfe]=99;
+									rangeFe1[auxRfe]=99;
 									auxRfe++;
 								}
 								j = 30;
 							}else{
-								rangeFe[auxRfe]= parseInt(data[i], 16) / 12;
+								rangeFe1[auxRfe]= parseInt(files[0][i], 16) / 12;
 								auxRfe++;
 								i++;
 							}
@@ -73,28 +107,28 @@ callApi(){
 						i--;
 					}else{
 
-						if(data[i]=="ff"){
+						if(files[0][i]=="ff"){
 							//ff
 							i++;
 							for(j=0; j< 30; j++){
 								//intensity
-								itensityFf[auxIff]=parseInt(data[i], 16);
+								itensityFf1[auxIff]=parseInt(files[0][i], 16);
 								auxIff++;
 								i++;
 							}
 							for(j=0; j< 30; j++){
 								//range
-								if(data[i]=="fe" || data[i]=="ff"){
+								if(files[0][i]=="fe" || files[0][i]=="ff"){
 									for (var ii = 30 - j; ii < 30; ii++)
 									{
 
-										rangeFf[auxRff]=99;
+										rangeFf1[auxRff]=99;
 										auxRff++;
 									}
 									//console.log("dsad");
 									j = 30;
 								}else{
-									rangeFf[auxRff]= parseInt(data[i], 16) / 12;
+									rangeFf1[auxRff]= parseInt(files[0][i], 16) / 12;
 									auxRff++;
 									i++;
 								}
@@ -104,6 +138,245 @@ callApi(){
 					}
 
 					
+			}
+
+			for (var i =0 ; i < files[1].length; i++) {
+				//console.log(i);
+				if(files[1][i]=="fe"){
+					//FE
+					i++;
+					for(j=0; j< 30; j++){
+						//intensity
+						itensityFe2[auxIfe2]=parseInt(files[1][i], 16);
+						auxIfe2++;
+						i++;
+					}
+					for(j=0; j< 30; j++){
+						//range
+
+						if(files[1][i]=="fe" || files[1][i]=="ff"){
+							for (var ii = 30 - j; ii < 30; ii++)
+							{
+								rangeFe2[auxRfe2]=99;
+								auxRfe2++;
+							}
+							j = 30;
+						}else{
+							rangeFe2[auxRfe2]= parseInt(files[1][i], 16) / 12;
+							auxRfe2++;
+							i++;
+						}
+					}
+					i--;
+				}else{
+
+					if(files[1][i]=="ff"){
+						//ff
+						i++;
+						for(j=0; j< 30; j++){
+							//intensity
+							itensityFf2[auxIff2]=parseInt(files[1][i], 16);
+							auxIff2++;
+							i++;
+						}
+						for(j=0; j< 30; j++){
+							//range
+							if(files[1][i]=="fe" || files[1][i]=="ff"){
+								for (var ii = 30 - j; ii < 30; ii++)
+								{
+
+									rangeFf2[auxRff2]=99;
+									auxRff2++;
+								}
+								//console.log("dsad");
+								j = 30;
+							}else{
+								rangeFf2[auxRff2]= parseInt(files[1][i], 16) / 12;
+								auxRff2++;
+								i++;
+							}
+						}
+						i--;
+					}
+				}	
+		}
+
+				var minorFileFeI;
+				var minorFileFeR;
+				var minorFileFfI;
+				var minorFileFfR;
+
+				if(itensityFe1<itensityFe2){
+					minorFileFeI = itensityFe1;
+					minorFileFeR = rangeFe1;
+				}else{
+					minorFileFeI = itensityFe2;
+					minorFileFeR = rangeFe2;
+				}
+				if(itensityFf1<itensityFf2){
+					minorFileFfI = itensityFf1;
+					minorFileFfR = rangeFf1;
+				}else{
+					minorFileFfI = itensityFf2;
+					minorFileFfR = rangeFf2;
+				}
+
+				var auxConcat=0;
+				var auxConcat2=0;
+				var auxConcat3 = 0;
+
+				var refH = 28.2;
+				var rOff = 8;
+				var xOff = 9.5;
+
+				for(i=0;i<minorFileFeI.length;i++){
+					itensityFe[auxConcat]=itensityFe2[i];
+					if(auxConcat3==29){
+						for(var j=0; j<30;j++){
+							auxConcat++;
+							itensityFe[auxConcat]=itensityFe1[auxConcat2];						
+							auxConcat2++;							
+						}	
+						auxConcat++;
+						auxConcat3=0;
+					}else{
+						auxConcat++;
+						auxConcat3++;
+					}
+					
+				}
+
+				 auxConcat=0;
+				 auxConcat2=0;
+				 auxConcat3 = 0;
+				
+				//Code for two files
+
+				for(i=0;i<minorFileFeR.length;i++){
+					rangeFe[auxConcat]=rangeFe2[i];
+					//rangeFe[auxConcat]=xOff-(rangeFe2[i] + rOff)*Math.cos(5 * 0.017453) * Math.sin((19 + (auxConcat3 + 1 - 14.5) ) * 0.017453);
+					if(auxConcat3==29){
+						for(var j=0; j<30;j++){
+							auxConcat++;
+							//rangeFe[auxConcat]=xOff-(rangeFe1[auxConcat2] + rOff)*Math.cos(5 * 0.017453) * Math.sin((19 + (j + 31 - 14.5) ) * 0.017453);						
+							rangeFe[auxConcat]=rangeFe1[auxConcat2];
+							auxConcat2++;							
+						}	
+						auxConcat++;
+						auxConcat3=0;
+					}else{
+						auxConcat++;
+						auxConcat3++;
+					}
+					
+				}
+
+				auxConcat=0;
+				auxConcat2=0;
+				auxConcat3 = 0;
+
+				for(i=0;i<minorFileFfI.length;i++){
+					itensityFf[auxConcat]=itensityFf2[i];
+					if(auxConcat3==29){
+						for(var j=0; j<30;j++){
+							auxConcat++;
+							itensityFf[auxConcat]=itensityFf1[auxConcat2];						
+							auxConcat2++;							
+						}	
+						auxConcat++;
+						auxConcat3=0;
+					}else{
+						auxConcat++;
+						auxConcat3++;
+					}
+					
+				}
+
+				 auxConcat=0;
+				 auxConcat2=0;
+				 auxConcat3 = 0;
+
+				for(i=0;i<minorFileFfR.length;i++){
+					rangeFf[auxConcat]=rangeFf2[i];
+					if(auxConcat3==29){
+						for(var j=0; j<30;j++){
+							auxConcat++;
+							rangeFf[auxConcat]=rangeFf1[auxConcat2];						
+							auxConcat2++;							
+						}	
+						auxConcat++;
+						auxConcat3=0;
+					}else{
+						auxConcat++;
+						auxConcat3++;
+					}
+					
+				}
+
+
+			}else{
+				for (var i =0 ; i < data.length; i++) {
+						//console.log(i);
+						if(data[i]=="fe"){
+							//FE
+							i++;
+							for(j=0; j< 30; j++){
+								//intensity
+								itensityFe[auxIfe]=parseInt(data[i], 16);
+								auxIfe++;
+								i++;
+							}
+							for(j=0; j< 30; j++){
+								//range
+
+								if(data[i]=="fe" || data[i]=="ff"){
+									for (var ii = 30 - j; ii < 30; ii++)
+									{
+										rangeFe[auxRfe]=99;
+										auxRfe++;
+									}
+									j = 30;
+								}else{
+									rangeFe[auxRfe]= parseInt(data[i], 16) / 12;
+									auxRfe++;
+									i++;
+								}
+							}
+							i--;
+						}else{
+
+							if(data[i]=="ff"){
+								//ff
+								i++;
+								for(j=0; j< 30; j++){
+									//intensity
+									itensityFf[auxIff]=parseInt(data[i], 16);
+									auxIff++;
+									i++;
+								}
+								for(j=0; j< 30; j++){
+									//range
+									if(data[i]=="fe" || data[i]=="ff"){
+										for (var ii = 30 - j; ii < 30; ii++)
+										{
+
+											rangeFf[auxRff]=99;
+											auxRff++;
+										}
+										//console.log("dsad");
+										j = 30;
+									}else{
+										rangeFf[auxRff]= parseInt(data[i], 16) / 12;
+										auxRff++;
+										i++;
+									}
+								}
+								i--;
+							}
+						}
+
+						
+				}
 			}
 				
 				
@@ -134,8 +407,16 @@ callApi(){
 					// It's defined by a number of points on its width : mapSubX
 					// and a number of points on its height : mapSubZ
 					
-					var mapSubX = rangeFe.length/30;           // point number on X axis
-					var mapSubZ = 30;              // point number on Z axis
+					var mapSubX ;           // point number on X axis
+					var mapSubZ; // point number on Z axis
+					if(flagTwoFiles){
+						mapSubZ=60;
+						mapSubX=rangeFe.length/60;
+					}else{
+						mapSubZ=30;
+						mapSubX=rangeFe.length/30;
+					}
+						             
 					var seed = 0.3;                 // seed
 					var noiseScale = 0.03;         // noise frequency
 					var elevationScale = 6.0;
@@ -205,84 +486,85 @@ callApi(){
 							//console.log(itensityFe);
 							for(var p = 0; p < ((positions.length / 3)/2 ); p++) {
 								flagColor = false;
-								if(itensityFe[p]<13 ){
+								var intensity = itensityFe[p];
+								if(intensity<13 ){
 									colors.push(1, 0.894, 0.870, 1);
 									colors.push(1, 0.894, 0.870, 1);thom++; flagColor = true;
 								}
-								if(itensityFe[p]>=13 && itensityFe[p]<25 ){
+								if(intensity>=13 && intensity<25 ){
 									colors.push(1, 0.713, 0.756, 1);
 									colors.push(1, 0.713, 0.756, 1);thom++; flagColor = true;
 								}
-								if(itensityFe[p]>=25 && itensityFe[p]<38){
+								if(intensity>=25 && intensity<38){
 									colors.push(1, 0.431, 0.705,1);
 									colors.push(1, 0.431, 0.705,1);thom++; flagColor = true;
 								}
-								if(itensityFe[p]>=38 && itensityFe[p]<50 ){
+								if(intensity>=38 && intensity<50 ){
 									colors.push(0.933, 0.070, 0.537,1);
 									colors.push(0.933, 0.070, 0.537,1);thom++; flagColor = true;
 								}
-								if(itensityFe[p]>=50 && itensityFe[p]<63 ){
+								if(intensity>=50 && intensity<63 ){
 									colors.push(1, 0.270, 0,1);
 									colors.push(1, 0.270, 0,1);thom++; flagColor = true;
 								}
-								if(itensityFe[p]>=63 && itensityFe[p]<76 ){
+								if(intensity>=63 && intensity<76 ){
 									colors.push(0.803, 0.4, 0,1);
 									colors.push(0.803, 0.4, 0,1);thom++; flagColor = true;
 								}
-								if(itensityFe[p]>=76 && itensityFe[p]<89 ){
+								if(intensity>=76 && intensity<89 ){
 									colors.push(1, 0.549, 0,1);
 									colors.push(1, 0.549, 0,1);thom++; flagColor = true;
 								}
-								if(itensityFe[p]>=89 && itensityFe[p]<101 ){
+								if(intensity>=89 && intensity<101 ){
 									colors.push(0.933, 0.850, 0.447,1);
 									colors.push(0.933, 0.850, 0.447,1);thom++; flagColor = true; ja++;
 								}
-								if(itensityFe[p]>=101 && itensityFe[p]<114 ){
+								if(intensity>=101 && intensity<114 ){
 									colors.push(1,1,0,1);
 									colors.push(1,1,0,1);thom++; flagColor = true;
 								}
-								if(itensityFe[p]>=114 && itensityFe[p]<127 ){
+								if(intensity>=114 && intensity<127 ){
 									colors.push(0.078, 1, 0,1);
 									colors.push(0.078, 1, 0,1);thom++; flagColor = true;
 								}
-								if(itensityFe[p]>=127 && itensityFe[p]<139 ){
+								if(intensity>=127 && intensity<139 ){
 									colors.push(0.756, 1, 0.756,1);
 									colors.push(0.756, 1, 0.756,1);thom++; flagColor = true;
 								}
-								if(itensityFe[p]>=139 && itensityFe[p]<152 ){
+								if(intensity>=139 && intensity<152 ){
 									colors.push(0.690, 0.878, 0.901,1);
 									colors.push(0.690, 0.878, 0.901,1);thom++; flagColor = true;
 
 								}
-								if(itensityFe[p]>=152 && itensityFe[p]<164 ){
+								if(intensity>=152 && intensity<164 ){
 									colors.push(0.254, 0.411, 0.882,1);
 									colors.push(0.254, 0.411, 0.882,1);thom++; flagColor = true;
 								} 
-								if(itensityFe[p]>=164 && itensityFe[p]<177 ){
+								if(intensity>=164 && intensity<177 ){
 									colors.push(0,0,1,1);
 									colors.push(0,0,1,1);thom++; flagColor = true;
 								}
-								if(itensityFe[p]>=177 && itensityFe[p]<190 ){
+								if(intensity>=177 && intensity<190 ){
 									colors.push(0.517, 0.439, 1,1);
 									colors.push(0.517, 0.439, 1,1);thom++; flagColor = true;
 								}
-								if(itensityFe[p]>=190 && itensityFe[p]<202 ){
+								if(intensity>=190 && intensity<202 ){
 									colors.push(0.482, 0.407, 0.933,1);
 									colors.push(0.482, 0.407, 0.933,1);thom++; flagColor = true;
 								}
-								if(itensityFe[p]>=202 && itensityFe[p]<215 ){
+								if(intensity>=202 && intensity<215 ){
 									colors.push(0.415, 0.352, 0.803,1);
 									colors.push(0.415, 0.352, 0.803,1);thom++; flagColor = true;
 								}
-								if(itensityFe[p]>=215 && itensityFe[p]<228 ){
+								if(intensity>=215 && intensity<228 ){
 									colors.push(0, 0, 0.501,1);
 									colors.push(0, 0, 0.501,1);thom++; flagColor = true;
 								}
-								if(itensityFe[p]>=228 && itensityFe[p]<240 ){
+								if(intensity>=228 && intensity<240 ){
 									colors.push(0.098, 0.098, 0.439,1);
 									colors.push(0.098, 0.098, 0.439,1);thom++; flagColor = true;
 								}
-								if(itensityFe[p]>=240){
+								if(intensity>=240){
 									colors.push(0, 0, 0, 1);
 									colors.push(0, 0, 0, 1);thom++; flagColor = true;
 								}
@@ -369,84 +651,85 @@ callApi(){
 							console.log(positions.length);
 							for(var p = 0; p < ((positions.length / 3)/2 ); p++) {
 								flagColor = false;
-								if(itensityFe[p]<13 ){
+								var intensity = itensityFe[p];
+								if(intensity<13 ){
 									colors.push(1, 0.894, 0.870, 1);
 									colors.push(1, 0.894, 0.870, 1);thom++; flagColor = true;
 								}
-								if(itensityFe[p]>=13 && itensityFe[p]<25 ){
+								if(intensity>=13 && intensity<25 ){
 									colors.push(1, 0.713, 0.756, 1);
 									colors.push(1, 0.713, 0.756, 1);thom++; flagColor = true;
 								}
-								if(itensityFe[p]>=25 && itensityFe[p]<38){
+								if(intensity>=25 && intensity<38){
 									colors.push(1, 0.431, 0.705,1);
 									colors.push(1, 0.431, 0.705,1);thom++; flagColor = true;
 								}
-								if(itensityFe[p]>=38 && itensityFe[p]<50 ){
+								if(intensity>=38 && intensity<50 ){
 									colors.push(0.933, 0.070, 0.537,1);
 									colors.push(0.933, 0.070, 0.537,1);thom++; flagColor = true;
 								}
-								if(itensityFe[p]>=50 && itensityFe[p]<63 ){
+								if(intensity>=50 && intensity<63 ){
 									colors.push(1, 0.270, 0,1);
 									colors.push(1, 0.270, 0,1);thom++; flagColor = true;
 								}
-								if(itensityFe[p]>=63 && itensityFe[p]<76 ){
+								if(intensity>=63 && intensity<76 ){
 									colors.push(0.803, 0.4, 0,1);
 									colors.push(0.803, 0.4, 0,1);thom++; flagColor = true;
 								}
-								if(itensityFe[p]>=76 && itensityFe[p]<89 ){
+								if(intensity>=76 && intensity<89 ){
 									colors.push(1, 0.549, 0,1);
 									colors.push(1, 0.549, 0,1);thom++; flagColor = true;
 								}
-								if(itensityFe[p]>=89 && itensityFe[p]<101 ){
+								if(intensity>=89 && intensity<101 ){
 									colors.push(0.933, 0.850, 0.447,1);
 									colors.push(0.933, 0.850, 0.447,1);thom++; flagColor = true; ja++;
 								}
-								if(itensityFe[p]>=101 && itensityFe[p]<114 ){
+								if(intensity>=101 && intensity<114 ){
 									colors.push(1,1,0,1);
 									colors.push(1,1,0,1);thom++; flagColor = true;
 								}
-								if(itensityFe[p]>=114 && itensityFe[p]<127 ){
+								if(intensity>=114 && intensity<127 ){
 									colors.push(0.078, 1, 0,1);
 									colors.push(0.078, 1, 0,1);thom++; flagColor = true;
 								}
-								if(itensityFe[p]>=127 && itensityFe[p]<139 ){
+								if(intensity>=127 && intensity<139 ){
 									colors.push(0.756, 1, 0.756,1);
 									colors.push(0.756, 1, 0.756,1);thom++; flagColor = true;
 								}
-								if(itensityFe[p]>=139 && itensityFe[p]<152 ){
+								if(intensity>=139 && intensity<152 ){
 									colors.push(0.690, 0.878, 0.901,1);
 									colors.push(0.690, 0.878, 0.901,1);thom++; flagColor = true;
 
 								}
-								if(itensityFe[p]>=152 && itensityFe[p]<164 ){
+								if(intensity>=152 && intensity<164 ){
 									colors.push(0.254, 0.411, 0.882,1);
 									colors.push(0.254, 0.411, 0.882,1);thom++; flagColor = true;
 								} 
-								if(itensityFe[p]>=164 && itensityFe[p]<177 ){
+								if(intensity>=164 && intensity<177 ){
 									colors.push(0,0,1,1);
 									colors.push(0,0,1,1);thom++; flagColor = true;
 								}
-								if(itensityFe[p]>=177 && itensityFe[p]<190 ){
+								if(intensity>=177 && intensity<190 ){
 									colors.push(0.517, 0.439, 1,1);
 									colors.push(0.517, 0.439, 1,1);thom++; flagColor = true;
 								}
-								if(itensityFe[p]>=190 && itensityFe[p]<202 ){
+								if(intensity>=190 && intensity<202 ){
 									colors.push(0.482, 0.407, 0.933,1);
 									colors.push(0.482, 0.407, 0.933,1);thom++; flagColor = true;
 								}
-								if(itensityFe[p]>=202 && itensityFe[p]<215 ){
+								if(intensity>=202 && intensity<215 ){
 									colors.push(0.415, 0.352, 0.803,1);
 									colors.push(0.415, 0.352, 0.803,1);thom++; flagColor = true;
 								}
-								if(itensityFe[p]>=215 && itensityFe[p]<228 ){
+								if(intensity>=215 && intensity<228 ){
 									colors.push(0, 0, 0.501,1);
 									colors.push(0, 0, 0.501,1);thom++; flagColor = true;
 								}
-								if(itensityFe[p]>=228 && itensityFe[p]<240 ){
+								if(intensity>=228 && intensity<240 ){
 									colors.push(0.098, 0.098, 0.439,1);
 									colors.push(0.098, 0.098, 0.439,1);thom++; flagColor = true;
 								}
-								if(itensityFe[p]>=240){
+								if(intensity>=240){
 									colors.push(0, 0, 0, 1);
 									colors.push(0, 0, 0, 1);thom++; flagColor = true;
 								}
@@ -490,7 +773,7 @@ callApi(){
 																
 								var paths = [];
 								flag2d=false;
-								
+								dataI=0;
 								var z;  
 								var x; 
 								var y;  				                   // array for the ribbon model
@@ -503,7 +786,7 @@ callApi(){
 										//y *= (0.5 + y) * y * elevationScale;   // let's increase a bit the noise computed altitude
 									
 										y = rangeFe[dataI];
-										
+										//console.log(y);
 
 										mapData[3 *(l * mapSubX + w)] = x;
 										mapData[3 * (l * mapSubX + w) + 1] = y;
@@ -544,84 +827,85 @@ callApi(){
 									console.log(positions.length);
 									for(var p = 0; p < ((positions.length / 3)/2 ); p++) {
 										flagColor = false;
-										if(itensityFe[p]<13 ){
+										var intensity = itensityFe[p];
+										if(intensity<13 ){
 											colors.push(1, 0.894, 0.870, 1);
 											colors.push(1, 0.894, 0.870, 1);thom++; flagColor = true;
 										}
-										if(itensityFe[p]>=13 && itensityFe[p]<25 ){
+										if(intensity>=13 && intensity<25 ){
 											colors.push(1, 0.713, 0.756, 1);
 											colors.push(1, 0.713, 0.756, 1);thom++; flagColor = true;
 										}
-										if(itensityFe[p]>=25 && itensityFe[p]<38){
+										if(intensity>=25 && intensity<38){
 											colors.push(1, 0.431, 0.705,1);
 											colors.push(1, 0.431, 0.705,1);thom++; flagColor = true;
 										}
-										if(itensityFe[p]>=38 && itensityFe[p]<50 ){
+										if(intensity>=38 && intensity<50 ){
 											colors.push(0.933, 0.070, 0.537,1);
 											colors.push(0.933, 0.070, 0.537,1);thom++; flagColor = true;
 										}
-										if(itensityFe[p]>=50 && itensityFe[p]<63 ){
+										if(intensity>=50 && intensity<63 ){
 											colors.push(1, 0.270, 0,1);
 											colors.push(1, 0.270, 0,1);thom++; flagColor = true;
 										}
-										if(itensityFe[p]>=63 && itensityFe[p]<76 ){
+										if(intensity>=63 && intensity<76 ){
 											colors.push(0.803, 0.4, 0,1);
 											colors.push(0.803, 0.4, 0,1);thom++; flagColor = true;
 										}
-										if(itensityFe[p]>=76 && itensityFe[p]<89 ){
+										if(intensity>=76 && intensity<89 ){
 											colors.push(1, 0.549, 0,1);
 											colors.push(1, 0.549, 0,1);thom++; flagColor = true;
 										}
-										if(itensityFe[p]>=89 && itensityFe[p]<101 ){
+										if(intensity>=89 && intensity<101 ){
 											colors.push(0.933, 0.850, 0.447,1);
 											colors.push(0.933, 0.850, 0.447,1);thom++; flagColor = true; ja++;
 										}
-										if(itensityFe[p]>=101 && itensityFe[p]<114 ){
+										if(intensity>=101 && intensity<114 ){
 											colors.push(1,1,0,1);
 											colors.push(1,1,0,1);thom++; flagColor = true;
 										}
-										if(itensityFe[p]>=114 && itensityFe[p]<127 ){
+										if(intensity>=114 && intensity<127 ){
 											colors.push(0.078, 1, 0,1);
 											colors.push(0.078, 1, 0,1);thom++; flagColor = true;
 										}
-										if(itensityFe[p]>=127 && itensityFe[p]<139 ){
+										if(intensity>=127 && intensity<139 ){
 											colors.push(0.756, 1, 0.756,1);
 											colors.push(0.756, 1, 0.756,1);thom++; flagColor = true;
 										}
-										if(itensityFe[p]>=139 && itensityFe[p]<152 ){
+										if(intensity>=139 && intensity<152 ){
 											colors.push(0.690, 0.878, 0.901,1);
 											colors.push(0.690, 0.878, 0.901,1);thom++; flagColor = true;
 
 										}
-										if(itensityFe[p]>=152 && itensityFe[p]<164 ){
+										if(intensity>=152 && intensity<164 ){
 											colors.push(0.254, 0.411, 0.882,1);
 											colors.push(0.254, 0.411, 0.882,1);thom++; flagColor = true;
 										} 
-										if(itensityFe[p]>=164 && itensityFe[p]<177 ){
+										if(intensity>=164 && intensity<177 ){
 											colors.push(0,0,1,1);
 											colors.push(0,0,1,1);thom++; flagColor = true;
 										}
-										if(itensityFe[p]>=177 && itensityFe[p]<190 ){
+										if(intensity>=177 && intensity<190 ){
 											colors.push(0.517, 0.439, 1,1);
 											colors.push(0.517, 0.439, 1,1);thom++; flagColor = true;
 										}
-										if(itensityFe[p]>=190 && itensityFe[p]<202 ){
+										if(intensity>=190 && intensity<202 ){
 											colors.push(0.482, 0.407, 0.933,1);
 											colors.push(0.482, 0.407, 0.933,1);thom++; flagColor = true;
 										}
-										if(itensityFe[p]>=202 && itensityFe[p]<215 ){
+										if(intensity>=202 && intensity<215 ){
 											colors.push(0.415, 0.352, 0.803,1);
 											colors.push(0.415, 0.352, 0.803,1);thom++; flagColor = true;
 										}
-										if(itensityFe[p]>=215 && itensityFe[p]<228 ){
+										if(intensity>=215 && intensity<228 ){
 											colors.push(0, 0, 0.501,1);
 											colors.push(0, 0, 0.501,1);thom++; flagColor = true;
 										}
-										if(itensityFe[p]>=228 && itensityFe[p]<240 ){
+										if(intensity>=228 && intensity<240 ){
 											colors.push(0.098, 0.098, 0.439,1);
 											colors.push(0.098, 0.098, 0.439,1);thom++; flagColor = true;
 										}
-										if(itensityFe[p]>=240){
+										if(intensity>=240){
 											colors.push(0, 0, 0, 1);
 											colors.push(0, 0, 0, 1);thom++; flagColor = true;
 										}
@@ -654,7 +938,7 @@ callApi(){
 								chkBoxIntensity.onchange = function () {
 									console.log("cambie");
 								}
-
+								document.getElementById("RanorInt").style.display = "none";
 				
 								
 							}else{
@@ -715,86 +999,88 @@ callApi(){
 									var flagColor = false;
 									var positions = map.getVerticesData(BABYLON.VertexBuffer.PositionKind);
 									//console.log(itensityFe);
+									var intensity; 
 									for(var p = 0; p < ((positions.length / 3)/2 ); p++) {
 										flagColor = false;
-										if(itensityFe[p]<13 ){
+										intensity = itensityFe[p];
+										if(intensity<13 ){
 											colors.push(1, 0.894, 0.870, 1);
 											colors.push(1, 0.894, 0.870, 1);thom++; flagColor = true;
 										}
-										if(itensityFe[p]>=13 && itensityFe[p]<25 ){
+										if(intensity>=13 && intensity<25 ){
 											colors.push(1, 0.713, 0.756, 1);
 											colors.push(1, 0.713, 0.756, 1);thom++; flagColor = true;
 										}
-										if(itensityFe[p]>=25 && itensityFe[p]<38){
+										if(intensity>=25 && intensity<38){
 											colors.push(1, 0.431, 0.705,1);
 											colors.push(1, 0.431, 0.705,1);thom++; flagColor = true;
 										}
-										if(itensityFe[p]>=38 && itensityFe[p]<50 ){
+										if(intensity>=38 && intensity<50 ){
 											colors.push(0.933, 0.070, 0.537,1);
 											colors.push(0.933, 0.070, 0.537,1);thom++; flagColor = true;
 										}
-										if(itensityFe[p]>=50 && itensityFe[p]<63 ){
+										if(intensity>=50 && intensity<63 ){
 											colors.push(1, 0.270, 0,1);
 											colors.push(1, 0.270, 0,1);thom++; flagColor = true;
 										}
-										if(itensityFe[p]>=63 && itensityFe[p]<76 ){
+										if(intensity>=63 && intensity<76 ){
 											colors.push(0.803, 0.4, 0,1);
 											colors.push(0.803, 0.4, 0,1);thom++; flagColor = true;
 										}
-										if(itensityFe[p]>=76 && itensityFe[p]<89 ){
+										if(intensity>=76 && intensity<89 ){
 											colors.push(1, 0.549, 0,1);
 											colors.push(1, 0.549, 0,1);thom++; flagColor = true;
 										}
-										if(itensityFe[p]>=89 && itensityFe[p]<101 ){
+										if(intensity>=89 && intensity<101 ){
 											colors.push(0.933, 0.850, 0.447,1);
 											colors.push(0.933, 0.850, 0.447,1);thom++; flagColor = true; ja++;
 										}
-										if(itensityFe[p]>=101 && itensityFe[p]<114 ){
+										if(intensity>=101 && intensity<114 ){
 											colors.push(1,1,0,1);
 											colors.push(1,1,0,1);thom++; flagColor = true;
 										}
-										if(itensityFe[p]>=114 && itensityFe[p]<127 ){
+										if(intensity>=114 && intensity<127 ){
 											colors.push(0.078, 1, 0,1);
 											colors.push(0.078, 1, 0,1);thom++; flagColor = true;
 										}
-										if(itensityFe[p]>=127 && itensityFe[p]<139 ){
+										if(intensity>=127 && intensity<139 ){
 											colors.push(0.756, 1, 0.756,1);
 											colors.push(0.756, 1, 0.756,1);thom++; flagColor = true;
 										}
-										if(itensityFe[p]>=139 && itensityFe[p]<152 ){
+										if(intensity>=139 && intensity<152 ){
 											colors.push(0.690, 0.878, 0.901,1);
 											colors.push(0.690, 0.878, 0.901,1);thom++; flagColor = true;
 
 										}
-										if(itensityFe[p]>=152 && itensityFe[p]<164 ){
+										if(intensity>=152 && intensity<164 ){
 											colors.push(0.254, 0.411, 0.882,1);
 											colors.push(0.254, 0.411, 0.882,1);thom++; flagColor = true;
 										} 
-										if(itensityFe[p]>=164 && itensityFe[p]<177 ){
+										if(intensity>=164 && intensity<177 ){
 											colors.push(0,0,1,1);
 											colors.push(0,0,1,1);thom++; flagColor = true;
 										}
-										if(itensityFe[p]>=177 && itensityFe[p]<190 ){
+										if(intensity>=177 && intensity<190 ){
 											colors.push(0.517, 0.439, 1,1);
 											colors.push(0.517, 0.439, 1,1);thom++; flagColor = true;
 										}
-										if(itensityFe[p]>=190 && itensityFe[p]<202 ){
+										if(intensity>=190 && intensity<202 ){
 											colors.push(0.482, 0.407, 0.933,1);
 											colors.push(0.482, 0.407, 0.933,1);thom++; flagColor = true;
 										}
-										if(itensityFe[p]>=202 && itensityFe[p]<215 ){
+										if(intensity>=202 && intensity<215 ){
 											colors.push(0.415, 0.352, 0.803,1);
 											colors.push(0.415, 0.352, 0.803,1);thom++; flagColor = true;
 										}
-										if(itensityFe[p]>=215 && itensityFe[p]<228 ){
+										if(intensity>=215 && intensity<228 ){
 											colors.push(0, 0, 0.501,1);
 											colors.push(0, 0, 0.501,1);thom++; flagColor = true;
 										}
-										if(itensityFe[p]>=228 && itensityFe[p]<240 ){
+										if(intensity>=228 && intensity<240 ){
 											colors.push(0.098, 0.098, 0.439,1);
 											colors.push(0.098, 0.098, 0.439,1);thom++; flagColor = true;
 										}
-										if(itensityFe[p]>=240){
+										if(intensity>=240){
 											colors.push(0, 0, 0, 1);
 											colors.push(0, 0, 0, 1);thom++; flagColor = true;
 										}
@@ -808,7 +1094,7 @@ callApi(){
 									map.setVerticesData(BABYLON.VertexBuffer.ColorKind, colors);
 								}
 							
-														
+								document.getElementById("RanorInt").style.display = "inline";						
 								//var quaternion = new BABYLON.Quaternion.RotationAxis(BABYLON.Axis.X, Math.PI);
 								//map.rotationQuaternion = quaternion;
 								
@@ -926,7 +1212,7 @@ componentDidMount(){ //se ejecuta al montar el componente
 				  </div>
 				</nav>
 				
-				<input type="file" id="inputUpload"/> 
+				<input type="file" id="inputUpload"  name="files[]" multiple/> 
 				<div className="row">
 					<button  id="Upload" type="button" className="btn btn-outline-primary" onClick={this.callApi}>Select File</button>
 					
