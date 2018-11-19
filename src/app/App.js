@@ -6,9 +6,11 @@ selectFile(){
 }
 
 callApi(){
+		var chkBox = document.getElementById('myCheck');
+	var chkBox2d = document.getElementById('myCheck2d');
+	var chkBoxRange = document.getElementById('range');	
+	var chkBoxIntensity = document.getElementById('intensity');	
 	
-	var chkBox = document.getElementById('myCheck');
-	var chkBox2d = document.getElementById('myCheck2d');	
 	console.log("llamando a node");
 	/*fetch('/api')
 	.then(res => res.json())
@@ -17,12 +19,12 @@ callApi(){
 	document.getElementById("inputUpload").click();
 	var UpdFile = document.getElementById('inputUpload');
 	UpdFile.onchange = function() {
-		
+	
 		document.getElementById("backLoad").style.display = "block"; //Loading
 
 		var auxUrl = UpdFile.value.split("\\");
 		var url = auxUrl[auxUrl.length-1];
-		console.log("entre");
+	
 		fetch('api?tagid='+url).then(response => {
 			response.json().then(json => {
 				let data = json; 
@@ -123,7 +125,7 @@ callApi(){
 					// This attaches the camera to the canvas
 						camera.attachControl(canvas, true);
 					let light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0.0, 1.0, 0.0), scene);
-					light.intensity = 0.75;
+					light.intensity = 1;
 					light.specular = BABYLON.Color3.Black();
 				
 				
@@ -141,190 +143,13 @@ callApi(){
 					var mapData = new Float32Array(mapSubX * mapSubZ * 3); // 3 float values per point : x, y and z
 					var dataI = 0;
 					var t = 0;
+					let flag2d = false;
+					
 
 					if(chkBox2d.checked){ //if is 2d
-						{ //if not 2d
-
-							var paths = [];
-							var flag2d=false;
-							
-							var z;  
-							var x; 
-							var y;  				                   // array for the ribbon model
-							for (var l = 0; l < mapSubX; l++) {
-								var path = [];                          // only for the ribbon
-								for (var w = 0; w < mapSubZ; w++) {
-									z =w;
-									x = l;
-									//var y = noise.simplex2(x * noiseScale, z * noiseScale);
-									//y *= (0.5 + y) * y * elevationScale;   // let's increase a bit the noise computed altitude
-								
-									y = 0;
-									
-	
-									mapData[3 *(l * mapSubX + w)] = x;
-									mapData[3 * (l * mapSubX + w) + 1] = y;
-									mapData[3 * (l * mapSubX + w) + 2] = z;
-									
-									path.push(new BABYLON.Vector3(x, y, z));
-									dataI++;
-								}
-								paths.push(path);
-							}
-							
-							console.log(rangeFe);
 					
-							let map = BABYLON.MeshBuilder.CreateRibbon("m", {pathArray: paths, sideOrientation: 2}, scene);
-							//map.rotate(BABYLON.Axis., Math.PI/2, BABYLON.Space.WORLD)
-							map.position.y = 0;
-							var mapMaterial = new BABYLON.StandardMaterial("mm", scene);
-							
-							//mapMaterial.wireframe = true;
-									
-							map.material = mapMaterial;
-							
-							//light.excludedMeshes.push(map);
-	
-							var positions = map.getVerticesData(BABYLON.VertexBuffer.PositionKind);
-							console.log("las posiciones",positions);
-							
-	
-	
-							var colors = map.getVerticesData(BABYLON.VertexBuffer.ColorKind);
-							if(!colors) {
-								
-								colors = [];
-								var thom =0 ;
-								var ty = 0;
-								var ja = 0;
-								var flagColor = false;
-								var positions = map.getVerticesData(BABYLON.VertexBuffer.PositionKind);
-								//console.log(itensityFe);
-								for(var p = 0; p < ((positions.length / 3)/2 ); p++) {
-									flagColor = false;
-									if(itensityFe[p]<13 ){
-										colors.push(1, 0.894, 0.870, 1);
-										colors.push(1, 0.894, 0.870, 1);thom++; flagColor = true;
-									}
-									if(itensityFe[p]>=13 && itensityFe[p]<25 ){
-										colors.push(1, 0.713, 0.756, 1);
-										colors.push(1, 0.713, 0.756, 1);thom++; flagColor = true;
-									}
-									if(itensityFe[p]>=25 && itensityFe[p]<38){
-										colors.push(1, 0.431, 0.705,1);
-										colors.push(1, 0.431, 0.705,1);thom++; flagColor = true;
-									}
-									if(itensityFe[p]>=38 && itensityFe[p]<50 ){
-										colors.push(0.933, 0.070, 0.537,1);
-										colors.push(0.933, 0.070, 0.537,1);thom++; flagColor = true;
-									}
-									if(itensityFe[p]>=50 && itensityFe[p]<63 ){
-										colors.push(1, 0.270, 0,1);
-										colors.push(1, 0.270, 0,1);thom++; flagColor = true;
-									}
-									if(itensityFe[p]>=63 && itensityFe[p]<76 ){
-										colors.push(0.803, 0.4, 0,1);
-										colors.push(0.803, 0.4, 0,1);thom++; flagColor = true;
-									}
-									if(itensityFe[p]>=76 && itensityFe[p]<89 ){
-										colors.push(1, 0.549, 0,1);
-										colors.push(1, 0.549, 0,1);thom++; flagColor = true;
-									}
-									if(itensityFe[p]>=89 && itensityFe[p]<101 ){
-										colors.push(0.933, 0.850, 0.447,1);
-										colors.push(0.933, 0.850, 0.447,1);thom++; flagColor = true; ja++;
-									}
-									if(itensityFe[p]>=101 && itensityFe[p]<114 ){
-										colors.push(1,1,0,1);
-										colors.push(1,1,0,1);thom++; flagColor = true;
-									}
-									if(itensityFe[p]>=114 && itensityFe[p]<127 ){
-										colors.push(0.078, 1, 0,1);
-										colors.push(0.078, 1, 0,1);thom++; flagColor = true;
-									}
-									if(itensityFe[p]>=127 && itensityFe[p]<139 ){
-										colors.push(0.756, 1, 0.756,1);
-										colors.push(0.756, 1, 0.756,1);thom++; flagColor = true;
-									}
-									if(itensityFe[p]>=139 && itensityFe[p]<152 ){
-										colors.push(0.690, 0.878, 0.901,1);
-										colors.push(0.690, 0.878, 0.901,1);thom++; flagColor = true;
-	
-									}
-									if(itensityFe[p]>=152 && itensityFe[p]<164 ){
-										colors.push(0.254, 0.411, 0.882,1);
-										colors.push(0.254, 0.411, 0.882,1);thom++; flagColor = true;
-									} 
-									if(itensityFe[p]>=164 && itensityFe[p]<177 ){
-										colors.push(0,0,1,1);
-										colors.push(0,0,1,1);thom++; flagColor = true;
-									}
-									if(itensityFe[p]>=177 && itensityFe[p]<190 ){
-										colors.push(0.517, 0.439, 1,1);
-										colors.push(0.517, 0.439, 1,1);thom++; flagColor = true;
-									}
-									if(itensityFe[p]>=190 && itensityFe[p]<202 ){
-										colors.push(0.482, 0.407, 0.933,1);
-										colors.push(0.482, 0.407, 0.933,1);thom++; flagColor = true;
-									}
-									if(itensityFe[p]>=202 && itensityFe[p]<215 ){
-										colors.push(0.415, 0.352, 0.803,1);
-										colors.push(0.415, 0.352, 0.803,1);thom++; flagColor = true;
-									}
-									if(itensityFe[p]>=215 && itensityFe[p]<228 ){
-										colors.push(0, 0, 0.501,1);
-										colors.push(0, 0, 0.501,1);thom++; flagColor = true;
-									}
-									if(itensityFe[p]>=228 && itensityFe[p]<240 ){
-										colors.push(0.098, 0.098, 0.439,1);
-										colors.push(0.098, 0.098, 0.439,1);thom++; flagColor = true;
-									}
-									if(itensityFe[p]>=240){
-										colors.push(0, 0, 0, 1);
-										colors.push(0, 0, 0, 1);thom++; flagColor = true;
-									}
-									if(flagColor == false){
-										colors.push(0, 0, 0, 1);
-										colors.push(0, 0, 0, 1);thom++;
-									}
-									ty++;
-								}
-								console.log(thom);
-								map.setVerticesData(BABYLON.VertexBuffer.ColorKind, colors);
-							}
-						
-							
-							//var quaternion = new BABYLON.Quaternion.RotationAxis(BABYLON.Axis.X, Math.PI);
-							//map.rotationQuaternion = quaternion;
-							
-							chkBox.onchange = function() {
-							var mapMaterial = new BABYLON.StandardMaterial("mm", scene);
-							if (chkBox.checked){
-								console.log("aqui");
-								light.dispose();
-								light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0.0, 1.0, 0.0), scene);
-								light.intensity = 0.75;
-								light.specular = BABYLON.Color3.Black();
-								
-								
-								mapMaterial.wireframe = true;						
-							}else{
-								light.dispose();
-								light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0.0, -1.0, 0.0), scene);
-								light.intensity = 0.75;
-								light.specular = BABYLON.Color3.Black();
-								mapMaterial.wireframe = false;
-								console.log("lo quite");
-							}					
-							map.material = mapMaterial;
-	
-							}	
-	
-					}
-					}else{ //if not 2d
-
 						var paths = [];
-						var flag2d=false;
+						flag2d=true;
 						
 						var z;  
 						var x; 
@@ -337,7 +162,7 @@ callApi(){
 								//var y = noise.simplex2(x * noiseScale, z * noiseScale);
 								//y *= (0.5 + y) * y * elevationScale;   // let's increase a bit the noise computed altitude
 							
-								y = -rangeFe[dataI];
+								y = 0;
 								
 
 								mapData[3 *(l * mapSubX + w)] = x;
@@ -350,10 +175,10 @@ callApi(){
 							paths.push(path);
 						}
 						
-						console.log(rangeFe);
+						//console.log(rangeFe);
 				
-						let map = BABYLON.MeshBuilder.CreateRibbon("m", {pathArray: paths, sideOrientation: 2}, scene);
-						//map.rotate(BABYLON.Axis., Math.PI/2, BABYLON.Space.WORLD)
+						var map = BABYLON.MeshBuilder.CreateRibbon("m", {pathArray: paths, sideOrientation: 2}, scene);
+						map.rotate(BABYLON.Axis.X, Math.PI, BABYLON.Space.WORLD)
 						map.position.y = 0;
 						var mapMaterial = new BABYLON.StandardMaterial("mm", scene);
 						
@@ -364,7 +189,7 @@ callApi(){
 						//light.excludedMeshes.push(map);
 
 						var positions = map.getVerticesData(BABYLON.VertexBuffer.PositionKind);
-						console.log("las posiciones",positions);
+						
 						
 
 
@@ -467,7 +292,171 @@ callApi(){
 								}
 								ty++;
 							}
-							console.log(thom);
+							
+							map.setVerticesData(BABYLON.VertexBuffer.ColorKind, colors);
+						}
+					
+												
+						//var quaternion = new BABYLON.Quaternion.RotationAxis(BABYLON.Axis.X, Math.PI);
+						//map.rotationQuaternion = quaternion;
+						
+						chkBox.onchange = function() {
+							
+							if (chkBox.checked){
+								mapMaterial.wireframe = true;						
+							}else{								
+								mapMaterial.wireframe = false;
+							}					
+							map.material = mapMaterial;	
+						}	
+
+	
+					}else{ //if not 2d
+
+						var paths = [];
+						flag2d=false;
+						
+						var z;  
+						var x; 
+						var y;  				                   // array for the ribbon model
+						for (var l = 0; l < mapSubX; l++) {
+							var path = [];                          // only for the ribbon
+							for (var w = 0; w < mapSubZ; w++) {
+								z =w;
+								x = l;
+								//var y = noise.simplex2(x * noiseScale, z * noiseScale);
+								//y *= (0.5 + y) * y * elevationScale;   // let's increase a bit the noise computed altitude
+							
+								y = rangeFe[dataI];
+								
+
+								mapData[3 *(l * mapSubX + w)] = x;
+								mapData[3 * (l * mapSubX + w) + 1] = y;
+								mapData[3 * (l * mapSubX + w) + 2] = z;
+								
+								path.push(new BABYLON.Vector3(x, y, z));
+								dataI++;
+							}
+							paths.push(path);
+						}
+						
+						//console.log(rangeFe);
+				
+						var map = BABYLON.MeshBuilder.CreateRibbon("m", {pathArray: paths, sideOrientation: 2}, scene);
+						map.rotate(BABYLON.Axis.X, Math.PI, BABYLON.Space.WORLD)
+						map.position.y = 0;
+						var mapMaterial = new BABYLON.StandardMaterial("mm", scene);
+						
+						//mapMaterial.wireframe = true;
+								
+						map.material = mapMaterial;
+						
+						//light.excludedMeshes.push(map);
+
+				
+						//console.log(itensityFe);
+
+
+						var colors = map.getVerticesData(BABYLON.VertexBuffer.ColorKind);
+						if(!colors) {
+							
+							colors = [];
+							var thom =0 ;
+							var ty = 0;
+							var ja = 0;
+							var flagColor = false;
+							var positions = map.getVerticesData(BABYLON.VertexBuffer.PositionKind);
+							console.log(positions.length);
+							for(var p = 0; p < ((positions.length / 3)/2 ); p++) {
+								flagColor = false;
+								if(itensityFe[p]<13 ){
+									colors.push(1, 0.894, 0.870, 1);
+									colors.push(1, 0.894, 0.870, 1);thom++; flagColor = true;
+								}
+								if(itensityFe[p]>=13 && itensityFe[p]<25 ){
+									colors.push(1, 0.713, 0.756, 1);
+									colors.push(1, 0.713, 0.756, 1);thom++; flagColor = true;
+								}
+								if(itensityFe[p]>=25 && itensityFe[p]<38){
+									colors.push(1, 0.431, 0.705,1);
+									colors.push(1, 0.431, 0.705,1);thom++; flagColor = true;
+								}
+								if(itensityFe[p]>=38 && itensityFe[p]<50 ){
+									colors.push(0.933, 0.070, 0.537,1);
+									colors.push(0.933, 0.070, 0.537,1);thom++; flagColor = true;
+								}
+								if(itensityFe[p]>=50 && itensityFe[p]<63 ){
+									colors.push(1, 0.270, 0,1);
+									colors.push(1, 0.270, 0,1);thom++; flagColor = true;
+								}
+								if(itensityFe[p]>=63 && itensityFe[p]<76 ){
+									colors.push(0.803, 0.4, 0,1);
+									colors.push(0.803, 0.4, 0,1);thom++; flagColor = true;
+								}
+								if(itensityFe[p]>=76 && itensityFe[p]<89 ){
+									colors.push(1, 0.549, 0,1);
+									colors.push(1, 0.549, 0,1);thom++; flagColor = true;
+								}
+								if(itensityFe[p]>=89 && itensityFe[p]<101 ){
+									colors.push(0.933, 0.850, 0.447,1);
+									colors.push(0.933, 0.850, 0.447,1);thom++; flagColor = true; ja++;
+								}
+								if(itensityFe[p]>=101 && itensityFe[p]<114 ){
+									colors.push(1,1,0,1);
+									colors.push(1,1,0,1);thom++; flagColor = true;
+								}
+								if(itensityFe[p]>=114 && itensityFe[p]<127 ){
+									colors.push(0.078, 1, 0,1);
+									colors.push(0.078, 1, 0,1);thom++; flagColor = true;
+								}
+								if(itensityFe[p]>=127 && itensityFe[p]<139 ){
+									colors.push(0.756, 1, 0.756,1);
+									colors.push(0.756, 1, 0.756,1);thom++; flagColor = true;
+								}
+								if(itensityFe[p]>=139 && itensityFe[p]<152 ){
+									colors.push(0.690, 0.878, 0.901,1);
+									colors.push(0.690, 0.878, 0.901,1);thom++; flagColor = true;
+
+								}
+								if(itensityFe[p]>=152 && itensityFe[p]<164 ){
+									colors.push(0.254, 0.411, 0.882,1);
+									colors.push(0.254, 0.411, 0.882,1);thom++; flagColor = true;
+								} 
+								if(itensityFe[p]>=164 && itensityFe[p]<177 ){
+									colors.push(0,0,1,1);
+									colors.push(0,0,1,1);thom++; flagColor = true;
+								}
+								if(itensityFe[p]>=177 && itensityFe[p]<190 ){
+									colors.push(0.517, 0.439, 1,1);
+									colors.push(0.517, 0.439, 1,1);thom++; flagColor = true;
+								}
+								if(itensityFe[p]>=190 && itensityFe[p]<202 ){
+									colors.push(0.482, 0.407, 0.933,1);
+									colors.push(0.482, 0.407, 0.933,1);thom++; flagColor = true;
+								}
+								if(itensityFe[p]>=202 && itensityFe[p]<215 ){
+									colors.push(0.415, 0.352, 0.803,1);
+									colors.push(0.415, 0.352, 0.803,1);thom++; flagColor = true;
+								}
+								if(itensityFe[p]>=215 && itensityFe[p]<228 ){
+									colors.push(0, 0, 0.501,1);
+									colors.push(0, 0, 0.501,1);thom++; flagColor = true;
+								}
+								if(itensityFe[p]>=228 && itensityFe[p]<240 ){
+									colors.push(0.098, 0.098, 0.439,1);
+									colors.push(0.098, 0.098, 0.439,1);thom++; flagColor = true;
+								}
+								if(itensityFe[p]>=240){
+									colors.push(0, 0, 0, 1);
+									colors.push(0, 0, 0, 1);thom++; flagColor = true;
+								}
+								if(flagColor == false){
+									colors.push(0, 0, 0, 1);
+									colors.push(0, 0, 0, 1);thom++;
+								}
+								ty++;
+							}
+							
 							map.setVerticesData(BABYLON.VertexBuffer.ColorKind, colors);
 						}
 					
@@ -476,29 +465,366 @@ callApi(){
 						//map.rotationQuaternion = quaternion;
 						
 						chkBox.onchange = function() {
-						var mapMaterial = new BABYLON.StandardMaterial("mm", scene);
-						if (chkBox.checked){
-							console.log("aqui");
-							light.dispose();
-							light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0.0, 1.0, 0.0), scene);
-							light.intensity = 0.75;
-							light.specular = BABYLON.Color3.Black();
-							
-							
+						if (chkBox.checked){							
 							mapMaterial.wireframe = true;						
-						}else{
-							light.dispose();
-							light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0.0, -1.0, 0.0), scene);
-							light.intensity = 0.75;
-							light.specular = BABYLON.Color3.Black();
+						}else{						
 							mapMaterial.wireframe = false;
-							console.log("lo quite");
 						}					
 						map.material = mapMaterial;
-
 						}	
 
+						chkBoxRange.onchange = function () {
+							console.log("cambie");
+						}
+						chkBoxIntensity.onchange = function () {
+							console.log("cambie");
+						}
+
 				}
+
+
+						chkBox2d.onchange = function() {
+							
+							if(flag2d){								
+								map.dispose();
+																
+								var paths = [];
+								flag2d=false;
+								
+								var z;  
+								var x; 
+								var y;  				                   // array for the ribbon model
+								for (var l = 0; l < mapSubX; l++) {
+									var path = [];                          // only for the ribbon
+									for (var w = 0; w < mapSubZ; w++) {
+										z =w;
+										x = l;
+										//var y = noise.simplex2(x * noiseScale, z * noiseScale);
+										//y *= (0.5 + y) * y * elevationScale;   // let's increase a bit the noise computed altitude
+									
+										y = rangeFe[dataI];
+										
+
+										mapData[3 *(l * mapSubX + w)] = x;
+										mapData[3 * (l * mapSubX + w) + 1] = y;
+										mapData[3 * (l * mapSubX + w) + 2] = z;
+										
+										path.push(new BABYLON.Vector3(x, y, z));
+										dataI++;
+									}
+									paths.push(path);
+								}
+								
+								console.log(paths);
+						
+								map = BABYLON.MeshBuilder.CreateRibbon("m", {pathArray: paths, sideOrientation: 2}, scene);
+								map.rotate(BABYLON.Axis.X, Math.PI, BABYLON.Space.WORLD)
+								map.position.y = 0;
+								var mapMaterial = new BABYLON.StandardMaterial("mm", scene);
+								
+								//mapMaterial.wireframe = true;
+										
+								map.material = mapMaterial;
+								
+								//light.excludedMeshes.push(map);
+
+						
+								//console.log(itensityFe);
+
+
+								var colors = map.getVerticesData(BABYLON.VertexBuffer.ColorKind);
+								if(!colors) {
+									
+									colors = [];
+									var thom =0 ;
+									var ty = 0;
+									var ja = 0;
+									var flagColor = false;
+									var positions = map.getVerticesData(BABYLON.VertexBuffer.PositionKind);
+									console.log(positions.length);
+									for(var p = 0; p < ((positions.length / 3)/2 ); p++) {
+										flagColor = false;
+										if(itensityFe[p]<13 ){
+											colors.push(1, 0.894, 0.870, 1);
+											colors.push(1, 0.894, 0.870, 1);thom++; flagColor = true;
+										}
+										if(itensityFe[p]>=13 && itensityFe[p]<25 ){
+											colors.push(1, 0.713, 0.756, 1);
+											colors.push(1, 0.713, 0.756, 1);thom++; flagColor = true;
+										}
+										if(itensityFe[p]>=25 && itensityFe[p]<38){
+											colors.push(1, 0.431, 0.705,1);
+											colors.push(1, 0.431, 0.705,1);thom++; flagColor = true;
+										}
+										if(itensityFe[p]>=38 && itensityFe[p]<50 ){
+											colors.push(0.933, 0.070, 0.537,1);
+											colors.push(0.933, 0.070, 0.537,1);thom++; flagColor = true;
+										}
+										if(itensityFe[p]>=50 && itensityFe[p]<63 ){
+											colors.push(1, 0.270, 0,1);
+											colors.push(1, 0.270, 0,1);thom++; flagColor = true;
+										}
+										if(itensityFe[p]>=63 && itensityFe[p]<76 ){
+											colors.push(0.803, 0.4, 0,1);
+											colors.push(0.803, 0.4, 0,1);thom++; flagColor = true;
+										}
+										if(itensityFe[p]>=76 && itensityFe[p]<89 ){
+											colors.push(1, 0.549, 0,1);
+											colors.push(1, 0.549, 0,1);thom++; flagColor = true;
+										}
+										if(itensityFe[p]>=89 && itensityFe[p]<101 ){
+											colors.push(0.933, 0.850, 0.447,1);
+											colors.push(0.933, 0.850, 0.447,1);thom++; flagColor = true; ja++;
+										}
+										if(itensityFe[p]>=101 && itensityFe[p]<114 ){
+											colors.push(1,1,0,1);
+											colors.push(1,1,0,1);thom++; flagColor = true;
+										}
+										if(itensityFe[p]>=114 && itensityFe[p]<127 ){
+											colors.push(0.078, 1, 0,1);
+											colors.push(0.078, 1, 0,1);thom++; flagColor = true;
+										}
+										if(itensityFe[p]>=127 && itensityFe[p]<139 ){
+											colors.push(0.756, 1, 0.756,1);
+											colors.push(0.756, 1, 0.756,1);thom++; flagColor = true;
+										}
+										if(itensityFe[p]>=139 && itensityFe[p]<152 ){
+											colors.push(0.690, 0.878, 0.901,1);
+											colors.push(0.690, 0.878, 0.901,1);thom++; flagColor = true;
+
+										}
+										if(itensityFe[p]>=152 && itensityFe[p]<164 ){
+											colors.push(0.254, 0.411, 0.882,1);
+											colors.push(0.254, 0.411, 0.882,1);thom++; flagColor = true;
+										} 
+										if(itensityFe[p]>=164 && itensityFe[p]<177 ){
+											colors.push(0,0,1,1);
+											colors.push(0,0,1,1);thom++; flagColor = true;
+										}
+										if(itensityFe[p]>=177 && itensityFe[p]<190 ){
+											colors.push(0.517, 0.439, 1,1);
+											colors.push(0.517, 0.439, 1,1);thom++; flagColor = true;
+										}
+										if(itensityFe[p]>=190 && itensityFe[p]<202 ){
+											colors.push(0.482, 0.407, 0.933,1);
+											colors.push(0.482, 0.407, 0.933,1);thom++; flagColor = true;
+										}
+										if(itensityFe[p]>=202 && itensityFe[p]<215 ){
+											colors.push(0.415, 0.352, 0.803,1);
+											colors.push(0.415, 0.352, 0.803,1);thom++; flagColor = true;
+										}
+										if(itensityFe[p]>=215 && itensityFe[p]<228 ){
+											colors.push(0, 0, 0.501,1);
+											colors.push(0, 0, 0.501,1);thom++; flagColor = true;
+										}
+										if(itensityFe[p]>=228 && itensityFe[p]<240 ){
+											colors.push(0.098, 0.098, 0.439,1);
+											colors.push(0.098, 0.098, 0.439,1);thom++; flagColor = true;
+										}
+										if(itensityFe[p]>=240){
+											colors.push(0, 0, 0, 1);
+											colors.push(0, 0, 0, 1);thom++; flagColor = true;
+										}
+										if(flagColor == false){
+											colors.push(0, 0, 0, 1);
+											colors.push(0, 0, 0, 1);thom++;
+										}
+										ty++;
+									}
+									
+									map.setVerticesData(BABYLON.VertexBuffer.ColorKind, colors);
+								}
+							
+								
+								//var quaternion = new BABYLON.Quaternion.RotationAxis(BABYLON.Axis.X, Math.PI);
+								//map.rotationQuaternion = quaternion;
+								
+								chkBox.onchange = function() {
+								if (chkBox.checked){							
+									mapMaterial.wireframe = true;						
+								}else{						
+									mapMaterial.wireframe = false;
+								}					
+								map.material = mapMaterial;
+								}	
+
+								chkBoxRange.onchange = function () {
+									console.log("cambie");
+								}
+								chkBoxIntensity.onchange = function () {
+									console.log("cambie");
+								}
+
+				
+								
+							}else{
+								map.dispose();
+								
+								var paths = [];
+								flag2d=true;
+								
+								var z;  
+								var x; 
+								var y;  				                   // array for the ribbon model
+								for (var l = 0; l < mapSubX; l++) {
+									var path = [];                          // only for the ribbon
+									for (var w = 0; w < mapSubZ; w++) {
+										z =w;
+										x = l;
+										//var y = noise.simplex2(x * noiseScale, z * noiseScale);
+										//y *= (0.5 + y) * y * elevationScale;   // let's increase a bit the noise computed altitude
+									
+										y = 0;
+										
+
+										mapData[3 *(l * mapSubX + w)] = x;
+										mapData[3 * (l * mapSubX + w) + 1] = y;
+										mapData[3 * (l * mapSubX + w) + 2] = z;
+										
+										path.push(new BABYLON.Vector3(x, y, z));
+										dataI++;
+									}
+									paths.push(path);
+								}
+								
+								//console.log(rangeFe);
+						
+								map = BABYLON.MeshBuilder.CreateRibbon("m", {pathArray: paths, sideOrientation: 2}, scene);
+								map.rotate(BABYLON.Axis.X, Math.PI, BABYLON.Space.WORLD)
+								map.position.y = 0;
+								var mapMaterial = new BABYLON.StandardMaterial("mm", scene);
+								
+								//mapMaterial.wireframe = true;
+										
+								map.material = mapMaterial;
+								
+								//light.excludedMeshes.push(map);
+
+								var positions = map.getVerticesData(BABYLON.VertexBuffer.PositionKind);
+								
+								
+
+
+								var colors = map.getVerticesData(BABYLON.VertexBuffer.ColorKind);
+								if(!colors) {
+									
+									colors = [];
+									var thom =0 ;
+									var ty = 0;
+									var ja = 0;
+									var flagColor = false;
+									var positions = map.getVerticesData(BABYLON.VertexBuffer.PositionKind);
+									//console.log(itensityFe);
+									for(var p = 0; p < ((positions.length / 3)/2 ); p++) {
+										flagColor = false;
+										if(itensityFe[p]<13 ){
+											colors.push(1, 0.894, 0.870, 1);
+											colors.push(1, 0.894, 0.870, 1);thom++; flagColor = true;
+										}
+										if(itensityFe[p]>=13 && itensityFe[p]<25 ){
+											colors.push(1, 0.713, 0.756, 1);
+											colors.push(1, 0.713, 0.756, 1);thom++; flagColor = true;
+										}
+										if(itensityFe[p]>=25 && itensityFe[p]<38){
+											colors.push(1, 0.431, 0.705,1);
+											colors.push(1, 0.431, 0.705,1);thom++; flagColor = true;
+										}
+										if(itensityFe[p]>=38 && itensityFe[p]<50 ){
+											colors.push(0.933, 0.070, 0.537,1);
+											colors.push(0.933, 0.070, 0.537,1);thom++; flagColor = true;
+										}
+										if(itensityFe[p]>=50 && itensityFe[p]<63 ){
+											colors.push(1, 0.270, 0,1);
+											colors.push(1, 0.270, 0,1);thom++; flagColor = true;
+										}
+										if(itensityFe[p]>=63 && itensityFe[p]<76 ){
+											colors.push(0.803, 0.4, 0,1);
+											colors.push(0.803, 0.4, 0,1);thom++; flagColor = true;
+										}
+										if(itensityFe[p]>=76 && itensityFe[p]<89 ){
+											colors.push(1, 0.549, 0,1);
+											colors.push(1, 0.549, 0,1);thom++; flagColor = true;
+										}
+										if(itensityFe[p]>=89 && itensityFe[p]<101 ){
+											colors.push(0.933, 0.850, 0.447,1);
+											colors.push(0.933, 0.850, 0.447,1);thom++; flagColor = true; ja++;
+										}
+										if(itensityFe[p]>=101 && itensityFe[p]<114 ){
+											colors.push(1,1,0,1);
+											colors.push(1,1,0,1);thom++; flagColor = true;
+										}
+										if(itensityFe[p]>=114 && itensityFe[p]<127 ){
+											colors.push(0.078, 1, 0,1);
+											colors.push(0.078, 1, 0,1);thom++; flagColor = true;
+										}
+										if(itensityFe[p]>=127 && itensityFe[p]<139 ){
+											colors.push(0.756, 1, 0.756,1);
+											colors.push(0.756, 1, 0.756,1);thom++; flagColor = true;
+										}
+										if(itensityFe[p]>=139 && itensityFe[p]<152 ){
+											colors.push(0.690, 0.878, 0.901,1);
+											colors.push(0.690, 0.878, 0.901,1);thom++; flagColor = true;
+
+										}
+										if(itensityFe[p]>=152 && itensityFe[p]<164 ){
+											colors.push(0.254, 0.411, 0.882,1);
+											colors.push(0.254, 0.411, 0.882,1);thom++; flagColor = true;
+										} 
+										if(itensityFe[p]>=164 && itensityFe[p]<177 ){
+											colors.push(0,0,1,1);
+											colors.push(0,0,1,1);thom++; flagColor = true;
+										}
+										if(itensityFe[p]>=177 && itensityFe[p]<190 ){
+											colors.push(0.517, 0.439, 1,1);
+											colors.push(0.517, 0.439, 1,1);thom++; flagColor = true;
+										}
+										if(itensityFe[p]>=190 && itensityFe[p]<202 ){
+											colors.push(0.482, 0.407, 0.933,1);
+											colors.push(0.482, 0.407, 0.933,1);thom++; flagColor = true;
+										}
+										if(itensityFe[p]>=202 && itensityFe[p]<215 ){
+											colors.push(0.415, 0.352, 0.803,1);
+											colors.push(0.415, 0.352, 0.803,1);thom++; flagColor = true;
+										}
+										if(itensityFe[p]>=215 && itensityFe[p]<228 ){
+											colors.push(0, 0, 0.501,1);
+											colors.push(0, 0, 0.501,1);thom++; flagColor = true;
+										}
+										if(itensityFe[p]>=228 && itensityFe[p]<240 ){
+											colors.push(0.098, 0.098, 0.439,1);
+											colors.push(0.098, 0.098, 0.439,1);thom++; flagColor = true;
+										}
+										if(itensityFe[p]>=240){
+											colors.push(0, 0, 0, 1);
+											colors.push(0, 0, 0, 1);thom++; flagColor = true;
+										}
+										if(flagColor == false){
+											colors.push(0, 0, 0, 1);
+											colors.push(0, 0, 0, 1);thom++;
+										}
+										ty++;
+									}
+									
+									map.setVerticesData(BABYLON.VertexBuffer.ColorKind, colors);
+								}
+							
+														
+								//var quaternion = new BABYLON.Quaternion.RotationAxis(BABYLON.Axis.X, Math.PI);
+								//map.rotationQuaternion = quaternion;
+								
+								chkBox.onchange = function() {
+									
+									if (chkBox.checked){
+										mapMaterial.wireframe = true;						
+									}else{								
+										mapMaterial.wireframe = false;
+									}					
+									map.material = mapMaterial;	
+								}	
+							}
+						}
+
+
 					var mapColor ={}; //object for multiple key presses
 					scene.actionManager = new BABYLON.ActionManager(scene);
    
@@ -520,10 +846,7 @@ callApi(){
 						//console.log(camera.position);
 						camera.setTarget(new BABYLON.Vector3(t, 1.0, 0.0)); 
 						camera.setPosition(new BABYLON.Vector3(camera.position.x+5, camera.position.y, camera.position.z)); 
-						console.log(camera.alpha);
-						console.log(camera.beta);
-						  console.log("soy d");
-						  
+
 					  }
 
 
@@ -533,18 +856,15 @@ callApi(){
 					  camera.setTarget(new BABYLON.Vector3(t, 1.0, 0.0)); 
 					  camera.setPosition(new BABYLON.Vector3(camera.position.x-5, camera.position.y, camera.position.z)); 
 				  
-						console.log("soy a");
 						
 					}
 
 					if(mapColor["e"] || mapColor["E"]) {
 						t=t+25;
-					  //console.log(camera.position);
+					  //console.log(camera.position);					  
 					  camera.setTarget(new BABYLON.Vector3(t, 1.0, 0.0)); 
 					  camera.setPosition(new BABYLON.Vector3(camera.position.x+25, camera.position.y, camera.position.z)); 
-				  
-						console.log("soy e");
-						
+				  	
 					}
 
 					if(mapColor["q"] || mapColor["Q"]) {
@@ -553,8 +873,6 @@ callApi(){
 					camera.setTarget(new BABYLON.Vector3(t, 1.0, 0.0)); 
 					camera.setPosition(new BABYLON.Vector3(camera.position.x-25, camera.position.y, camera.position.z)); 
 				
-					  console.log("soy q");
-					  
 				  }
 					  
 				  });
@@ -562,6 +880,7 @@ callApi(){
 					return scene;
 				}
 				
+			
 		
 				var scene = createScene();
 				engine.runRenderLoop(function(){
@@ -570,6 +889,11 @@ callApi(){
 				
 				document.getElementById("auxCheck").style.display = "inline";
 				document.getElementById("backLoad").style.display = "none";
+				if(chkBox2d.checked){
+					document.getElementById("RanorInt").style.display = "inline";
+				}
+				
+
 
 
 			});
@@ -580,7 +904,7 @@ callApi(){
 
 componentDidMount(){ //se ejecuta al montar el componente
 	console.log("se monto el componente");
-
+	
 }
 
 	render(){
@@ -620,6 +944,13 @@ componentDidMount(){ //se ejecuta al montar el componente
 						<span></span>
 					</div>
 
+						<div id="RanorInt" className="switchRorI switch-blueRorI">
+							<input type="radio" className="switch-inputRorI" name="view2" value="week2" id="range" checked></input>
+							<label htmlFor="range" className="switch-labelRorI switch-label-offRorI">Range</label>
+							<input type="radio" className="switch-inputRorI" name="view2" value="month2" id="intensity"></input>
+							<label htmlFor="intensity" className="switch-labelRorI switch-label-onRorI">Intensity</label>
+							<span className="switch-selectionRorI"></span>
+						</div> 
 					
 					
 				</div>
@@ -632,6 +963,8 @@ componentDidMount(){ //se ejecuta al montar el componente
 					</div>
 				</div>	
 				<canvas id="canvas" ></canvas>
+
+
 
 				
 		
