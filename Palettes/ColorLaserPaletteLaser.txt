@@ -251,3 +251,796 @@
 #ff0605
 #ff0303
 #ff0000
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+switch (n) {
+						case 0:
+							arr = [];
+							break;
+						case 1:
+							arr = [];
+							break;
+						case 2:
+							arr = [];
+							break;
+						case 3:
+							arr = [];
+							break;
+						case 4:
+							arr = [];
+							break;
+						case 5:
+							arr = [];
+							break;
+						case 6:
+							arr = [];
+							break;
+						case 7:
+							arr = [];
+							break;
+						case 8:
+							arr = [];
+							break;
+						case 9:
+							arr = [];
+							break;
+						case 10:
+							arr = [];
+							break;
+						case 11:
+							arr = [];
+							break;
+						case 12:
+							arr = [];
+							break;
+						case 13:
+							arr = [];
+							break;
+						case 14:
+							arr = [];
+							break;
+						case 15:
+							arr = [];
+							break;
+						case 16:
+							arr = [];
+							break;
+						case 17:
+							arr = [];
+							break;
+						case 18:
+							arr = [];
+							break;
+						case 19:
+							arr = [];
+							break;
+						case 20:
+							arr = [];
+							break;
+						case 21:
+							arr = [];
+							break;
+						case 22:
+							arr = [];
+							break;
+						case 23:
+							arr = [];
+							break;
+						case 24:
+							arr = [];
+							break;
+						case 25:
+							arr = [];
+							break;
+						case 26:
+							arr = [];
+							break;
+						case 27:
+							arr = [];
+							break;
+						case 28:
+							arr = [];
+							break;
+						case 29:
+							arr = [];
+							break;
+						case 30:
+							arr = [];
+							break;
+						case 31:
+							arr = [];
+							break;
+						case 32:
+							arr = [];
+							break;
+						case 33:
+							arr = [];
+							break;
+						case 34:
+							arr = [];
+							break;
+						case 35:
+							arr = [];
+							break;
+						case 36:
+							arr = [];
+							break;
+						case 37:
+							arr = [];
+							break;
+						case 38:
+							arr = [];
+							break;
+						case 39:
+							arr = [];
+							break;
+						case 40:
+							arr = [];
+							break;
+						case 41:
+							arr = [];
+							break;
+						case 42:
+							arr = [];
+							break;
+						case 43:
+							arr = [];
+							break;
+						case 44:
+							arr = [];
+							break;
+						case 45:
+							arr = [];
+							break;
+						case 46:
+							arr = [];
+							break;
+						case 47:
+							arr = [];
+							break;
+						case 48:
+							arr = [];
+							break;
+						case 49:
+							arr = [];
+							break;
+						case 50:
+							arr = [];
+							break;
+						case 51:
+							arr = [];
+							break;
+						case 52:
+							arr = [];
+							break;
+						case 53:
+							arr = [];
+							break;
+						case 54:
+							arr = [];
+							break;
+						case 55:
+							arr = [];
+							break;
+						case 56:
+							arr = [];
+							break;
+						case 57:
+							arr = [];
+							break;
+						case 58:
+							arr = [];
+							break;
+						case 59:
+							arr = [];
+							break;
+						case 60:
+							arr = [];
+							break;
+						case 61:
+							arr = [];
+							break;
+						case 62:
+							arr = [];
+							break;
+						case 63:
+							arr = [];
+							break;
+						case 64:
+							arr = [];
+							break;
+						case 65:
+							arr = [];
+							break;
+						case 66:
+							arr = [];
+							break;
+						case 67:
+							arr = [];
+							break;
+						case 68:
+							arr = [];
+							break;
+						case 69:
+							arr = [];
+							break;
+						case 70:
+							arr = [];
+							break;
+						case 71:
+							arr = [];
+							break;
+						case 72:
+							arr = [];
+							break;
+						case 73:
+							arr = [];
+							break;
+						case 74:
+							arr = [];
+							break;
+						case 75:
+							arr = [];
+							break;
+						case 76:
+							arr = [];
+							break;
+						case 77:
+							arr = [];
+							break;
+						case 78:
+							arr = [];
+							break;
+						case 79:
+							arr = [];
+							break;
+						case 80:
+							arr = [];
+							break;
+						case 81:
+							arr = [];
+							break;
+						case 82:
+							arr = [];
+							break;
+						case 83:
+							arr = [];
+							break;
+						case 84:
+							arr = [];
+							break;
+						case 85:
+							arr = [];
+							break;
+						case 86:
+							arr = [];
+							break;
+						case 87:
+							arr = [];
+							break;
+						case 88:
+							arr = [];
+							break;
+						case 89:
+							arr = [];
+							break;
+						case 90:
+							arr = [];
+							break;
+						case 91:
+							arr = [];
+							break;
+						case 92:
+							arr = [];
+							break;
+						case 93:
+							arr = [];
+							break;
+						case 94:
+							arr = [];
+							break;
+						case 95:
+							arr = [];
+							break;
+						case 96:
+							arr = [];
+							break;
+						case 97:
+							arr = [];
+							break;
+						case 98:
+							arr = [];
+							break;
+						case 99:
+							arr = [];
+							break;
+						case 100:
+							arr = [];
+							break;
+						case 101:
+							arr = [];
+							break;
+						case 102:
+							arr = [];
+							break;
+						case 103:
+							arr = [];
+							break;
+						case 104:
+							arr = [];
+							break;
+						case 105:
+							arr = [];
+							break;
+						case 106:
+							arr = [];
+							break;
+						case 107:
+							arr = [];
+							break;
+						case 108:
+							arr = [];
+							break;
+						case 109:
+							arr = [];
+							break;
+						case 110:
+							arr = [];
+							break;
+						case 111:
+							arr = [];
+							break;
+						case 112:
+							arr = [];
+							break;
+						case 113:
+							arr = [];
+							break;
+						case 114:
+							arr = [];
+							break;
+						case 115:
+							arr = [];
+							break;
+						case 116:
+							arr = [];
+							break;
+						case 117:
+							arr = [];
+							break;
+						case 118:
+							arr = [];
+							break;
+						case 119:
+							arr = [];
+							break;
+						case 120:
+							arr = [];
+							break;
+						case 121:
+							arr = [];
+							break;
+						case 122:
+							arr = [];
+							break;
+						case 123:
+							arr = [];
+							break;
+						case 124:
+							arr = [];
+							break;
+						case 125:
+							arr = [];
+							break;
+						case 126:
+							arr = [];
+							break;
+						case 127:
+							arr = [];
+							break;
+						case 128:
+							arr = [];
+							break;
+						case 129:
+							arr = [];
+							break;
+						case 130:
+							arr = [];
+							break;
+						case 131:
+							arr = [];
+							break;
+						case 132:
+							arr = [];
+							break;
+						case 133:
+							arr = [];
+							break;
+						case 134:
+							arr = [];
+							break;
+						case 135:
+							arr = [];
+							break;
+						case 136:
+							arr = [];
+							break;
+						case 137:
+							arr = [];
+							break;
+						case 138:
+							arr = [];
+							break;
+						case 139:
+							arr = [];
+							break;
+						case 140:
+							arr = [];
+							break;
+						case 141:
+							arr = [];
+							break;
+						case 142:
+							arr = [];
+							break;
+						case 143:
+							arr = [];
+							break;
+						case 144:
+							arr = [];
+							break;
+						case 145:
+							arr = [];
+							break;
+						case 146:
+							arr = [];
+							break;
+						case 147:
+							arr = [];
+							break;
+						case 148:
+							arr = [];
+							break;
+						case 149:
+							arr = [];
+							break;
+						case 150:
+							arr = [];
+							break;
+						case 151:
+							arr = [];
+							break;
+						case 152:
+							arr = [];
+							break;
+						case 153:
+							arr = [];
+							break;
+						case 154:
+							arr = [];
+							break;
+						case 155:
+							arr = [];
+							break;
+						case 156:
+							arr = [];
+							break;
+						case 157:
+							arr = [];
+							break;
+						case 158:
+							arr = [];
+							break;
+						case 159:
+							arr = [];
+							break;
+						case 160:
+							arr = [];
+							break;
+						case 161:
+							arr = [];
+							break;
+						case 162:
+							arr = [];
+							break;
+						case 163:
+							arr = [];
+							break;
+						case 164:
+							arr = [];
+							break;
+						case 165:
+							arr = [];
+							break;
+						case 166:
+							arr = [];
+							break;
+						case 167:
+							arr = [];
+							break;
+						case 168:
+							arr = [];
+							break;
+						case 169:
+							arr = [];
+							break;
+						case 170:
+							arr = [];
+							break;
+						case 171:
+							arr = [];
+							break;
+						case 172:
+							arr = [];
+							break;
+						case 173:
+							arr = [];
+							break;
+						case 174:
+							arr = [];
+							break;
+						case 175:
+							arr = [];
+							break;
+						case 176:
+							arr = [];
+							break;
+						case 177:
+							arr = [];
+							break;
+						case 178:
+							arr = [];
+							break;
+						case 179:
+							arr = [];
+							break;
+						case 180:
+							arr = [];
+							break;
+						case 181:
+							arr = [];
+							break;
+						case 182:
+							arr = [];
+							break;
+						case 183:
+							arr = [];
+							break;
+						case 184:
+							arr = [];
+							break;
+						case 185:
+							arr = [];
+							break;
+						case 186:
+							arr = [];
+							break;
+						case 187:
+							arr = [];
+							break;
+						case 188:
+							arr = [];
+							break;
+						case 189:
+							arr = [];
+							break;
+						case 190:
+							arr = [];
+							break;
+						case 191:
+							arr = [];
+							break;
+						case 192:
+							arr = [];
+							break;
+						case 193:
+							arr = [];
+							break;
+						case 194:
+							arr = [];
+							break;
+						case 195:
+							arr = [];
+							break;
+						case 196:
+							arr = [];
+							break;
+						case 197:
+							arr = [];
+							break;
+						case 198:
+							arr = [];
+							break;
+						case 199:
+							arr = [];
+							break;
+						case 200:
+							arr = [];
+							break;
+						case 201:
+							arr = [];
+							break;
+						case 202:
+							arr = [];
+							break;
+						case 203:
+							arr = [];
+							break;
+						case 204:
+							arr = [];
+							break;
+						case 205:
+							arr = [];
+							break;
+						case 206:
+							arr = [];
+							break;
+						case 207:
+							arr = [];
+							break;
+						case 208:
+							arr = [];
+							break;
+						case 209:
+							arr = [];
+							break;
+						case 210:
+							arr = [];
+							break;
+						case 211:
+							arr = [];
+							break;
+						case 212:
+							arr = [];
+							break;
+						case 213:
+							arr = [];
+							break;
+						case 214:
+							arr = [];
+							break;
+						case 215:
+							arr = [];
+							break;
+						case 216:
+							arr = [];
+							break;
+						case 217:
+							arr = [];
+							break;
+						case 218:
+							arr = [];
+							break;
+						case 219:
+							arr = [];
+							break;
+						case 220:
+							arr = [];
+							break;
+						case 221:
+							arr = [];
+							break;
+						case 222:
+							arr = [];
+							break;
+						case 223:
+							arr = [];
+							break;
+						case 224:
+							arr = [];
+							break;
+						case 225:
+							arr = [];
+							break;
+						case 226:
+							arr = [];
+							break;
+						case 227:
+							arr = [];
+							break;
+						case 228:
+							arr = [];
+							break;
+						case 229:
+							arr = [];
+							break;
+						case 230:
+							arr = [];
+							break;
+						case 231:
+							arr = [];
+							break;
+						case 232:
+							arr = [];
+							break;
+						case 233:
+							arr = [];
+							break;
+						case 234:
+							arr = [];
+							break;
+						case 235:
+							arr = [];
+							break;
+						case 236:
+							arr = [];
+							break;
+						case 237:
+							arr = [];
+							break;
+						case 238:
+							arr = [];
+							break;
+						case 239:
+							arr = [];
+							break;
+						case 240:
+							arr = [];
+							break;
+						case 241:
+							arr = [];
+							break;
+						case 242:
+							arr = [];
+							break;
+						case 243:
+							arr = [];
+							break;
+						case 244:
+							arr = [];
+							break;
+						case 245:
+							arr = [];
+							break;
+						case 246:
+							arr = [];
+							break;
+						case 247:
+							arr = [];
+							break;
+						case 248:
+							arr = [];
+							break;
+						case 249:
+							arr = [];
+							break;
+						case 250:
+							arr = [];
+							break;
+						case 251:
+							arr = [];
+							break;
+						case 252:
+							arr = [];
+							break;
+						case 253:
+							arr = [];
+							break;
+						case 254:
+							arr = [];
+							break;
+						case 255:
+							arr = [];
+							break;
+						default:
+						    arr = [];
+						
+					return arr;
+				}
