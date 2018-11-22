@@ -121,6 +121,12 @@
   margin: 0px !important;
 }
 
+#auxCheckColors {
+  display:none;
+  transform: scale(0.4) !important;
+  margin: 0px !important;
+}
+
 input#myCheck2d{
   height:22 !important;
   width: 72 !important;
@@ -296,7 +302,7 @@ transition: all .5s ease;
   text-shadow: 0 1px rgba(255, 255, 255, 0.25);
   -webkit-transition: 0.15s ease-out;
   -moz-transition: 0.15s ease-out;
-  -o-transition: 0.15s ease-out;
+  -o-transition: 0.15s ease-out; 
   transition: 0.15s ease-out;
 }
 
