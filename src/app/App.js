@@ -2,20 +2,15 @@ import React, { Component } from 'react';
 class App extends Component{
 
 
-
-
 callApi(){
-		var chkBox = document.getElementById('myCheck');
-	var chkBox2d = document.getElementById('myCheck2d');
-	var chkBoxColors = document.getElementById('myCheckColors');
-	
-	var chkBoxRange = document.getElementById('range');	var chkBoxRange = document.getElementById('range');	
-	var chkBoxIntensity = document.getElementById('intensity');	
+
+
+
 	
 	console.log("llamando a node");
 
 	document.getElementById("inputUpload").click();
-	var UpdFile = document.getElementById('inputUpload');
+	let UpdFile = document.getElementById('inputUpload');
 
 	UpdFile.addEventListener('change', handleFileSelect, false);
 
@@ -25,15 +20,18 @@ callApi(){
 		var files = evt.target.files;
 		var url="";
 		var flagTwoFiles = false;
-
+		var nameFiles="";
 		for (var i = 0, f; f = files[i]; i++) {
-			if(i>0){
+			if(i>0){ //if two files
 				url=url.concat("AnotherFile");
+				nameFiles=nameFiles.concat(" and ")
 				flagTwoFiles = true;
 			}
 			url=url.concat(f.name);
+			nameFiles=nameFiles.concat(f.name);
+			
 		}
-		//console.log(url);
+		console.log(nameFiles);
 	
 		document.getElementById("backLoad").style.display = "block"; //Loading
 
@@ -41,14 +39,9 @@ callApi(){
 		var url = auxUrl[auxUrl.length-1];
 		console.log( url);
 		*/
-
+		console.log(UpdFile.value);
 		fetch('api?tagid='+url).then(response => {
 			response.json().then(json => {
-
-			
-
-				document.getElementById("RanorInt").style.display = "inline";
-
 
 				let data = json; 
 				//console.log(data);
@@ -388,12 +381,17 @@ callApi(){
 				
 				
 				//
-
-				var canvas = document.getElementById('canvas');
+				var flagRead = document.getElementById('flagRead');
+				console.log(flagRead.value);
+			
+				let canvas = document.getElementById('canvas');
 
 				var engine = new BABYLON.Engine(canvas, true);
 				var createScene = function() {
+				
+					console.log("hola");
 					var scene = new BABYLON.Scene(engine);
+					scene.clearColor = new BABYLON.Color3(0.168, 0.188, 0.207);
 					//var camera = new BABYLON.ArcRotateCamera("camera1",  0, 0, 0, BABYLON.Vector3.Zero(), scene);
 					//var camera = new BABYLON.FlyCamera("camera1", new BABYLON.Vector3(0, 5, -10), scene);
 					var camera = new BABYLON.ArcRotateCamera("Camera", 60, 0, 10, new BABYLON.Vector3(60, 0, 0), scene);
@@ -409,7 +407,10 @@ callApi(){
 					light.specular = BABYLON.Color3.Black();
 					//light.groundColor = new BABYLON.Color3(0, 0, 0);
 				
-				let map;
+				
+			let map;	
+			
+				flagRead.value="true";
 					// Map data creation
 					// The map is a flat array of successive 3D coordinates (x, y, z).
 					// It's defined by a number of points on its width : mapSubX
@@ -432,79 +433,7 @@ callApi(){
 					var mapData = new Float32Array(mapSubX * mapSubZ * 3); // 3 float values per point : x, y and z
 					var dataI = 0;
 					var t = 0;
-					let flag2d = false;
-					console.log(itensityFe);
-
-					if(chkBox2d.checked){ //if is 2d
 					
-						var paths = [];
-						flag2d=true;
-						
-						var z;  
-						var x; 
-						var y;  				                   // array for the ribbon model
-						for (var l = 0; l < mapSubX; l++) {
-							var path = [];                          // only for the ribbon
-							for (var w = 0; w < mapSubZ; w++) {
-								z =w;
-								x = l;
-								//var y = noise.simplex2(x * noiseScale, z * noiseScale);
-								//y *= (0.5 + y) * y * elevationScale;   // let's increase a bit the noise computed altitude
-							
-								y = 0;
-								
-
-								mapData[3 *(l * mapSubX + w)] = x;
-								mapData[3 * (l * mapSubX + w) + 1] = y;
-								mapData[3 * (l * mapSubX + w) + 2] = z;
-								
-								path.push(new BABYLON.Vector3(x, y, z));
-								dataI++;
-							}
-							paths.push(path);
-						}
-						
-						//console.log(rangeFe);
-				
-						map = BABYLON.MeshBuilder.CreateRibbon("m", {pathArray: paths, sideOrientation: 2}, scene);
-						//map.rotate(BABYLON.Axis.X, Math.PI, BABYLON.Space.WORLD)
-						map.position.y = 0;
-						var mapMaterial = new BABYLON.StandardMaterial("mm", scene);
-						
-						//mapMaterial.wireframe = true;
-								
-						map.material = mapMaterial;
-						
-						//light.excludedMeshes.push(map);
-
-						var positions = map.getVerticesData(BABYLON.VertexBuffer.PositionKind);					
-						var colors = map.getVerticesData(BABYLON.VertexBuffer.ColorKind);
-						if(!colors) {
-							
-							colors = [];
-							var thom =0 ;
-							var ty = 0;
-							var ja = 0;
-							var flagColor = false;
-							var positions = map.getVerticesData(BABYLON.VertexBuffer.PositionKind);
-							//console.log(itensityFe);
-							for(var p = 0; p < ((positions.length / 3)  ); p++) {
-								var arr = paletteColor(itensityFe[p]);
-								colors.push(arr[0], arr[1], arr[2], 1);
-								
-							}
-							
-							map.setVerticesData(BABYLON.VertexBuffer.ColorKind, colors);
-						}
-					
-												
-						//var quaternion = new BABYLON.Quaternion.RotationAxis(BABYLON.Axis.X, Math.PI);
-						//map.rotationQuaternion = quaternion;
-					
-
-	
-					}else{ //if not 2d
-						
 						var paths = [];
 						flag2d=false;
 						
@@ -556,7 +485,7 @@ callApi(){
 							var thom =0 ;
 							var ty = 0;
 							var ja = 0;
-							var flagColor = false;
+							
 							var positions = map.getVerticesData(BABYLON.VertexBuffer.PositionKind);
 							
 
@@ -575,344 +504,7 @@ callApi(){
 						//var quaternion = new BABYLON.Quaternion.RotationAxis(BABYLON.Axis.X, Math.PI);
 						//map.rotationQuaternion = quaternion;
 						
-						
-
-
-
-				}
-
-
-
-
-
-						chkBox2d.onchange = function() {
-							
-							if(!chkBox2d.checked){								
-								map.dispose();
-																
-								var paths = [];
-								flag2d=false;
-								dataI=0;
-								var z;  
-								var x; 
-								var y;  				                   // array for the ribbon model
-								for (var l = 0; l < mapSubX; l++) {
-									var path = [];                          // only for the ribbon
-									for (var w = 0; w < mapSubZ; w++) {
-										z =w;
-										x = l;
-										//var y = noise.simplex2(x * noiseScale, z * noiseScale);
-										//y *= (0.5 + y) * y * elevationScale;   // let's increase a bit the noise computed altitude
-									
-										y = -rangeFe[dataI];
-										//console.log(y);
-
-										mapData[3 *(l * mapSubX + w)] = x;
-										mapData[3 * (l * mapSubX + w) + 1] = y;
-										mapData[3 * (l * mapSubX + w) + 2] = z;
-										
-										path.push(new BABYLON.Vector3(x, y, z));
-										dataI++;
-									}
-									paths.push(path);
-								}
-								
-								console.log(paths);
-						
-								map = BABYLON.MeshBuilder.CreateRibbon("m", {pathArray: paths, sideOrientation: 2}, scene);
-								//map.rotate(BABYLON.Axis.X, Math.PI, BABYLON.Space.WORLD)
-								map.position.y = 0;
-								var mapMaterial = new BABYLON.StandardMaterial("mm", scene);
-								
-								//mapMaterial.wireframe = true;
-										
-									if (chkBox.checked){
-										mapMaterial.wireframe = true;						
-									}else{								
-										mapMaterial.wireframe = false;
-									}					
-
-								map.material = mapMaterial;
-								
-								//light.excludedMeshes.push(map);
-
-						
-								//console.log(itensityFe);
-
-								if(!chkBoxColors.checked){
-									if(flagRange){
-										var positions = map.getVerticesData(BABYLON.VertexBuffer.PositionKind);					
-										var colors = map.getVerticesData(BABYLON.VertexBuffer.ColorKind);
-									
-											
-											colors = [];
-											var thom =0 ;
-											var ty = 0;
-											var ja = 0;
-											var flagColor = false;
-											var positions = map.getVerticesData(BABYLON.VertexBuffer.PositionKind);
-											//console.log(itensityFe);
-											for(var p = 0; p < ((positions.length / 3)  ); p++) {
-												var arr = paletteColor(Math.round(rangeFe[p])*12);
-												colors.push(arr[0], arr[1], arr[2], 1);
-												
-											}
-											
-											map.setVerticesData(BABYLON.VertexBuffer.ColorKind, colors);
-										
-									}else{
-										var colors = map.getVerticesData(BABYLON.VertexBuffer.ColorKind);
-		
-									colors = [];
-									var thom =0 ;
-									var ty = 0;
-									var ja = 0;
-									var flagColor = false;
-									var positions = map.getVerticesData(BABYLON.VertexBuffer.PositionKind);
-									
-									//console.log(itensityFe);
-									//console.log(Math.max(...rangeFe));
-		
-									for(var p = 0; p < ((positions.length / 3)  ); p++) {
-										
-										var arr = paletteColor(itensityFe[p]);
-										colors.push(arr[0], arr[1], arr[2], 1);
-										
-										
-									}
-									
-									map.setVerticesData(BABYLON.VertexBuffer.ColorKind, colors);
-								
-									}
-								
-							  }else{
-									if(flagRange){
-										var positions = map.getVerticesData(BABYLON.VertexBuffer.PositionKind);
-										
-										
-										var colors = map.getVerticesData(BABYLON.VertexBuffer.ColorKind);
-								
-									
-										colors = [];
-										var thom =0 ;
-										var ty = 0;
-										var ja = 0;
-										var flagColor = false;
-										var positions = map.getVerticesData(BABYLON.VertexBuffer.PositionKind);
-										
-										//console.log(itensityFe);
-										//console.log(Math.max(...rangeFe));
-										for(var p = 0; p < ((positions.length / 3)  ); p++) {
-											var arr = paletteGrays(Math.round(rangeFe[p])*12);
-											
-											colors.push(arr[0], arr[1], arr[2], 1);
-											
-											
-										}
-										
-										map.setVerticesData(BABYLON.VertexBuffer.ColorKind, colors);
-			
-									}else{
-										var positions = map.getVerticesData(BABYLON.VertexBuffer.PositionKind);
-										
-										
-									var colors = map.getVerticesData(BABYLON.VertexBuffer.ColorKind);
-							
-								
-									colors = [];
-									var thom =0 ;
-									var ty = 0;
-									var ja = 0;
-									var flagColor = false;
-									var positions = map.getVerticesData(BABYLON.VertexBuffer.PositionKind);
-									
-									//console.log(itensityFe);
-									//console.log(Math.max(...rangeFe));
-									for(var p = 0; p < ((positions.length / 3)  ); p++) {
-										var arr = paletteGrays(itensityFe[p]);
-										
-										colors.push(arr[0], arr[1], arr[2], 1);
-										
-										
-									}
-									
-									map.setVerticesData(BABYLON.VertexBuffer.ColorKind, colors);
-		
-									}
-								
-							  }
-								
-								//var quaternion = new BABYLON.Quaternion.RotationAxis(BABYLON.Axis.X, Math.PI);
-								//map.rotationQuaternion = quaternion;
-								
-								
-
-								
-								//document.getElementById("RanorInt").style.display = "none";
-							
-								
-								
-							}else{
-								map.dispose();
-								
-								var paths = [];
-								flag2d=true;
-								
-								var z;  
-								var x; 
-								var y;  				                   // array for the ribbon model
-								for (var l = 0; l < mapSubX; l++) {
-									var path = [];                          // only for the ribbon
-									for (var w = 0; w < mapSubZ; w++) {
-										z =w;
-										x = l;
-										//var y = noise.simplex2(x * noiseScale, z * noiseScale);
-										//y *= (0.5 + y) * y * elevationScale;   // let's increase a bit the noise computed altitude
-									
-										y = 0;
-										
-
-										mapData[3 *(l * mapSubX + w)] = x;
-										mapData[3 * (l * mapSubX + w) + 1] = y;
-										mapData[3 * (l * mapSubX + w) + 2] = z;
-										
-										path.push(new BABYLON.Vector3(x, y, z));
-										dataI++;
-									}
-									paths.push(path);
-								}
-								
-								//console.log(rangeFe);
-						
-								map = BABYLON.MeshBuilder.CreateRibbon("m", {pathArray: paths, sideOrientation: 2}, scene);
-								//map.rotate(BABYLON.Axis.X, Math.PI, BABYLON.Space.WORLD)
-								map.position.y = 0;
-								var mapMaterial = new BABYLON.StandardMaterial("mm", scene);
-								
-								
-								if (chkBox.checked){
-									mapMaterial.wireframe = true;						
-								}else{								
-									mapMaterial.wireframe = false;
-								}					
-
-								map.material = mapMaterial;
-								
-								//light.excludedMeshes.push(map);
-								if(!chkBoxColors.checked){
-									if(flagRange){
-										var positions = map.getVerticesData(BABYLON.VertexBuffer.PositionKind);					
-										var colors = map.getVerticesData(BABYLON.VertexBuffer.ColorKind);
-									
-											
-											colors = [];
-											var thom =0 ;
-											var ty = 0;
-											var ja = 0;
-											var flagColor = false;
-											var positions = map.getVerticesData(BABYLON.VertexBuffer.PositionKind);
-											//console.log(itensityFe);
-											for(var p = 0; p < ((positions.length / 3)  ); p++) {
-												var arr = paletteColor(Math.round(rangeFe[p])*12);
-												colors.push(arr[0], arr[1], arr[2], 1);
-												
-											}
-											
-											map.setVerticesData(BABYLON.VertexBuffer.ColorKind, colors);
-										
-									}else{
-										var colors = map.getVerticesData(BABYLON.VertexBuffer.ColorKind);
-		
-									colors = [];
-									var thom =0 ;
-									var ty = 0;
-									var ja = 0;
-									var flagColor = false;
-									var positions = map.getVerticesData(BABYLON.VertexBuffer.PositionKind);
-									
-									//console.log(itensityFe);
-									//console.log(Math.max(...rangeFe));
-		
-									for(var p = 0; p < ((positions.length / 3)  ); p++) {
-										
-										var arr = paletteColor(itensityFe[p]);
-										colors.push(arr[0], arr[1], arr[2], 1);
-										
-										
-									}
-									
-									map.setVerticesData(BABYLON.VertexBuffer.ColorKind, colors);
-								
-									}
-								
-							  }else{
-									if(flagRange){
-										var positions = map.getVerticesData(BABYLON.VertexBuffer.PositionKind);
-										
-										
-										var colors = map.getVerticesData(BABYLON.VertexBuffer.ColorKind);
-								
-									
-										colors = [];
-										var thom =0 ;
-										var ty = 0;
-										var ja = 0;
-										var flagColor = false;
-										var positions = map.getVerticesData(BABYLON.VertexBuffer.PositionKind);
-										
-										//console.log(itensityFe);
-										//console.log(Math.max(...rangeFe));
-										for(var p = 0; p < ((positions.length / 3)  ); p++) {
-											var arr = paletteGrays(Math.round(rangeFe[p])*12);
-											
-											colors.push(arr[0], arr[1], arr[2], 1);
-											
-											
-										}
-										
-										map.setVerticesData(BABYLON.VertexBuffer.ColorKind, colors);
-			
-									}else{
-										var positions = map.getVerticesData(BABYLON.VertexBuffer.PositionKind);
-										
-										
-									var colors = map.getVerticesData(BABYLON.VertexBuffer.ColorKind);
-							
-								
-									colors = [];
-									var thom =0 ;
-									var ty = 0;
-									var ja = 0;
-									var flagColor = false;
-									var positions = map.getVerticesData(BABYLON.VertexBuffer.PositionKind);
-									
-									//console.log(itensityFe);
-									//console.log(Math.max(...rangeFe));
-									for(var p = 0; p < ((positions.length / 3)  ); p++) {
-										var arr = paletteGrays(itensityFe[p]);
-										
-										colors.push(arr[0], arr[1], arr[2], 1);
-										
-										
-									}
-									
-									map.setVerticesData(BABYLON.VertexBuffer.ColorKind, colors);
-		
-									}
-								
-							  }
-								
-							
-								document.getElementById("RanorInt").style.display = "inline";
-								document.getElementById("auxCheckColors").style.display = "inline";
-														
-								//var quaternion = new BABYLON.Quaternion.RotationAxis(BABYLON.Axis.X, Math.PI);
-								//map.rotationQuaternion = quaternion;
-								
-								
-							}
-						}
-
+					
 
 					var mapColor ={}; //object for multiple key presses
 					scene.actionManager = new BABYLON.ActionManager(scene);
@@ -966,25 +558,90 @@ callApi(){
 					  
 				  });
 
-
-
-				  	
-				  chkBox.onchange = function() {
-							
-					if (chkBox.checked){
-						mapMaterial.wireframe = true;		
-					}else{								
-						mapMaterial.wireframe = false;
-					}					
-					map.material = mapMaterial;	
-				}	
-
 				
-				  let flagRange = false;
+				
+							
+				let aux2d = document.getElementById("2D");
+				let aux3d = document.getElementById("3D");
+				let auxWire = document.getElementById("wireframe");
+				let color = document.getElementById("color");
+				let gray = document.getElementById("gray");
+				let intensityA = document.getElementById("intensityA");
+				let rangeA = document.getElementById("rangeA");
+				let flagColor = true;
+				let flagRange = false;
+				let flag2d = false;
+				let flagWireframe = false;
 
-				  //Colors or grays
-				  chkBoxColors.onchange = function (){
-					if(!chkBoxColors.checked){
+				let btnLoad = document.getElementById("btnLoad");
+				let myModal = document.getElementById("myModal");
+				let flagLoad = false;
+				btnLoad.onclick= function(){
+					if(flagLoad){
+						myModal.style.display="none";
+						flagLoad=false;
+						console.log("quito");
+					}else{
+						myModal.style.display="block";
+						flagLoad=true;
+						
+						console.log("pongo");
+					}
+				}
+
+				aux2d.onclick= function(){
+					
+					(function(){	document.getElementById("myModal").style.display="block";
+					flagLoad=true;
+					
+					console.log(document.getElementById("myModal").style.display);})();
+					aux2d.classList.add("activeState");
+					aux3d.classList.remove("activeState");
+					auxWire.classList.remove("activeState");
+					flag2d = true;
+					flagWireframe = false;
+						
+					map.dispose();
+								
+					var paths = [];
+					
+					
+					var z;  
+					var x; 
+					var y;  				                   // array for the ribbon model
+					for (var l = 0; l < mapSubX; l++) {
+						var path = [];                          // only for the ribbon
+						for (var w = 0; w < mapSubZ; w++) {
+							z =w;
+							x = l;
+							//var y = noise.simplex2(x * noiseScale, z * noiseScale);
+							//y *= (0.5 + y) * y * elevationScale;   // let's increase a bit the noise computed altitude
+						
+							y = 0;
+							
+
+							mapData[3 *(l * mapSubX + w)] = x;
+							mapData[3 * (l * mapSubX + w) + 1] = y;
+							mapData[3 * (l * mapSubX + w) + 2] = z;
+							
+							path.push(new BABYLON.Vector3(x, y, z));
+							dataI++;
+						}
+						paths.push(path);
+					}
+					
+					//console.log(rangeFe);
+			
+					map = BABYLON.MeshBuilder.CreateRibbon("m", {pathArray: paths, sideOrientation: 2}, scene);
+					//map.rotate(BABYLON.Axis.X, Math.PI, BABYLON.Space.WORLD)
+					map.position.y = 0;
+					var mapMaterial = new BABYLON.StandardMaterial("mm", scene);
+					
+					mapMaterial.wireframe = false;
+					map.material = mapMaterial;
+					
+					//light.excludedMeshes.push(map);
+					if(flagColor){
 						if(flagRange){
 							var positions = map.getVerticesData(BABYLON.VertexBuffer.PositionKind);					
 							var colors = map.getVerticesData(BABYLON.VertexBuffer.ColorKind);
@@ -994,7 +651,7 @@ callApi(){
 								var thom =0 ;
 								var ty = 0;
 								var ja = 0;
-								var flagColor = false;
+								
 								var positions = map.getVerticesData(BABYLON.VertexBuffer.PositionKind);
 								//console.log(itensityFe);
 								for(var p = 0; p < ((positions.length / 3)  ); p++) {
@@ -1012,7 +669,7 @@ callApi(){
 						var thom =0 ;
 						var ty = 0;
 						var ja = 0;
-						var flagColor = false;
+						
 						var positions = map.getVerticesData(BABYLON.VertexBuffer.PositionKind);
 						
 						//console.log(itensityFe);
@@ -1042,7 +699,7 @@ callApi(){
 							var thom =0 ;
 							var ty = 0;
 							var ja = 0;
-							var flagColor = false;
+							
 							var positions = map.getVerticesData(BABYLON.VertexBuffer.PositionKind);
 							
 							//console.log(itensityFe);
@@ -1068,7 +725,448 @@ callApi(){
 						var thom =0 ;
 						var ty = 0;
 						var ja = 0;
-						var flagColor = false;
+					
+						var positions = map.getVerticesData(BABYLON.VertexBuffer.PositionKind);
+						
+						//console.log(itensityFe);
+						//console.log(Math.max(...rangeFe));
+						for(var p = 0; p < ((positions.length / 3)  ); p++) {
+							var arr = paletteGrays(itensityFe[p]);
+							
+							colors.push(arr[0], arr[1], arr[2], 1);
+							
+							
+						}
+						
+						map.setVerticesData(BABYLON.VertexBuffer.ColorKind, colors);
+
+						}
+					
+				  }
+				  (function(){console.log("Quito");myModal.style.display="none";})();
+				  
+				}
+
+				aux3d.onclick= function(){
+					aux3d.classList.add("activeState");
+					aux2d.classList.remove("activeState");
+					auxWire.classList.remove("activeState");
+					
+					flag2d = false;
+					if(!flagWireframe){	
+						map.dispose();
+									
+						var paths = [];
+						dataI=0;
+						
+						var z;  
+						var x; 
+						var y;  				                   // array for the ribbon model
+						for (var l = 0; l < mapSubX; l++) {
+							var path = [];                          // only for the ribbon
+							for (var w = 0; w < mapSubZ; w++) {
+								z =w;
+								x = l;
+								//var y = noise.simplex2(x * noiseScale, z * noiseScale);
+								//y *= (0.5 + y) * y * elevationScale;   // let's increase a bit the noise computed altitude
+							
+								y = -rangeFe[dataI];
+								
+
+								mapData[3 *(l * mapSubX + w)] = x;
+								mapData[3 * (l * mapSubX + w) + 1] = y;
+								mapData[3 * (l * mapSubX + w) + 2] = z;
+								
+								path.push(new BABYLON.Vector3(x, y, z));
+								dataI++;
+							}
+							paths.push(path);
+						}
+						
+						//console.log(rangeFe);
+				
+						map = BABYLON.MeshBuilder.CreateRibbon("m", {pathArray: paths, sideOrientation: 2}, scene);
+						//map.rotate(BABYLON.Axis.X, Math.PI, BABYLON.Space.WORLD)
+						map.position.y = 0;
+						var mapMaterial = new BABYLON.StandardMaterial("mm", scene);
+						
+						mapMaterial.wireframe = false;
+						map.material = mapMaterial;
+						
+						//light.excludedMeshes.push(map);
+						if(flagColor){
+							if(flagRange){
+								var positions = map.getVerticesData(BABYLON.VertexBuffer.PositionKind);					
+								var colors = map.getVerticesData(BABYLON.VertexBuffer.ColorKind);
+							
+									
+									colors = [];
+									var thom =0 ;
+									var ty = 0;
+									var ja = 0;
+									
+									var positions = map.getVerticesData(BABYLON.VertexBuffer.PositionKind);
+									//console.log(itensityFe);
+									for(var p = 0; p < ((positions.length / 3)  ); p++) {
+										var arr = paletteColor(Math.round(rangeFe[p])*12);
+										colors.push(arr[0], arr[1], arr[2], 1);
+										
+									}
+									
+									map.setVerticesData(BABYLON.VertexBuffer.ColorKind, colors);
+								
+							}else{
+								var colors = map.getVerticesData(BABYLON.VertexBuffer.ColorKind);
+
+							colors = [];
+							var thom =0 ;
+							var ty = 0;
+							var ja = 0;
+							
+							var positions = map.getVerticesData(BABYLON.VertexBuffer.PositionKind);
+							
+							//console.log(itensityFe);
+							//console.log(Math.max(...rangeFe));
+
+							for(var p = 0; p < ((positions.length / 3)  ); p++) {
+								
+								var arr = paletteColor(itensityFe[p]);
+								colors.push(arr[0], arr[1], arr[2], 1);
+								
+								
+							}
+							
+							map.setVerticesData(BABYLON.VertexBuffer.ColorKind, colors);
+						
+							}
+						
+					}else{
+							if(flagRange){
+								var positions = map.getVerticesData(BABYLON.VertexBuffer.PositionKind);
+								
+								
+								var colors = map.getVerticesData(BABYLON.VertexBuffer.ColorKind);
+						
+							
+								colors = [];
+								var thom =0 ;
+								var ty = 0;
+								var ja = 0;
+								
+								var positions = map.getVerticesData(BABYLON.VertexBuffer.PositionKind);
+								
+								//console.log(itensityFe);
+								//console.log(Math.max(...rangeFe));
+								for(var p = 0; p < ((positions.length / 3)  ); p++) {
+									var arr = paletteGrays(Math.round(rangeFe[p])*12);
+									
+									colors.push(arr[0], arr[1], arr[2], 1);
+									
+									
+								}
+								
+								map.setVerticesData(BABYLON.VertexBuffer.ColorKind, colors);
+
+							}else{
+								var positions = map.getVerticesData(BABYLON.VertexBuffer.PositionKind);
+								
+								
+							var colors = map.getVerticesData(BABYLON.VertexBuffer.ColorKind);
+					
+						
+							colors = [];
+							var thom =0 ;
+							var ty = 0;
+							var ja = 0;
+							
+							var positions = map.getVerticesData(BABYLON.VertexBuffer.PositionKind);
+							
+							//console.log(itensityFe);
+							//console.log(Math.max(...rangeFe));
+							for(var p = 0; p < ((positions.length / 3)  ); p++) {
+								var arr = paletteGrays(itensityFe[p]);
+								
+								colors.push(arr[0], arr[1], arr[2], 1);
+								
+								
+							}
+							
+							map.setVerticesData(BABYLON.VertexBuffer.ColorKind, colors);
+
+							}
+						
+					}
+				}else{
+					var mapMaterial = new BABYLON.StandardMaterial("mm", scene);
+						
+						mapMaterial.wireframe = false;
+						map.material = mapMaterial;
+				}
+				flagWireframe = false;
+
+				}
+
+				auxWire.onclick= function(){
+					auxWire.classList.add("activeState");
+					aux2d.classList.remove("activeState");
+					aux3d.classList.remove("activeState");
+					flagWireframe = true;
+					if(flag2d){
+
+						
+						map.dispose();
+									
+						var paths = [];
+						dataI=0;
+						
+						var z;  
+						var x; 
+						var y;  				                   // array for the ribbon model
+						for (var l = 0; l < mapSubX; l++) {
+							var path = [];                          // only for the ribbon
+							for (var w = 0; w < mapSubZ; w++) {
+								z =w;
+								x = l;
+								//var y = noise.simplex2(x * noiseScale, z * noiseScale);
+								//y *= (0.5 + y) * y * elevationScale;   // let's increase a bit the noise computed altitude
+							
+								y = -rangeFe[dataI];
+								
+
+								mapData[3 *(l * mapSubX + w)] = x;
+								mapData[3 * (l * mapSubX + w) + 1] = y;
+								mapData[3 * (l * mapSubX + w) + 2] = z;
+								
+								path.push(new BABYLON.Vector3(x, y, z));
+								dataI++;
+							}
+							paths.push(path);
+						}
+						
+						//console.log(rangeFe);
+				
+						map = BABYLON.MeshBuilder.CreateRibbon("m", {pathArray: paths, sideOrientation: 2}, scene);
+						//map.rotate(BABYLON.Axis.X, Math.PI, BABYLON.Space.WORLD)
+						map.position.y = 0;
+						var mapMaterial = new BABYLON.StandardMaterial("mm", scene);
+						
+						mapMaterial.wireframe = true;
+						map.material = mapMaterial;
+						
+						//light.excludedMeshes.push(map);
+						if(flagColor){
+							if(flagRange){
+								var positions = map.getVerticesData(BABYLON.VertexBuffer.PositionKind);					
+								var colors = map.getVerticesData(BABYLON.VertexBuffer.ColorKind);
+							
+									
+									colors = [];
+									var thom =0 ;
+									var ty = 0;
+									var ja = 0;
+									
+									var positions = map.getVerticesData(BABYLON.VertexBuffer.PositionKind);
+									//console.log(itensityFe);
+									for(var p = 0; p < ((positions.length / 3)  ); p++) {
+										var arr = paletteColor(Math.round(rangeFe[p])*12);
+										colors.push(arr[0], arr[1], arr[2], 1);
+										
+									}
+									
+									map.setVerticesData(BABYLON.VertexBuffer.ColorKind, colors);
+								
+							}else{
+								var colors = map.getVerticesData(BABYLON.VertexBuffer.ColorKind);
+
+							colors = [];
+							var thom =0 ;
+							var ty = 0;
+							var ja = 0;
+							
+							var positions = map.getVerticesData(BABYLON.VertexBuffer.PositionKind);
+							
+							//console.log(itensityFe);
+							//console.log(Math.max(...rangeFe));
+
+							for(var p = 0; p < ((positions.length / 3)  ); p++) {
+								
+								var arr = paletteColor(itensityFe[p]);
+								colors.push(arr[0], arr[1], arr[2], 1);
+								
+								
+							}
+							
+							map.setVerticesData(BABYLON.VertexBuffer.ColorKind, colors);
+						
+							}
+						
+					}else{
+							if(flagRange){
+								var positions = map.getVerticesData(BABYLON.VertexBuffer.PositionKind);
+								
+								
+								var colors = map.getVerticesData(BABYLON.VertexBuffer.ColorKind);
+						
+							
+								colors = [];
+								var thom =0 ;
+								var ty = 0;
+								var ja = 0;
+								
+								var positions = map.getVerticesData(BABYLON.VertexBuffer.PositionKind);
+								
+								//console.log(itensityFe);
+								//console.log(Math.max(...rangeFe));
+								for(var p = 0; p < ((positions.length / 3)  ); p++) {
+									var arr = paletteGrays(Math.round(rangeFe[p])*12);
+									
+									colors.push(arr[0], arr[1], arr[2], 1);
+									
+									
+								}
+								
+								map.setVerticesData(BABYLON.VertexBuffer.ColorKind, colors);
+
+							}else{
+								var positions = map.getVerticesData(BABYLON.VertexBuffer.PositionKind);
+								
+								
+							var colors = map.getVerticesData(BABYLON.VertexBuffer.ColorKind);
+					
+						
+							colors = [];
+							var thom =0 ;
+							var ty = 0;
+							var ja = 0;
+							
+							var positions = map.getVerticesData(BABYLON.VertexBuffer.PositionKind);
+							
+							//console.log(itensityFe);
+							//console.log(Math.max(...rangeFe));
+							for(var p = 0; p < ((positions.length / 3)  ); p++) {
+								var arr = paletteGrays(itensityFe[p]);
+								
+								colors.push(arr[0], arr[1], arr[2], 1);
+								
+								
+							}
+							
+							map.setVerticesData(BABYLON.VertexBuffer.ColorKind, colors);
+
+							}
+						
+					}
+
+				}else{
+					var mapMaterial = new BABYLON.StandardMaterial("mm", scene);
+				
+						mapMaterial.wireframe = true;
+						map.material = mapMaterial;
+				}
+				flag2d = false;
+
+				}
+
+				color.onclick= function(){
+					color.classList.add("activeState");
+					gray.classList.remove("activeState");
+
+					flagColor = true;
+
+					auxPaletteColor[0].style.display = "inline";
+					auxPaletteGray[0].style.display = "none";
+					if(flagRange){
+						var positions = map.getVerticesData(BABYLON.VertexBuffer.PositionKind);					
+						var colors = map.getVerticesData(BABYLON.VertexBuffer.ColorKind);
+					
+							
+							colors = [];
+							var thom =0 ;
+							var ty = 0;
+							var ja = 0;
+							 
+							var positions = map.getVerticesData(BABYLON.VertexBuffer.PositionKind);
+							//console.log(itensityFe);
+							for(var p = 0; p < ((positions.length / 3)  ); p++) {
+								var arr = paletteColor(Math.round(rangeFe[p])*12);
+								colors.push(arr[0], arr[1], arr[2], 1);
+								
+							}
+							
+							map.setVerticesData(BABYLON.VertexBuffer.ColorKind, colors);
+						
+					}else{
+						var colors = map.getVerticesData(BABYLON.VertexBuffer.ColorKind);
+
+					colors = [];
+					var thom =0 ;
+					var ty = 0;
+					var ja = 0;
+					 
+					var positions = map.getVerticesData(BABYLON.VertexBuffer.PositionKind);
+					
+					//console.log(itensityFe);
+					//console.log(Math.max(...rangeFe));
+
+					for(var p = 0; p < ((positions.length / 3)  ); p++) {
+						
+						var arr = paletteColor(itensityFe[p]);
+						colors.push(arr[0], arr[1], arr[2], 1);
+						
+						
+					}
+					
+					map.setVerticesData(BABYLON.VertexBuffer.ColorKind, colors);
+				
+					}
+				
+
+				}
+
+				gray.onclick= function(){
+					gray.classList.add("activeState");
+					color.classList.remove("activeState");
+					auxPaletteColor[0].style.display = "none";
+					auxPaletteGray[0].style.display = "inline";
+					
+					flagColor = false;
+						if(flagRange){
+							var positions = map.getVerticesData(BABYLON.VertexBuffer.PositionKind);
+							
+							
+							var colors = map.getVerticesData(BABYLON.VertexBuffer.ColorKind);
+					
+						
+							colors = [];
+							var thom =0 ;
+							var ty = 0;
+							var ja = 0;
+							 
+							var positions = map.getVerticesData(BABYLON.VertexBuffer.PositionKind);
+							
+							//console.log(itensityFe);
+							//console.log(Math.max(...rangeFe));
+							for(var p = 0; p < ((positions.length / 3)  ); p++) {
+								var arr = paletteGrays(Math.round(rangeFe[p])*12);
+								
+								colors.push(arr[0], arr[1], arr[2], 1);
+								
+								
+							}
+							
+							map.setVerticesData(BABYLON.VertexBuffer.ColorKind, colors);
+
+						}else{
+							var positions = map.getVerticesData(BABYLON.VertexBuffer.PositionKind);
+							
+							
+						var colors = map.getVerticesData(BABYLON.VertexBuffer.ColorKind);
+				
+					
+						colors = [];
+						var thom =0 ;
+						var ty = 0;
+						var ja = 0;
 						var positions = map.getVerticesData(BABYLON.VertexBuffer.PositionKind);
 						
 						//console.log(itensityFe);
@@ -1088,96 +1186,96 @@ callApi(){
 
 						}
 					
-				  }
-				  }
-				  
-				 
-				  //range or intensity
-					chkBoxRange.onchange = function () {
-						
-						//console.log("sadsdas");
-						flagRange = true;
+					
+				}
 
-						if(!chkBoxColors.checked){
-							var positions = map.getVerticesData(BABYLON.VertexBuffer.PositionKind);					
-							var colors = map.getVerticesData(BABYLON.VertexBuffer.ColorKind);
+				intensityA.onclick= function(){
+					intensityA.classList.add("activeState");
+					rangeA.classList.remove("activeState");
+					
+					flagRange=false;
+					if(flagColor){
+						var colors = map.getVerticesData(BABYLON.VertexBuffer.ColorKind);
+					
+
 						
-								
-								colors = [];
-								var thom =0 ;
-								var ty = 0;
-								var ja = 0;
-								var flagColor = false;
-								var positions = map.getVerticesData(BABYLON.VertexBuffer.PositionKind);
-								//console.log(itensityFe);
-								for(var p = 0; p < ((positions.length / 3)  ); p++) {
-									var arr = paletteColor(Math.round(rangeFe[p])*12);
-									colors.push(arr[0], arr[1], arr[2], 1);
-									
-								}
-								
-								map.setVerticesData(BABYLON.VertexBuffer.ColorKind, colors);
-							
-						}else{
-							var positions = map.getVerticesData(BABYLON.VertexBuffer.PositionKind);
-								
-								
-								var colors = map.getVerticesData(BABYLON.VertexBuffer.ColorKind);
+						colors = [];
+						var thom =0 ;
+						var ty = 0;
+						var ja = 0;
+						var positions = map.getVerticesData(BABYLON.VertexBuffer.PositionKind);
 						
+						//console.log(itensityFe);
+						//console.log(Math.max(...rangeFe));
+
+						for(var p = 0; p < ((positions.length / 3)  ); p++) {
 							
-								colors = [];
-								var thom =0 ;
-								var ty = 0;
-								var ja = 0;
-								var flagColor = false;
-								var positions = map.getVerticesData(BABYLON.VertexBuffer.PositionKind);
-								
-								//console.log(itensityFe);
-								//console.log(Math.max(...rangeFe));
-								for(var p = 0; p < ((positions.length / 3)  ); p++) {
-									var arr = paletteGrays(Math.round(rangeFe[p])*12);
-									
-									colors.push(arr[0], arr[1], arr[2], 1);
-								
-									
-								}
-								
-								map.setVerticesData(BABYLON.VertexBuffer.ColorKind, colors);
-	
+							var arr = paletteColor(itensityFe[p]);
+							colors.push(arr[0], arr[1], arr[2], 1);
+						
 						}
 						
-					}
-					chkBoxIntensity.onchange = function () {
-						flagRange = false;
+						map.setVerticesData(BABYLON.VertexBuffer.ColorKind, colors);
+					
+					}else{
+						var positions = map.getVerticesData(BABYLON.VertexBuffer.PositionKind);
+							
+							
+						var colors = map.getVerticesData(BABYLON.VertexBuffer.ColorKind);
+				
+					
+						colors = [];
+						var thom =0 ;
+						var ty = 0;
+						var ja = 0;
 						
-						if(!chkBoxColors.checked){
-							var colors = map.getVerticesData(BABYLON.VertexBuffer.ColorKind);
+						var positions = map.getVerticesData(BABYLON.VertexBuffer.PositionKind);
 						
+						//console.log(itensityFe);
+						//console.log(Math.max(...rangeFe));
+						for(var p = 0; p < ((positions.length / 3)  ); p++) {
+							var arr = paletteGrays(itensityFe[p]);
+							
+							colors.push(arr[0], arr[1], arr[2], 1);
+							
+							
+						}
+						
+						map.setVerticesData(BABYLON.VertexBuffer.ColorKind, colors);
 
+					}
+				}
+
+				rangeA.onclick= function(){
+					rangeA.classList.add("activeState");
+					intensityA.classList.remove("activeState");
+					
+					flagRange=true;
+
+					if(flagColor){
+						var positions = map.getVerticesData(BABYLON.VertexBuffer.PositionKind);					
+						var colors = map.getVerticesData(BABYLON.VertexBuffer.ColorKind);
+					
 							
 							colors = [];
 							var thom =0 ;
 							var ty = 0;
 							var ja = 0;
-							var flagColor = false;
+							
 							var positions = map.getVerticesData(BABYLON.VertexBuffer.PositionKind);
-							
 							//console.log(itensityFe);
-							//console.log(Math.max(...rangeFe));
-
 							for(var p = 0; p < ((positions.length / 3)  ); p++) {
-								
-								var arr = paletteColor(itensityFe[p]);
+								var arr = paletteColor(Math.round(rangeFe[p])*12);
 								colors.push(arr[0], arr[1], arr[2], 1);
-							
+								
 							}
 							
 							map.setVerticesData(BABYLON.VertexBuffer.ColorKind, colors);
 						
-						}else{
-							var positions = map.getVerticesData(BABYLON.VertexBuffer.PositionKind);
-								
-								
+					}else{
+						var positions = map.getVerticesData(BABYLON.VertexBuffer.PositionKind);
+							
+							
 							var colors = map.getVerticesData(BABYLON.VertexBuffer.ColorKind);
 					
 						
@@ -1185,25 +1283,23 @@ callApi(){
 							var thom =0 ;
 							var ty = 0;
 							var ja = 0;
-							var flagColor = false;
+							 
 							var positions = map.getVerticesData(BABYLON.VertexBuffer.PositionKind);
 							
 							//console.log(itensityFe);
 							//console.log(Math.max(...rangeFe));
 							for(var p = 0; p < ((positions.length / 3)  ); p++) {
-								var arr = paletteGrays(itensityFe[p]);
+								var arr = paletteGrays(Math.round(rangeFe[p])*12);
 								
 								colors.push(arr[0], arr[1], arr[2], 1);
-								
+							
 								
 							}
 							
 							map.setVerticesData(BABYLON.VertexBuffer.ColorKind, colors);
 
-						}
-						
 					}
-
+				}
 
 					return scene;
 				}
@@ -2766,17 +2862,26 @@ callApi(){
 				}
 				
 				
-				document.getElementById("auxCheckColors").style.display = "inline";
+		
 				var scene = createScene();
 				engine.runRenderLoop(function(){
 					scene.render();
 				});
 				
-				document.getElementById("auxCheck").style.display = "inline";
-				document.getElementById("backLoad").style.display = "none";
-				
-				
+				let auxPaletteColor = document.getElementsByClassName("my-legendColor");
+				let auxPaletteGray = document.getElementsByClassName("my-legendGray");
+				let auxCol = document.getElementsByClassName("auxCol");
 
+				//document.getElementById("auxCheck").style.display = "inline";
+				document.getElementById("backLoad").style.display = "none";
+
+
+				auxPaletteColor[0].style.display = "inline";
+				auxPaletteGray[0].style.display = "none";
+				auxCol[0].style.display = "block";
+			
+
+				//Tri-state button
 
 
 			});
@@ -2785,18 +2890,26 @@ callApi(){
 }
 
 
-componentDidMount(){ //se ejecuta al montar el componente
-	console.log("se monto el componente");
+componentWillMount() {
 	
-}
+	
+  }
 
 	render(){
 		return(
-			<div>
 
-				<nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+			<div>
+				
+				<a href="#" id="btnLoad">holaaa </a>
+				<div id="myModal" className="modal">
+					<div className="modal-content">
+						<p>Loading..</p>
+					</div>
+				</div>
+		
+				<nav className="navbar navbar-expand-lg navbar-dark ">
 				  <a className="navbar-brand" href="#">3D VISUALIZER</a>
-				  <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+				  <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="'#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
 				    <span className="navbar-toggler-icon"></span>
 				  </button>
 				  <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
@@ -2805,56 +2918,608 @@ componentDidMount(){ //se ejecuta al montar el componente
 				    </div>
 				  </div>
 				</nav>
-				
+
+				<div className="auxbody">
+
+				<div className="toggle_radio">
+					<input defaultChecked type="radio" className="toggle_option" id="first_toggle" name="toggle_option" value="fail"></input>
+					<input type="radio" className="toggle_option" id="second_toggle" name="toggle_option" value="na"></input>
+					<input type="radio" className="toggle_option" id="third_toggle" name="toggle_option" value="pass"></input>
+					<label htmlFor="first_toggle"><p>Load Laser File</p></label>
+					<label htmlFor="second_toggle"><p>I RealTime Plot</p></label>
+					<label htmlFor="third_toggle"><p>Export to JPG</p></label>
+					<div className="toggle_option_slider">
+					</div>
+				</div>
+
+
+
 				<input type="file" id="inputUpload"  name="files[]" multiple/> 
 				<div className="row">
-					<button  id="Upload" type="button" className="btn btn-outline-primary" onClick={this.callApi}>Select File</button>
-					
-					<div className="switch row"  id="auxCheck">
-					<h3 className="display-4" id="wire">Wireframe:</h3>
-						<input type="checkbox" name="toggle" id="myCheck"></input>
-						<label htmlFor="myCheck"><i></i></label>
-						<span></span>
-					</div>
-
-					<div className="switch row"  id="auxCheck2">
-					<h3 className="display-4" id="2d">2D:</h3>
-						<input type="checkbox" name="toggle" id="myCheck2d"></input>
-						<label htmlFor="myCheck2d"><i></i></label>
-						<span></span>
-					</div>
-
-						<div id="RanorInt" className="switchRorI switch-blueRorI">
-							<input type="radio" className="switch-inputRorI" name="view2" value="week2" id="intensity" checked></input>
-							<label htmlFor="intensity" className="switch-labelRorI switch-label-offRorI">Intensity</label>
-							<input type="radio" className="switch-inputRorI" name="view2" value="month2" id="range"></input>
-							<label htmlFor="range" className="switch-labelRorI switch-label-onRorI">Range</label>
-							<span className="switch-selectionRorI"></span>
-						</div> 
-
-					<div className="switch row"  id="auxCheckColors">
-					<h3 className="display-4" id="grays">Grays</h3>
-						<input type="checkbox" name="toggle" id="myCheckColors"></input>
-						<label htmlFor="myCheckColors"><i></i></label>
-						<span></span>
-					</div>
-					
-					
+					<button  id="Upload" type="button" className="btn auxb" onClick={this.callApi}>Select File</button>				
 				</div>
-				<div id="backLoad">
+
+				<div id="backLoad" className="">
 					<div className="loader">
 						<div className="inner one"></div>
 						<div className="inner two"></div>
 						<div className="inner three"></div>
 						<p id="load">Loading...</p>
 					</div>
+				</div>
+
+				<div className="row">
+				<canvas id="canvas" className="col-md-9" ></canvas>
+			
+				<div className="col-md-2 auxCol">
+					<div className="row titleOptA">
+					<h4>Views</h4>
+					</div>
+					<div className="row">
+					<a href="#" id="3D" className="action-button animate blue activeState">3D</a>
+					</div>
+					<div className="row">
+					<a href="#" id="2D" className="action-button animate blue">2D</a>
+					</div>
+					<div className="row">
+					<a href="#" id="wireframe" className="action-button animate blue">Wireframe</a>
+					</div>
+
+					<div className="row titleOpt">
+					<h4>Colors</h4>
+					</div>
+					<div className="row">
+					<a href="#" id="color" className="action-button animate blue activeState">Color Scale</a>
+					</div>
+					<div className="row">
+					<a href="#" id="gray" className="action-button animate blue">Gray Scale</a>
+					</div>
+
+					<div className="row titleOpt">
+					<h4>Value</h4>
+					</div>
+					<div className="row">
+					<a href="#" id="intensityA" className="action-button animate blue activeState">Intensity</a>
+					</div>
+					<div className="row">
+					<a href="#" id="rangeA" className="action-button animate blue">Range</a>
+					</div>
+				</div>
 				</div>	
-				<canvas id="canvas" ></canvas>
 
+			
 
+			<br></br>
+		<div className='my-legendGray col-md-12'>
+		<div className='legend-title'>Gray Scale</div>
+		<div className='legend-scale'>
+		<ul className='legend-labels'>
 
-				
+			<li><span style={{background:'#000000'}}></span>0</li>
+			<li><span style={{background:'#010101'}}></span></li>
+			<li><span style={{background:'#020202'}}></span></li>
+			<li><span style={{background:'#030303'}}></span></li>
+			<li><span style={{background:'#040404'}}></span></li>
+			<li><span style={{background:'#050505'}}></span></li>
+			<li><span style={{background:'#060606'}}></span></li>
+			<li><span style={{background:'#070707'}}></span></li>
+			<li><span style={{background:'#080808'}}></span></li>
+			<li><span style={{background:'#090909'}}></span>10</li>
+			<li><span style={{background:'#0a0a0a'}}></span></li>
+			<li><span style={{background:'#0b0b0b'}}></span></li>
+			<li><span style={{background:'#0c0c0c'}}></span></li>
+			<li><span style={{background:'#0d0d0d'}}></span></li>
+			<li><span style={{background:'#0e0e0e'}}></span></li>
+			<li><span style={{background:'#0f0f0f'}}></span></li>
+			<li><span style={{background:'#101010'}}></span></li>
+			<li><span style={{background:'#111111'}}></span></li>
+			<li><span style={{background:'#121212'}}></span></li>
+			<li><span style={{background:'#131313'}}></span>20</li>
+			<li><span style={{background:'#141414'}}></span></li>
+			<li><span style={{background:'#151515'}}></span></li>
+			<li><span style={{background:'#161616'}}></span></li>
+			<li><span style={{background:'#171717'}}></span></li>
+			<li><span style={{background:'#181818'}}></span></li>
+			<li><span style={{background:'#191919'}}></span></li>
+			<li><span style={{background:'#1a1a1a'}}></span></li>
+			<li><span style={{background:'#1b1b1b'}}></span></li>
+			<li><span style={{background:'#1c1c1c'}}></span></li>
+			<li><span style={{background:'#1d1d1d'}}></span>30</li>
+			<li><span style={{background:'#1e1e1e'}}></span></li>
+			<li><span style={{background:'#1f1f1f'}}></span></li>
+			<li><span style={{background:'#202020'}}></span></li>
+			<li><span style={{background:'#212121'}}></span></li>
+			<li><span style={{background:'#222222'}}></span></li>
+			<li><span style={{background:'#232323'}}></span></li>
+			<li><span style={{background:'#242424'}}></span></li>
+			<li><span style={{background:'#252525'}}></span></li>
+			<li><span style={{background:'#262626'}}></span></li>
+			<li><span style={{background:'#272727'}}></span>40</li>
+			<li><span style={{background:'#282828'}}></span></li>
+			<li><span style={{background:'#292929'}}></span></li>
+			<li><span style={{background:'#2b2b2b'}}></span></li>
+			<li><span style={{background:'#2c2c2c'}}></span></li>
+			<li><span style={{background:'#2d2d2d'}}></span></li>
+			<li><span style={{background:'#2e2e2e'}}></span></li>
+			<li><span style={{background:'#2f2f2f'}}></span></li>
+			<li><span style={{background:'#303030'}}></span></li>
+			<li><span style={{background:'#313131'}}></span></li>
+			<li><span style={{background:'#323232'}}></span>50</li>
+			<li><span style={{background:'#333333'}}></span></li>
+			<li><span style={{background:'#343434'}}></span></li>
+			<li><span style={{background:'#353535'}}></span></li>
+			<li><span style={{background:'#363636'}}></span></li>
+			<li><span style={{background:'#373737'}}></span></li>
+			<li><span style={{background:'#383838'}}></span></li>
+			<li><span style={{background:'#393939'}}></span></li>
+			<li><span style={{background:'#3a3a3a'}}></span></li>
+			<li><span style={{background:'#3b3b3b'}}></span></li>
+			<li><span style={{background:'#3c3c3c'}}></span>60</li>
+			<li><span style={{background:'#3d3d3d'}}></span></li>
+			<li><span style={{background:'#3e3e3e'}}></span></li>
+			<li><span style={{background:'#3f3f3f'}}></span></li>
+			<li><span style={{background:'#404040'}}></span></li>
+			<li><span style={{background:'#414141'}}></span></li>
+			<li><span style={{background:'#424242'}}></span></li>
+			<li><span style={{background:'#434343'}}></span></li>
+			<li><span style={{background:'#444444'}}></span></li>
+			<li><span style={{background:'#454545'}}></span></li>
+			<li><span style={{background:'#464646'}}></span>70</li>
+			<li><span style={{background:'#474747'}}></span></li>
+			<li><span style={{background:'#484848'}}></span></li>
+			<li><span style={{background:'#494949'}}></span></li>
+			<li><span style={{background:'#4a4a4a'}}></span></li>
+			<li><span style={{background:'#4b4b4b'}}></span></li>
+			<li><span style={{background:'#4c4c4c'}}></span></li>
+			<li><span style={{background:'#4d4d4d'}}></span></li>
+			<li><span style={{background:'#4e4e4e'}}></span></li>
+			<li><span style={{background:'#4f4f4f'}}></span></li>
+			<li><span style={{background:'#505050'}}></span>80</li>
+			<li><span style={{background:'#515151'}}></span></li>
+			<li><span style={{background:'#525252'}}></span></li>
+			<li><span style={{background:'#535353'}}></span></li>
+			<li><span style={{background:'#545454'}}></span></li>
+			<li><span style={{background:'#555555'}}></span></li>
+			<li><span style={{background:'#565656'}}></span></li>
+			<li><span style={{background:'#575757'}}></span></li>
+			<li><span style={{background:'#585858'}}></span></li>
+			<li><span style={{background:'#595959'}}></span></li>
+			<li><span style={{background:'#5a5a5a'}}></span>90</li>
+			<li><span style={{background:'#5b5b5b'}}></span></li>
+			<li><span style={{background:'#5c5c5c'}}></span></li>
+			<li><span style={{background:'#5d5d5d'}}></span></li>
+			<li><span style={{background:'#5e5e5e'}}></span></li>
+			<li><span style={{background:'#5f5f5f'}}></span></li>
+			<li><span style={{background:'#606060'}}></span></li>
+			<li><span style={{background:'#616161'}}></span></li>
+			<li><span style={{background:'#626262'}}></span></li>
+			<li><span style={{background:'#636363'}}></span></li>
+			<li><span style={{background:'#646464'}}></span>100</li>
+			<li><span style={{background:'#656565'}}></span></li>
+			<li><span style={{background:'#666666'}}></span></li>
+			<li><span style={{background:'#676767'}}></span></li>
+			<li><span style={{background:'#686868'}}></span></li>
+			<li><span style={{background:'#696969'}}></span></li>
+			<li><span style={{background:'#6a6a6a'}}></span></li>
+			<li><span style={{background:'#6b6b6b'}}></span></li>
+			<li><span style={{background:'#6c6c6c'}}></span></li>
+			<li><span style={{background:'#6d6d6d'}}></span></li>
+			<li><span style={{background:'#6e6e6e'}}></span>110</li>
+			<li><span style={{background:'#6f6f6f'}}></span></li>
+			<li><span style={{background:'#707070'}}></span></li>
+			<li><span style={{background:'#717171'}}></span></li>
+			<li><span style={{background:'#727272'}}></span></li>
+			<li><span style={{background:'#737373'}}></span></li>
+			<li><span style={{background:'#747474'}}></span></li>
+			<li><span style={{background:'#757575'}}></span></li>
+			<li><span style={{background:'#767676'}}></span></li>
+			<li><span style={{background:'#777777'}}></span></li>
+			<li><span style={{background:'#787878'}}></span>120</li>
+			<li><span style={{background:'#797979'}}></span></li>
+			<li><span style={{background:'#7a7a7a'}}></span></li>
+			<li><span style={{background:'#7b7b7b'}}></span></li>
+			<li><span style={{background:'#7c7c7c'}}></span></li>
+			<li><span style={{background:'#7d7d7d'}}></span></li>
+			<li><span style={{background:'#7e7e7e'}}></span></li>
+			<li><span style={{background:'#808080'}}></span></li>
+			<li><span style={{background:'#818181'}}></span></li>
+			<li><span style={{background:'#828282'}}></span></li>
+			<li><span style={{background:'#838383'}}></span>130</li>
+			<li><span style={{background:'#848484'}}></span></li>
+			<li><span style={{background:'#858585'}}></span></li>
+			<li><span style={{background:'#868686'}}></span></li>
+			<li><span style={{background:'#878787'}}></span></li>
+			<li><span style={{background:'#888888'}}></span></li>
+			<li><span style={{background:'#898989'}}></span></li>
+			<li><span style={{background:'#8a8a8a'}}></span></li>
+			<li><span style={{background:'#8b8b8b'}}></span></li>
+			<li><span style={{background:'#8c8c8c'}}></span></li>
+			<li><span style={{background:'#8d8d8d'}}></span>140</li>
+			<li><span style={{background:'#8e8e8e'}}></span></li>
+			<li><span style={{background:'#8f8f8f'}}></span></li>
+			<li><span style={{background:'#909090'}}></span></li>
+			<li><span style={{background:'#919191'}}></span></li>
+			<li><span style={{background:'#929292'}}></span></li>
+			<li><span style={{background:'#939393'}}></span></li>
+			<li><span style={{background:'#949494'}}></span></li>
+			<li><span style={{background:'#959595'}}></span></li>
+			<li><span style={{background:'#969696'}}></span></li>
+			<li><span style={{background:'#979797'}}></span>150</li>
+			<li><span style={{background:'#989898'}}></span></li>
+			<li><span style={{background:'#999999'}}></span></li>
+			<li><span style={{background:'#9a9a9a'}}></span></li>
+			<li><span style={{background:'#9b9b9b'}}></span></li>
+			<li><span style={{background:'#9c9c9c'}}></span></li>
+			<li><span style={{background:'#9d9d9d'}}></span></li>
+			<li><span style={{background:'#9e9e9e'}}></span></li>
+			<li><span style={{background:'#9f9f9f'}}></span></li>
+			<li><span style={{background:'#a0a0a0'}}></span></li>
+			<li><span style={{background:'#a1a1a1'}}></span>160</li>
+			<li><span style={{background:'#a2a2a2'}}></span></li>
+			<li><span style={{background:'#a3a3a3'}}></span></li>
+			<li><span style={{background:'#a4a4a4'}}></span></li>
+			<li><span style={{background:'#a5a5a5'}}></span></li>
+			<li><span style={{background:'#a6a6a6'}}></span></li>
+			<li><span style={{background:'#a7a7a7'}}></span></li>
+			<li><span style={{background:'#a8a8a8'}}></span></li>
+			<li><span style={{background:'#a9a9a9'}}></span></li>
+			<li><span style={{background:'#aaaaaa'}}></span></li>
+			<li><span style={{background:'#ababab'}}></span>170</li>
+			<li><span style={{background:'#acacac'}}></span></li>
+			<li><span style={{background:'#adadad'}}></span></li>
+			<li><span style={{background:'#aeaeae'}}></span></li>
+			<li><span style={{background:'#afafaf'}}></span></li>
+			<li><span style={{background:'#b0b0b0'}}></span></li>
+			<li><span style={{background:'#b1b1b1'}}></span></li>
+			<li><span style={{background:'#b2b2b2'}}></span></li>
+			<li><span style={{background:'#b3b3b3'}}></span></li>
+			<li><span style={{background:'#b4b4b4'}}></span></li>
+			<li><span style={{background:'#b5b5b5'}}></span>180</li>
+			<li><span style={{background:'#b6b6b6'}}></span></li>
+			<li><span style={{background:'#b7b7b7'}}></span></li>
+			<li><span style={{background:'#b8b8b8'}}></span></li>
+			<li><span style={{background:'#b9b9b9'}}></span></li>
+			<li><span style={{background:'#bababa'}}></span></li>
+			<li><span style={{background:'#bbbbbb'}}></span></li>
+			<li><span style={{background:'#bcbcbc'}}></span></li>
+			<li><span style={{background:'#bdbdbd'}}></span></li>
+			<li><span style={{background:'#bebebe'}}></span></li>
+			<li><span style={{background:'#bfbfbf'}}></span>190</li>
+			<li><span style={{background:'#c0c0c0'}}></span></li>
+			<li><span style={{background:'#c1c1c1'}}></span></li>
+			<li><span style={{background:'#c2c2c2'}}></span></li>
+			<li><span style={{background:'#c3c3c3'}}></span></li>
+			<li><span style={{background:'#c4c4c4'}}></span></li>
+			<li><span style={{background:'#c5c5c5'}}></span></li>
+			<li><span style={{background:'#c6c6c6'}}></span></li>
+			<li><span style={{background:'#c7c7c7'}}></span></li>
+			<li><span style={{background:'#c8c8c8'}}></span></li>
+			<li><span style={{background:'#c9c9c9'}}></span>200</li>
+			<li><span style={{background:'#cacaca'}}></span></li>
+			<li><span style={{background:'#cbcbcb'}}></span></li>
+			<li><span style={{background:'#cccccc'}}></span></li>
+			<li><span style={{background:'#cdcdcd'}}></span></li>
+			<li><span style={{background:'#cecece'}}></span></li>
+			<li><span style={{background:'#cfcfcf'}}></span></li>
+			<li><span style={{background:'#d0d0d0'}}></span></li>
+			<li><span style={{background:'#d1d1d1'}}></span></li>
+			<li><span style={{background:'#d2d2d2'}}></span></li>
+			<li><span style={{background:'#d3d3d3'}}></span>210</li>
+			<li><span style={{background:'#d5d5d5'}}></span></li>
+			<li><span style={{background:'#d6d6d6'}}></span></li>
+			<li><span style={{background:'#d7d7d7'}}></span></li>
+			<li><span style={{background:'#d8d8d8'}}></span></li>
+			<li><span style={{background:'#d9d9d9'}}></span></li>
+			<li><span style={{background:'#dadada'}}></span></li>
+			<li><span style={{background:'#dbdbdb'}}></span></li>
+			<li><span style={{background:'#dcdcdc'}}></span></li>
+			<li><span style={{background:'#dddddd'}}></span></li>
+			<li><span style={{background:'#dedede'}}></span>220</li>
+			<li><span style={{background:'#dfdfdf'}}></span></li>
+			<li><span style={{background:'#e0e0e0'}}></span></li>
+			<li><span style={{background:'#e1e1e1'}}></span></li>
+			<li><span style={{background:'#e2e2e2'}}></span></li>
+			<li><span style={{background:'#e3e3e3'}}></span></li>
+			<li><span style={{background:'#e4e4e4'}}></span></li>
+			<li><span style={{background:'#e5e5e5'}}></span></li>
+			<li><span style={{background:'#e6e6e6'}}></span></li>
+			<li><span style={{background:'#e7e7e7'}}></span>230</li>
+			<li><span style={{background:'#e8e8e8'}}></span></li>
+			<li><span style={{background:'#e9e9e9'}}></span></li>
+			<li><span style={{background:'#eaeaea'}}></span></li>
+			<li><span style={{background:'#ebebeb'}}></span></li>
+			<li><span style={{background:'#ececec'}}></span></li>
+			<li><span style={{background:'#ededed'}}></span></li>
+			<li><span style={{background:'#eeeeee'}}></span></li>
+			<li><span style={{background:'#efefef'}}></span></li>
+			<li><span style={{background:'#f0f0f0'}}></span></li>
+			<li><span style={{background:'#f1f1f1'}}></span></li>
+			<li><span style={{background:'#f2f2f2'}}></span>240</li>
+			<li><span style={{background:'#f3f3f3'}}></span></li>
+			<li><span style={{background:'#f4f4f4'}}></span></li>
+			<li><span style={{background:'#f5f5f5'}}></span></li>
+			<li><span style={{background:'#f6f6f6'}}></span></li>
+			<li><span style={{background:'#f7f7f7'}}></span></li>
+			<li><span style={{background:'#f8f8f8'}}></span></li>
+			<li><span style={{background:'#f9f9f9'}}></span></li>
+			<li><span style={{background:'#fafafa'}}></span></li>
+			<li><span style={{background:'#fbfbfb'}}></span></li>
+			<li><span style={{background:'#fcfcfc'}}></span>>=250</li>
+			<li><span style={{background:'#fdfdfd'}}></span></li>
+			<li><span style={{background:'#fefefe'}}></span></li>
+			<li><span style={{background:'#ffffff'}}></span></li>
+		</ul>
+		</div>
+
+		</div>
+			
 		
+		<div className='my-legendColor'>
+		<div className='legend-title'>Color Scale</div>
+		<div className='legend-scale'>
+		<ul className='legend-labels'>
+
+		<li><span style={{background:'#000000'}}></span>0</li>
+		<li><span style={{background:'#000104'}}></span></li>
+		<li><span style={{background:'#010309'}}></span></li>
+		<li><span style={{background:'#01040d'}}></span></li>
+		<li><span style={{background:'#020612'}}></span></li>
+		<li><span style={{background:'#020716'}}></span></li>
+		<li><span style={{background:'#03091b'}}></span></li>
+		<li><span style={{background:'#030a1f'}}></span></li>
+		<li><span style={{background:'#030c24'}}></span></li>
+		<li><span style={{background:'#040d28'}}></span>10</li>
+		<li><span style={{background:'#040f2c'}}></span></li>
+		<li><span style={{background:'#051031'}}></span></li>
+		<li><span style={{background:'#051235'}}></span></li>
+		<li><span style={{background:'#06133a'}}></span></li>
+		<li><span style={{background:'#06153e'}}></span></li>
+		<li><span style={{background:'#061643'}}></span></li>
+		<li><span style={{background:'#071847'}}></span></li>
+		<li><span style={{background:'#07194c'}}></span></li>
+		<li><span style={{background:'#081b50'}}></span></li>
+		<li><span style={{background:'#081c55'}}></span>20</li>
+		<li><span style={{background:'#091e59'}}></span></li>
+		<li><span style={{background:'#091f5d'}}></span></li>
+		<li><span style={{background:'#092162'}}></span></li>
+		<li><span style={{background:'#0a2266'}}></span></li>
+		<li><span style={{background:'#0a246b'}}></span></li>
+		<li><span style={{background:'#0b256f'}}></span></li>
+		<li><span style={{background:'#0b2774'}}></span></li>
+		<li><span style={{background:'#0c2878'}}></span></li>
+		<li><span style={{background:'#0c2a7d'}}></span></li>
+		<li><span style={{background:'#0c2b81'}}></span>30</li>
+		<li><span style={{background:'#0d2d85'}}></span></li>
+		<li><span style={{background:'#0d2e8a'}}></span></li>
+		<li><span style={{background:'#0e308e'}}></span></li>
+		<li><span style={{background:'#0e3193'}}></span></li>
+		<li><span style={{background:'#0f3397'}}></span></li>
+		<li><span style={{background:'#0f349c'}}></span></li>
+		<li><span style={{background:'#0f36a0'}}></span></li>
+		<li><span style={{background:'#1037a5'}}></span></li>
+		<li><span style={{background:'#1039a9'}}></span></li>
+		<li><span style={{background:'#113aae'}}></span>40</li>
+		<li><span style={{background:'#113cb2'}}></span></li>
+		<li><span style={{background:'#123db6'}}></span></li>
+		<li><span style={{background:'#123fbb'}}></span></li>
+		<li><span style={{background:'#1240bf'}}></span></li>
+		<li><span style={{background:'#1342c4'}}></span></li>
+		<li><span style={{background:'#1343c8'}}></span></li>
+		<li><span style={{background:'#1445cd'}}></span></li>
+		<li><span style={{background:'#1446d1'}}></span></li>
+		<li><span style={{background:'#1548d6'}}></span></li>
+		<li><span style={{background:'#1549da'}}></span>50</li>
+		<li><span style={{background:'#1549da'}}></span></li>
+		<li><span style={{background:'#174cdb'}}></span></li>
+		<li><span style={{background:'#1a4fdc'}}></span></li>
+		<li><span style={{background:'#1c52dc'}}></span></li>
+		<li><span style={{background:'#1f56dd'}}></span></li>
+		<li><span style={{background:'#2159de'}}></span></li>
+		<li><span style={{background:'#235cdf'}}></span></li>
+		<li><span style={{background:'#265fdf'}}></span></li>
+		<li><span style={{background:'#2862e0'}}></span></li>
+		<li><span style={{background:'#2b65e1'}}></span>60</li>
+		<li><span style={{background:'#2d69e2'}}></span></li>
+		<li><span style={{background:'#2f6ce2'}}></span></li>
+		<li><span style={{background:'#326fe3'}}></span></li>
+		<li><span style={{background:'#3472e4'}}></span></li>
+		<li><span style={{background:'#3775e5'}}></span></li>
+		<li><span style={{background:'#3978e5'}}></span></li>
+		<li><span style={{background:'#3c7ce6'}}></span></li>
+		<li><span style={{background:'#3e7fe7'}}></span></li>
+		<li><span style={{background:'#4082e8'}}></span></li>
+		<li><span style={{background:'#4385e8'}}></span>70</li>
+		<li><span style={{background:'#4588e9'}}></span></li>
+		<li><span style={{background:'#488bea'}}></span></li>
+		<li><span style={{background:'#4a8feb'}}></span></li>
+		<li><span style={{background:'#4c92eb'}}></span></li>
+		<li><span style={{background:'#4f95ec'}}></span></li>
+		<li><span style={{background:'#5198ed'}}></span></li>
+		<li><span style={{background:'#549bee'}}></span></li>
+		<li><span style={{background:'#569eee'}}></span></li>
+		<li><span style={{background:'#58a2ef'}}></span></li>
+		<li><span style={{background:'#5ba5f0'}}></span>80</li>
+		<li><span style={{background:'#5da8f1'}}></span></li>
+		<li><span style={{background:'#60abf1'}}></span></li>
+		<li><span style={{background:'#62aef2'}}></span></li>
+		<li><span style={{background:'#64b1f3'}}></span></li>
+		<li><span style={{background:'#67b5f4'}}></span></li>
+		<li><span style={{background:'#69b8f4'}}></span></li>
+		<li><span style={{background:'#6cbbf5'}}></span></li>
+		<li><span style={{background:'#6ebef6'}}></span></li>
+		<li><span style={{background:'#71c1f7'}}></span></li>
+		<li><span style={{background:'#73c4f7'}}></span>90</li>
+		<li><span style={{background:'#75c8f8'}}></span></li>
+		<li><span style={{background:'#78cbf9'}}></span></li>
+		<li><span style={{background:'#7acefa'}}></span></li>
+		<li><span style={{background:'#7dd1fa'}}></span></li>
+		<li><span style={{background:'#7fd4fb'}}></span></li>
+		<li><span style={{background:'#81d7fc'}}></span></li>
+		<li><span style={{background:'#84dbfd'}}></span></li>
+		<li><span style={{background:'#86defd'}}></span></li>
+		<li><span style={{background:'#89e1fe'}}></span></li>
+		<li><span style={{background:'#8be4ff'}}></span>100</li>
+		<li><span style={{background:'#8be4ff'}}></span></li>
+		<li><span style={{background:'#8de4fb'}}></span></li>
+		<li><span style={{background:'#90e5f6'}}></span></li>
+		<li><span style={{background:'#92e5f2'}}></span></li>
+		<li><span style={{background:'#94e6ed'}}></span></li>
+		<li><span style={{background:'#97e6e9'}}></span></li>
+		<li><span style={{background:'#99e6e5'}}></span></li>
+		<li><span style={{background:'#9ce7e0'}}></span></li>
+		<li><span style={{background:'#9ee7dc'}}></span></li>
+		<li><span style={{background:'#a0e8d7'}}></span>110</li>
+		<li><span style={{background:'#a3e8d3'}}></span></li>
+		<li><span style={{background:'#a5e8cf'}}></span></li>
+		<li><span style={{background:'#a7e9ca'}}></span></li>
+		<li><span style={{background:'#aae9c6'}}></span></li>
+		<li><span style={{background:'#aceac1'}}></span></li>
+		<li><span style={{background:'#afeabd'}}></span></li>
+		<li><span style={{background:'#b1ebb8'}}></span></li>
+		<li><span style={{background:'#b3ebb4'}}></span></li>
+		<li><span style={{background:'#b6ebb0'}}></span></li>
+		<li><span style={{background:'#b8ecab'}}></span>120</li>
+		<li><span style={{background:'#baeca7'}}></span></li>
+		<li><span style={{background:'#bdeda2'}}></span></li>
+		<li><span style={{background:'#bfed9e'}}></span></li>
+		<li><span style={{background:'#c1ed9a'}}></span></li>
+		<li><span style={{background:'#c4ee95'}}></span></li>
+		<li><span style={{background:'#c6ee91'}}></span></li>
+		<li><span style={{background:'#c9ef8c'}}></span></li>
+		<li><span style={{background:'#cbef88'}}></span></li>
+		<li><span style={{background:'#cdef84'}}></span></li>
+		<li><span style={{background:'#d0f07f'}}></span>130</li>
+		<li><span style={{background:'#d2f07b'}}></span></li>
+		<li><span style={{background:'#d4f176'}}></span></li>
+		<li><span style={{background:'#d7f172'}}></span></li>
+		<li><span style={{background:'#d9f16e'}}></span></li>
+		<li><span style={{background:'#dbf269'}}></span></li>
+		<li><span style={{background:'#def265'}}></span></li>
+		<li><span style={{background:'#e0f360'}}></span></li>
+		<li><span style={{background:'#e3f35c'}}></span></li>
+		<li><span style={{background:'#e5f457'}}></span></li>
+		<li><span style={{background:'#e7f453'}}></span>140</li>
+		<li><span style={{background:'#eaf44f'}}></span></li>
+		<li><span style={{background:'#ecf54a'}}></span></li>
+		<li><span style={{background:'#eef546'}}></span></li>
+		<li><span style={{background:'#f1f641'}}></span></li>
+		<li><span style={{background:'#f3f63d'}}></span></li>
+		<li><span style={{background:'#f6f639'}}></span></li>
+		<li><span style={{background:'#f8f734'}}></span></li>
+		<li><span style={{background:'#faf730'}}></span></li>
+		<li><span style={{background:'#fdf82b'}}></span></li>
+		<li><span style={{background:'#fff827'}}></span>150</li>
+		<li><span style={{background:'#fff827'}}></span></li>
+		<li><span style={{background:'#fff629'}}></span></li>
+		<li><span style={{background:'#fff42b'}}></span></li>
+		<li><span style={{background:'#fff22d'}}></span></li>
+		<li><span style={{background:'#ffef2f'}}></span></li>
+		<li><span style={{background:'#ffed31'}}></span></li>
+		<li><span style={{background:'#ffeb33'}}></span></li>
+		<li><span style={{background:'#ffe935'}}></span></li>
+		<li><span style={{background:'#ffe737'}}></span></li>
+		<li><span style={{background:'#ffe539'}}></span>160</li>
+		<li><span style={{background:'#ffe33b'}}></span></li>
+		<li><span style={{background:'#ffe03d'}}></span></li>
+		<li><span style={{background:'#ffde3f'}}></span></li>
+		<li><span style={{background:'#ffdc42'}}></span></li>
+		<li><span style={{background:'#ffda44'}}></span></li>
+		<li><span style={{background:'#ffd846'}}></span></li>
+		<li><span style={{background:'#ffd648'}}></span></li>
+		<li><span style={{background:'#ffd44a'}}></span></li>
+		<li><span style={{background:'#ffd14c'}}></span></li>
+		<li><span style={{background:'#ffcf4e'}}></span>170</li>
+		<li><span style={{background:'#ffcd50'}}></span></li>
+		<li><span style={{background:'#ffcb52'}}></span></li>
+		<li><span style={{background:'#ffc954'}}></span></li>
+		<li><span style={{background:'#ffc756'}}></span></li>
+		<li><span style={{background:'#ffc558'}}></span></li>
+		<li><span style={{background:'#ffc25a'}}></span></li>
+		<li><span style={{background:'#ffc05c'}}></span></li>
+		<li><span style={{background:'#ffbe5e'}}></span></li>
+		<li><span style={{background:'#ffbc60'}}></span></li>
+		<li><span style={{background:'#ffba62'}}></span>180</li>
+		<li><span style={{background:'#ffb864'}}></span></li>
+		<li><span style={{background:'#ffb666'}}></span></li>
+		<li><span style={{background:'#ffb368'}}></span></li>
+		<li><span style={{background:'#ffb16a'}}></span></li>
+		<li><span style={{background:'#ffaf6c'}}></span></li>
+		<li><span style={{background:'#ffad6e'}}></span></li>
+		<li><span style={{background:'#ffab70'}}></span></li>
+		<li><span style={{background:'#ffa973'}}></span></li>
+		<li><span style={{background:'#ffa775'}}></span></li>
+		<li><span style={{background:'#ffa477'}}></span>190</li>
+		<li><span style={{background:'#ffa279'}}></span></li>
+		<li><span style={{background:'#ffa07b'}}></span></li>
+		<li><span style={{background:'#ff9e7d'}}></span></li>
+		<li><span style={{background:'#ff9c7f'}}></span></li>
+		<li><span style={{background:'#ff9a81'}}></span></li>
+		<li><span style={{background:'#ff9883'}}></span></li>
+		<li><span style={{background:'#ff9585'}}></span></li>
+		<li><span style={{background:'#ff9387'}}></span></li>
+		<li><span style={{background:'#ff9189'}}></span></li>
+		<li><span style={{background:'#ff8f8b'}}></span>200</li>
+		<li><span style={{background:'#ff8f8b'}}></span></li>
+		<li><span style={{background:'#ff8c88'}}></span></li>
+		<li><span style={{background:'#ff8a86'}}></span></li>
+		<li><span style={{background:'#ff8783'}}></span></li>
+		<li><span style={{background:'#ff8480'}}></span></li>
+		<li><span style={{background:'#ff817e'}}></span></li>
+		<li><span style={{background:'#ff7f7b'}}></span></li>
+		<li><span style={{background:'#ff7c78'}}></span></li>
+		<li><span style={{background:'#ff7976'}}></span></li>
+		<li><span style={{background:'#ff7673'}}></span>210</li>
+		<li><span style={{background:'#ff7470'}}></span></li>
+		<li><span style={{background:'#ff716e'}}></span></li>
+		<li><span style={{background:'#ff6e6b'}}></span></li>
+		<li><span style={{background:'#ff6b68'}}></span></li>
+		<li><span style={{background:'#ff6966'}}></span></li>
+		<li><span style={{background:'#ff6663'}}></span></li>
+		<li><span style={{background:'#ff6360'}}></span></li>
+		<li><span style={{background:'#ff605e'}}></span></li>
+		<li><span style={{background:'#ff5e5b'}}></span></li>
+		<li><span style={{background:'#ff5b58'}}></span>220</li>
+		<li><span style={{background:'#ff5856'}}></span></li>
+		<li><span style={{background:'#ff5553'}}></span></li>
+		<li><span style={{background:'#ff5350'}}></span></li>
+		<li><span style={{background:'#ff504e'}}></span></li>
+		<li><span style={{background:'#ff4d4b'}}></span></li>
+		<li><span style={{background:'#ff4a48'}}></span></li>
+		<li><span style={{background:'#ff4846'}}></span></li>
+		<li><span style={{background:'#ff4543'}}></span></li>
+		<li><span style={{background:'#ff4240'}}></span>230</li>
+		<li><span style={{background:'#ff3f3d'}}></span></li>
+		<li><span style={{background:'#ff3d3b'}}></span></li>
+		<li><span style={{background:'#ff3a38'}}></span></li>
+		<li><span style={{background:'#ff3735'}}></span></li>
+		<li><span style={{background:'#ff3433'}}></span></li>
+		<li><span style={{background:'#ff3230'}}></span></li>
+		<li><span style={{background:'#ff2f2d'}}></span></li>
+		<li><span style={{background:'#ff2c2b'}}></span></li>
+		<li><span style={{background:'#ff2928'}}></span></li>
+		<li><span style={{background:'#ff2725'}}></span></li>
+		<li><span style={{background:'#ff2423'}}></span>240</li>
+		<li><span style={{background:'#ff2120'}}></span></li>
+		<li><span style={{background:'#ff1e1d'}}></span></li>
+		<li><span style={{background:'#ff1c1b'}}></span></li>
+		<li><span style={{background:'#ff1918'}}></span></li>
+		<li><span style={{background:'#ff1615'}}></span></li>
+		<li><span style={{background:'#ff1313'}}></span></li>
+		<li><span style={{background:'#ff1110'}}></span></li>
+		<li><span style={{background:'#ff0e0d'}}></span></li>
+		<li><span style={{background:'#ff0b0b'}}></span></li>
+		<li><span style={{background:'#ff0808'}}></span>250</li>
+		<li><span style={{background:'#ff0605'}}></span></li>
+		<li><span style={{background:'#ff0303'}}></span></li>
+		<li><span style={{background:'#ff0000'}}></span></li>
+		</ul>
+		</div>
+
+		</div>
+
+
+		</div>		
+		<input read-only type="text" id="flagRead" defaultValue="false"></input>
 	</div>
 			)
 	}

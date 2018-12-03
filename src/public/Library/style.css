@@ -1,16 +1,24 @@
 #canvas {
-    width: 100%;
+    width: 70%;
     height: 100%; 
-    z-index: 1; 
+    padding: 0%;
+    border: solid black 2px;
+    margin-left: 15px;
+    margin-top: 15px;
+}
+
+.auxbody{
+  padding: 20px;
 }
 
 #backLoad {
-    height: 100vh; /* For 100% screen height */
-    width:  100vw;
-    background-color: #33334c;
-    z-index: -1;
-    display:none;
-    
+  width: 70% !important;
+  height: 100%; 
+  padding: 0%;
+  margin-left: 15px;
+  background-color: #2b3035;
+  display:none;
+    z-index:100;
 }
 
 #load{
@@ -340,3 +348,283 @@ transition: all .5s ease;
   background-image: -o-linear-gradient(top, #4fc9ee, #3aa2d0);
   background-image: linear-gradient(to bottom, #4fc9ee, #3aa2d0);
 }
+
+.my-legendColor{
+  display: none;
+ 
+}
+.my-legendColor .legend-title {
+  text-align: left;
+  margin-bottom: 8px;
+  font-weight: bold;
+  font-size: 90%;
+  }
+.my-legendColor .legend-scale ul {
+  margin: 0;
+  padding: 0;
+  float: left;
+  list-style: none;
+  }
+.my-legendColor .legend-scale ul li {
+  display: block;
+  float: left;
+  width: 4px;
+  margin-bottom: 6px;
+  text-align: center;
+  font-size: 80%;
+  list-style: none;
+  }
+.my-legendColor ul.legend-labels li span {
+  display: block;
+  float: left;
+  height: 15px;
+  width: 50px;
+  }
+.my-legendColor .legend-source {
+  font-size: 70%;
+  color: #999;
+  clear: both;
+  }
+.my-legendColor a {
+  color: #777;
+  }
+
+
+
+
+
+  .my-legendGray{
+    display: none;
+   
+  }
+.my-legendGray .legend-title {
+  text-align: left;
+  margin-bottom: 8px;
+  font-weight: bold;
+  font-size: 90%;
+  }
+.my-legendGray .legend-scale ul {
+  margin: 0;
+  padding: 0;
+  float: left;
+  list-style: none;
+  }
+.my-legendGray .legend-scale ul li {
+  display: block;
+  float: left;
+  width: 4px;
+  margin-bottom: 6px;
+  text-align: center;
+  font-size: 80%;
+  list-style: none;
+  }
+.my-legendGray ul.legend-labels li span {
+  display: block;
+  float: left;
+  height: 15px;
+  width: 50px;
+  }
+.my-legendGray .legend-source {
+  font-size: 70%;
+  color: #999;
+  clear: both;
+  }
+.my-legendGray a {
+  color: #777;
+  }
+
+
+  .animate{
+	transition: all 0.1s;
+	-webkit-transition: all 0.1s;
+}
+
+.action-button{
+	position: relative;
+  
+  margin: 0px 10px 10px 0px;
+  float: left;
+	border-radius: 10px;
+	font-size: 15px;
+	color: #FFF;
+  text-decoration: none !important;	
+  height:25px !important;
+}
+
+.action-button:hover{
+  color:#FFF !important;
+}
+.blue{
+  
+	background-color:#0f0f67;
+	border-bottom: 5px solid #010119;
+  text-shadow: 0px -2px #004;
+  width: 70% !important;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.activeState{
+  background-color: #010119;
+	transform: translate(0px,5px);
+  -webkit-transform: translate(0px,5px);
+  box-shadow: 0 0 3px rgb(0, 245, 225);
+}
+
+.auxCol{
+  margin-left: 30px;
+  display: none; 
+  background-color: #2b3035;
+  padding: 10px;
+  border: solid black 2px;
+  margin-top: 15px;
+}
+
+.titleOptA{
+  margin-top: 15px;
+  color: white !important;
+}
+.titleOpt{
+  margin-top: 25px;
+  color: white !important;
+}
+
+
+
+body{
+  background-color: #353c42;
+  color: #bdbdbd;
+}
+
+nav{
+  background-color: #272c30;
+}
+
+.auxCol .row{
+  margin-left: 15%;
+}
+
+
+#myModal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.7); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 40%;
+}
+
+
+/*tri-state button*/
+.toggle_radio{
+  position: relative;
+  background: rgba(255,255,255,.1);
+  margin: 4px 0px;
+  overflow: hidden;
+  padding: 0 !important;
+  -webkit-border-radius: 50px;
+  -moz-border-radius: 50px;
+  border-radius: 50px;
+  position: relative;
+  height: 26px;
+  width: 318px;
+}
+.toggle_radio > * {
+  float: left;
+}
+.toggle_radio input[type=radio]{
+  display: none;
+  /*position: fixed;*/
+}
+.toggle_radio label{
+  font-size:13px;
+  color: rgba(255,255,255,1);
+  z-index: 0;
+  display: block;
+  width: 100px;
+  height: 20px;
+  margin: 3px 3px;
+  -webkit-border-radius: 50px;
+  -moz-border-radius: 50px;
+  border-radius: 50px;
+  cursor: pointer;
+  z-index: 1;
+  /*background: rgba(0,0,0,.1);*/
+  text-align: center;
+  /*margin: 0 2px;*/
+  /*background: blue;*/ /*make it blue*/
+}
+.toggle_option_slider{
+  /*display: none;*/
+  /*background: red;*/
+  width: 100px;
+  height: 20px;
+  position: absolute;
+  top: 3px;
+  -webkit-border-radius: 50px;
+  -moz-border-radius: 50px;
+  border-radius: 50px;
+  -webkit-transition: all .4s ease;
+  -moz-transition: all .4s ease;
+  -o-transition: all .4s ease;
+  -ms-transition: all .4s ease;
+  transition: all .4s ease;
+}
+
+#first_toggle:checked ~ .toggle_option_slider{
+ background:rgba(15, 15, 103, 0.5);
+  left: 3px;
+  color: white;
+}
+#second_toggle:checked ~ .toggle_option_slider{
+  background:rgba(15, 15, 103, 0.5);
+  left: 109px;
+}
+#third_toggle:checked ~ .toggle_option_slider{
+  background:rgba(15, 15, 103, 0.5);
+  left: 215px;
+}
+
+.auxb{
+  background-color: #0f0f67;
+  color: white;
+  border: solid 2px #0f0f67;
+  height: 30px !important;
+  padding-top: 1px !important;
+  padding-bottom: 1px !important;
+  margin-top: 10px !important;
+  
+}
+.auxb:hover{
+  color: #0f0f67;
+  border: solid 2px #0f0f67;
+  background: rgba(0, 0, 0, 0);
+}
+
+.box-green {
+  display:       inline-block;
+  width:         10px;
+  height:        10px;
+  border-radius: 50%;
+  background:    #00FF00;
+  margin-left: 20px;
+}
+
+#flagRead{
+  display: none;
+}
+
