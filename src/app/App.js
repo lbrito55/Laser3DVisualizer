@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+
 class App extends Component{
 
 
@@ -10,6 +11,7 @@ callApi(){
 	console.log("llamando a node");
 
 	document.getElementById("inputUpload").click();
+	let nameFileForHtml = document.getElementById("nameFile");
 	let UpdFile = document.getElementById('inputUpload');
 
 	UpdFile.addEventListener('change', handleFileSelect, false);
@@ -32,7 +34,7 @@ callApi(){
 			
 		}
 		console.log(nameFiles);
-	
+		nameFileForHtml.innerHTML = nameFiles;
 		document.getElementById("backLoad").style.display = "block"; //Loading
 
 		/*var auxUrl = UpdFile.value.split("\\");
@@ -520,47 +522,27 @@ callApi(){
 				  
 				  
 				  scene.registerAfterRender(function() {	
-					  //console.log("estoy aqui ");
-			  
-					  if(mapColor["d"] || mapColor["D"]) {
-						  t=t+5;
-						//console.log(camera.position);
-						camera.setTarget(new BABYLON.Vector3(t, 1.0, 0.0)); 
-						camera.setPosition(new BABYLON.Vector3(camera.position.x+5, camera.position.y, camera.position.z)); 
-
-					  }
-
-
-					  if(mapColor["a"] || mapColor["A"]) {
-						t=t-5;
-					  //console.log(camera.position);
+					if(mapColor["d"] || mapColor["D"]) {
+						t=t+valueSlide;
+					 // console.log(t);
 					  camera.setTarget(new BABYLON.Vector3(t, 1.0, 0.0)); 
-					  camera.setPosition(new BABYLON.Vector3(camera.position.x-5, camera.position.y, camera.position.z)); 
-				  
-						
+					  camera.setPosition(new BABYLON.Vector3(camera.position.x+valueSlide, camera.position.y, camera.position.z)); 
+
 					}
 
-					if(mapColor["e"] || mapColor["E"]) {
-						t=t+25;
-					  //console.log(camera.position);					  
-					  camera.setTarget(new BABYLON.Vector3(t, 1.0, 0.0)); 
-					  camera.setPosition(new BABYLON.Vector3(camera.position.x+25, camera.position.y, camera.position.z)); 
-				  	
-					}
 
-					if(mapColor["q"] || mapColor["Q"]) {
-					  t=t-25;
-					//console.log(camera.position);
+					if(mapColor["a"] || mapColor["A"]) {
+					  t=t-valueSlide;
+					 // console.log(t);
 					camera.setTarget(new BABYLON.Vector3(t, 1.0, 0.0)); 
-					camera.setPosition(new BABYLON.Vector3(camera.position.x-25, camera.position.y, camera.position.z)); 
+					camera.setPosition(new BABYLON.Vector3(camera.position.x-valueSlide, camera.position.y, camera.position.z)); 
 				
-				  }
 					  
-				  });
+				  }
 
-				
-				
-							
+					
+				});
+
 				let aux2d = document.getElementById("2D");
 				let aux3d = document.getElementById("3D");
 				let auxWire = document.getElementById("wireframe");
@@ -572,11 +554,13 @@ callApi(){
 				let flagRange = false;
 				let flag2d = false;
 				let flagWireframe = false;
+				let Slide = document.getElementById("fader");
 
 				let btnLoad = document.getElementById("btnLoad");
 				let myModal = document.getElementById("myModal");
 				let flagLoad = false;
-				btnLoad.onclick= function(){
+				
+				/*btnLoad.onclick= function(){
 					if(flagLoad){
 						myModal.style.display="none";
 						flagLoad=false;
@@ -587,6 +571,15 @@ callApi(){
 						
 						console.log("pongo");
 					}
+				}
+				*/
+
+				let valueSlide =10;
+				Slide.oninput = function (){
+					valueSlide= parseInt(Slide.value);
+					//console.log(valueSlide);
+					var output = document.getElementById("volume");
+					output.value = valueSlide;
 				}
 
 				aux2d.onclick= function(){
@@ -2862,6 +2855,7 @@ callApi(){
 				}
 				
 				
+	
 		
 				var scene = createScene();
 				engine.runRenderLoop(function(){
@@ -2900,7 +2894,6 @@ componentWillMount() {
 
 			<div>
 				
-				<a href="#" id="btnLoad">holaaa </a>
 				<div id="myModal" className="modal">
 					<div className="modal-content">
 						<p>Loading..</p>
@@ -2936,7 +2929,8 @@ componentWillMount() {
 
 				<input type="file" id="inputUpload"  name="files[]" multiple/> 
 				<div className="row">
-					<button  id="Upload" type="button" className="btn auxb" onClick={this.callApi}>Select File</button>				
+					<button  id="Upload" type="button" className="btn auxb" onClick={this.callApi}>Select File</button>	
+					<p id="nameFile"></p>			
 				</div>
 
 				<div id="backLoad" className="">
@@ -2984,12 +2978,24 @@ componentWillMount() {
 					<div className="row">
 					<a href="#" id="rangeA" className="action-button animate blue">Range</a>
 					</div>
+
+					<div className="row titleOpt">
+					<h4>Speed</h4>
+					</div>
+					<div className="row">
+
+						<div className="slider col-md-10">
+						<input type="range" min="1" max="70" defaultValue="10" id="fader" step="1" ></input>
+						</div>
+						<div className="col-md-2 outputSlide">
+						<output htmlFor="fader" id="volume">10</output>
+						 </div>
+						
+					</div>
 				</div>
 				</div>	
 
 			
-
-			<br></br>
 		<div className='my-legendGray col-md-12'>
 		<div className='legend-title'>Gray Scale</div>
 		<div className='legend-scale'>
