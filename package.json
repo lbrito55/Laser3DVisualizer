@@ -20,7 +20,8 @@
     "react": "^16.5.2",
     "react-babylonjs": "^0.4.9",
     "react-dom": "^16.5.2",
-    "react-files": "^2.4.7"
+    "react-files": "^2.4.7",
+    "react-loading": "^2.0.3"
   },
   "devDependencies": {
     "@babel/core": "^7.1.2",
