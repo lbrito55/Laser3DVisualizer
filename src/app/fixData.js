@@ -1,5 +1,7 @@
 export default function(data, flagTwoFiles)
 {
+   
+   console.log(data);
     var itensityFe = [];
 	var auxIfe = 0;
 	var itensityFf = [];

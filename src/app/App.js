@@ -61,6 +61,20 @@ class App extends Component{
 		var url="";
 		var flagTwoFiles = false;
 		var nameFiles="";
+
+		for(var f = 0; f < files.length; f++){
+		var formData = new FormData();
+		//formData.set('files', files);
+		formData.append('files', files[f]);
+		fetch('http://localhost:8080/api/file', { // Your POST endpoint
+		method: 'POST',
+		body: formData // This is your file object
+		}).catch(err => console.log(err));
+	}
+
+	if(files.length == 2)// two files have been sent
+		flagTwoFiles = true;
+
 		for (var i = 0, f; f = files[i]; i++) {
 			if(i>0){ //if two files
 				url=url.concat("AnotherFile");
@@ -72,13 +86,22 @@ class App extends Component{
 			
 		}	
 		nameFileForHtml.innerHTML = nameFiles;
+		console.log(url);
 		this.setState({ twoFiles: flagTwoFiles});
 		this.getData(url);
 	}
 
 	getData(url){
-		fetch('api?tagid='+url).then(response => response.json())
-			.then(data => this.setState({ data1:data },()=> {this.useData();}));	
+		fetch('http://localhost:8080/api/getFile', { // Your POST endpoint
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({data: url}) // This is your file object
+			}).then(response => response.json())
+			  .then(data => this.setState({ data1:data },()=> {this.useData();}));
+			
+		//	console.log(this.props.data1);
 	}
 
 	useData(){	
@@ -105,6 +128,7 @@ class App extends Component{
 		
 		//Fix the data 
 		var arrayData = fixData(this.state.data1,this.state.twoFiles);
+		console.log(arrayData);
 		itensityFe = arrayData[0];
 		rangeFe = arrayData[1];
 		itensityFf = arrayData[2];
@@ -1018,7 +1042,9 @@ class App extends Component{
 					{this.state.showModal && <ReactLoading id="loading" type={'bars'} color="#fff" />}
 		
 					<UINavbar></UINavbar>
-		
+					
+					
+
 					<div className="auxbody">
 
 					<div className="toggle_radio">
@@ -1030,13 +1056,13 @@ class App extends Component{
 						<label htmlFor="third_toggle"><p>Export to JPG</p></label>
 						<div className="toggle_option_slider"></div>
 					</div>
-
-					<input type="file" id="inputUpload"  name="files[]" multiple/> 
-					<div className="row">
-						<button  id="Upload" type="button" className="btn auxb" onClick={this.clickInload}>Select File</button>	
-						<p id="nameFile"></p>			
-					</div>
-
+					
+						<input type="file" id="inputUpload"  name="fileBox" multiple/> 
+						<div className="row">
+							<button  id="Upload" type="button" className="btn auxb" onClick={this.clickInload}>Select File</button>	
+							<p id="nameFile"></p>			
+						</div>
+					
 					<div className="row">
 						
 						<canvas id="canvas" className="col-md-9" ></canvas>

@@ -1,9 +1,12 @@
+var nodeExternals = require('webpack-node-externals');
 module.exports = {
-	entry:'./src/app/index.js',
+	entry:'./src/index.js',
 	output: {
 		path: __dirname + '/src/public',
 		filename: 'bundle.js' 
 	},
+	target: 'node',
+	externals: [nodeExternals()],
 	module: {
 		rules:[
 			{
