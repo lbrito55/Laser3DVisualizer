@@ -27,6 +27,7 @@ let urlencodedParser = bodyParser.json;
 app.set('port', process.env.PORT || 8080);
 
 
+app.use('/apiTL',require('./routes/task.routes'));
 
 app.use(bodyParser.urlencoded({extended:false})); //handle body requests
 
@@ -39,7 +40,7 @@ const multerConfig = {
 	storage: multer.diskStorage({
 	 //Setup where the user's file will go
 	 destination: function(req, files, next){
-	   next(null, './src/public/uploads');
+	   next(null, './resources/app/src/public/uploads');
 	   },   
 	
 		//Then give the file a unique name
@@ -70,36 +71,86 @@ app.post('/api/file',multer(multerConfig).array('files',2),function(req,res){
  });
 
 
-app.post('/api/getFile' , function(req, res){
 
-//console.log(req.body);
-var x = req.body;
-var auxString =  x.data;
-var csvData=[];
+ app.get('/api/getFile', function (req, res) {
+   var url = req.query.tagid;
+   var substring = "AnotherFile";
+	if(url.includes(substring)){ //2 files
+		var urls=url.split("AnotherFile");
+		var auxUrls= [];
+		if(urls[0].includes("Left")){ //rigth is auxUrls[0]
+			auxUrls[0]=urls[1];
+			auxUrls[1]=urls[0];
+		}else{
+			auxUrls[0]=urls[0];
+			auxUrls[1]=urls[1];
+		}
+		//rigth is auxUrls[0]
+		console.log(auxUrls[0],auxUrls[1]);
+		fs.readFile('resources/app/src/public/uploads/'+auxUrls[0], function read(err, data) {
+			if (err) {
+				throw err;
+			}
 
-console.log(auxString);
-if(!auxString.includes("and")){ // single file
-    res.download('./src/public/uploads/' + auxString);
-	console.log(res);
-}else{
+		   fs.readFile('resources/app/src/public/uploads/'+auxUrls[1], function read(err, data2) {
+				if (err) {
+					throw err;
+				}
+		
+				var dataHexa = data.toString('hex').match(/../g).join(' ');
+				//var arrayHexa = dataHexa.split(" ");
+				var dataHexa2 = data2.toString('hex').match(/../g).join(' ');
+				//var arrayHexa2 = dataHexa2.split(" ");
 
-fs.createReadStream('./src/public/uploads/')
-    .pipe(parse({delimiter: ':'}))
-    .on('data', function(csvrow) {
-        console.log(csvrow);
-        //do something with csvrow
-        csvData.push(csvrow);        
-    })
-    .on('end',function() {
-      //do something wiht csvData
-      res.send(csvData);
-    });
+				var auxDataHexa = dataHexa.concat("hereIsTheSecond");
+				var auxDataHexa = auxDataHexa.concat(dataHexa2);
+                
+                fs.unlink('resources/app/src/public/uploads/'+auxUrls[0], (err) => {
+                    if (err) throw err;
+                         console.log('Deleted succesfully');
+                });
+                
+                fs.unlink('resources/app/src/public/uploads/'+auxUrls[1], (err) => {
+                    if (err) throw err;
+                         console.log('Deleted succesfully');
+                }); 
 
-}// else
-	//var html = fs.readFileSync('index.html');
-   // res.header("Content-Type", "text/html");
-//middlewares
+				res.json(auxDataHexa);
+
+	
+		});
+		 	
+	});
+
+	}else{ //no 2 files
+        
+		fs.readFile('resources/app/src/public/uploads/'+url, function read(err, data) {
+			if (err) {
+				throw err;
+			}
+	
+			var dataHexa = data.toString('hex').match(/../g).join(' ');
+			var arrayHexa = dataHexa.split(" ");
+	
+	
+			var hola = "ff"; 
+			var yourNumber = parseInt(hola, 16);
+			console.log(yourNumber/12);
+    
+            fs.unlink('resources/app/src/public/uploads/'+url, (err) => {
+            if (err) throw err;
+                 console.log('Deleted succesfully');
+            }); 
+
+		   res.json(arrayHexa);
+		 
+       
+
+		});
+	}
 });
+
+
 
 
 app.use(morgan('dev'));

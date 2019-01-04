@@ -49,7 +49,7 @@ router.get('/' , (req, res)=>{
 
 	}else{ //no 2 files
 		console.log("la url es ",url);
-		fs.readFile('FILES/'+url, function read(err, data) {
+		fs.readFile('src/public/uploads'+url, function read(err, data) {
 			if (err) {
 				throw err;
 			}

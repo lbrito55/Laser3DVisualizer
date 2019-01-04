@@ -92,16 +92,8 @@ class App extends Component{
 	}
 
 	getData(url){
-		fetch('http://localhost:8080/api/getFile', { // Your POST endpoint
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json'
-		},
-		body: JSON.stringify({data: url}) // This is your file object
-			}).then(response => response.json())
-			  .then(data => this.setState({ data1:data },()=> {this.useData();}));
-			
-		//	console.log(this.props.data1);
+		fetch('http://localhost:8080/api/getFile?tagid='+url).then(response => response.json())
+		.then(data => this.setState({ data1:data },()=> {this.useData();}));
 	}
 
 	useData(){	
